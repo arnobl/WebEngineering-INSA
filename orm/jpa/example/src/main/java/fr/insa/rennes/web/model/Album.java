@@ -18,7 +18,7 @@ public class Album extends ModelElement {
 		fetch = FetchType.LAZY) // Cards are loaded on demand only.
 	private Set<PlayerCard> cards;
 
-	public Album() {
+	protected Album() {
 		super();
 		cards = new HashSet<>();
 	}
@@ -27,7 +27,7 @@ public class Album extends ModelElement {
 		return cards;
 	}
 
-	public void setCards(final Set<PlayerCard> cards) {
+	protected void setCards(final Set<PlayerCard> cards) {
 		this.cards = cards;
 	}
 

@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 public class BaseballPlayer extends Player {
 	private int totalHomeRuns;
 
-	public BaseballPlayer() {
+	protected BaseballPlayer() {
 		super();
 	}
 

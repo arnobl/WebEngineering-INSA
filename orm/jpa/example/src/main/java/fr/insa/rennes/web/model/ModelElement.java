@@ -10,11 +10,15 @@ public abstract class ModelElement {
 	@GeneratedValue
 	protected int id;
 
+	protected ModelElement() {
+		super();
+	}
+
 	public int getId() {
 		return id;
 	}
 
-	public void setId(final int id) {
+	protected void setId(final int id) {
 		this.id = id;
 	}
 }

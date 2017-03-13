@@ -23,7 +23,7 @@ public class Player extends ModelElement {
 	@Transient
 	private boolean anAttributeNotToMakePersistent;
 
-	public Player() {
+	protected Player() {
 		super();
 	}
 

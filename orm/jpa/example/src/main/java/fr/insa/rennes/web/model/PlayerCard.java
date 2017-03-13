@@ -40,7 +40,9 @@ public class PlayerCard extends ModelElement {
 	})
 	private Picture backPicture;
 
-	public PlayerCard() {
+
+
+	protected PlayerCard() {
 		super();
 	}
 

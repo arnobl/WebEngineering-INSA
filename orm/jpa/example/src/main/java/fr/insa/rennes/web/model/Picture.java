@@ -11,7 +11,7 @@ import javax.persistence.Embeddable;
 public class Picture {
 	private String pic;
 
-	public Picture() {
+	protected Picture() {
 		super();
 	}
 
