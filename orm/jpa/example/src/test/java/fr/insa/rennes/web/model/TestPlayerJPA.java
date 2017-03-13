@@ -42,4 +42,54 @@ public class TestPlayerJPA extends JPATest {
 		assertEquals(1, players.size());
 		assertEquals(p2, players.get(0));
 	}
+
+	@Test
+	public void testFindPlayer() {
+		tr.begin();
+
+		Player foundPlayer = em.find(Player.class, p2.getId());
+
+		tr.commit();
+
+		assertEquals(foundPlayer, p2);
+	}
+
+
+	// Do not write unit test like this.
+	// Demonstration purpose only.
+	// Shows that if a crash occurs during a transaction and the transaction is not closed, the app will throw
+	// an IllegalStateException for each next transaction.
+	@Test(expected = IllegalStateException.class)
+	public void testForceCrash() {
+		try {
+			tr.begin();
+
+			Player p2 = new Player();
+			p2.setName(null);
+
+			tr.commit();
+		}catch(NullPointerException ex) {
+			tr.begin();
+			Player foundPlayer = em.find(Player.class, p2.getId());
+			tr.commit();
+		}
+	}
+
+	// Following the previous "test", this one -- still, do not write tests like this -- shows how to rollback on failures
+	@Test
+	public void testForceCrashRoolback() {
+		try {
+			tr.begin();
+
+			Player p2 = new Player();
+			p2.setName(null);
+
+			tr.commit();
+		}catch(NullPointerException ex) {
+			tr.rollback();
+			tr.begin();
+			Player foundPlayer = em.find(Player.class, p2.getId());
+			tr.commit();
+		}
+	}
 }

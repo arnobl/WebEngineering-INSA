@@ -1,5 +1,6 @@
 package fr.insa.rennes.web.model;
 
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -37,6 +38,6 @@ public class Player extends ModelElement {
 	}
 
 	public void setName(final String name) {
-		this.name = name;
+		this.name = Objects.requireNonNull(name);
 	}
 }
