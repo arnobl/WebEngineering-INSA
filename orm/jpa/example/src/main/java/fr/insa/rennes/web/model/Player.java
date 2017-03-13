@@ -8,10 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.Transient;
 
 @Entity
-public class Player {
-	@Id
-	@GeneratedValue
-	private int id; // Should factorise this code in a super abstract class. See: the with inheritance example
+public class Player extends ModelElement {
+	//	@Id
+	//	@GeneratedValue
+	//	private int id; // The id is provided by the super class
 
 	@Basic(optional = false) // Not mandatory
 	@Column(name = "P_NAME", nullable = false) // Optional. Put here in an illustrative purpose.
@@ -27,14 +27,6 @@ public class Player {
 	public Player(final String name) {
 		super();
 		this.name = name;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(final int id) {
-		this.id = id;
 	}
 
 	public String getName() {

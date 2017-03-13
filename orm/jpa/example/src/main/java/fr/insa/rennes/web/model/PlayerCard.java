@@ -13,10 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class PlayerCard {
-	@Id
-	@GeneratedValue
-	private int id; // Should factorise this code in a super abstract class. See: the with inheritance example
+public class PlayerCard extends ModelElement {
+//	@Id
+//	@GeneratedValue
+//	private int id; // The id is provided by the super class
 
 	@ManyToOne
 	private Album album;
@@ -65,14 +65,6 @@ public class PlayerCard {
 
 	public void setPlayer(final Player player) {
 		this.player = player;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(final int id) {
-		this.id = id;
 	}
 
 	public LocalDate getDate() {
