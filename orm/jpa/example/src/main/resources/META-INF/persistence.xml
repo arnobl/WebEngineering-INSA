@@ -10,6 +10,7 @@
         <class>fr.insa.rennes.web.model.Player</class>
         <class>fr.insa.rennes.web.model.PlayerCard</class>
         <class>fr.insa.rennes.web.model.Album</class>
+        <class>fr.insa.rennes.web.model.LocalDateConverter</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.sqlite.JDBC"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:sqlite::memory:"/>

@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,6 +25,7 @@ public class PlayerCard {
 	@JoinColumn(name = "PC_PLAYER", nullable = false)
 	private Player player;
 
+	@Convert(converter = LocalDateConverter.class)
 	private LocalDate date;
 
 	@Embedded
