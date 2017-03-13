@@ -8,10 +8,18 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@NamedQueries({
+	@NamedQuery(
+		name="getPlayerWithName",
+		query="SELECT p FROM Player p WHERE p.name=:name"
+	),
+})
 public class Player extends ModelElement {
 	//	@Id
 	//	@GeneratedValue

@@ -1,6 +1,7 @@
 package fr.insa.rennes.web.model;
 
 import java.util.List;
+import javax.persistence.TypedQuery;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -91,5 +92,16 @@ public class TestPlayerJPA extends JPATest {
 			Player foundPlayer = em.find(Player.class, p2.getId());
 			tr.commit();
 		}
+	}
+
+
+	@Test
+	public void testQuerygetPlayerWithName() {
+		tr.begin();
+		TypedQuery<Player> query = em.createNamedQuery("getPlayerWithName", Player.class);
+		tr.commit();
+		Player foundPlayer = query.setParameter("name", "P1").getSingleResult();
+
+		assertEquals(player, foundPlayer);
 	}
 }
