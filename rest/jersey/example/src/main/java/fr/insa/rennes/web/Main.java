@@ -29,7 +29,8 @@ public class Main {
 		return GrizzlyHttpServerFactory.createHttpServer(URI.create(HTTP_ADDRESS), rc);
 	}
 
-	// http://localhost:8080/api/swagger.yaml to get the REST API
+	// http://localhost:8080/api/swagger.json to get the REST API in the JSON format
+	// http://localhost:8080/myFirstWebApp/swag/index.html to see the REST API using Swagger-UI
 
 	public static void main(String[] args) throws IOException {
 		final HttpServer server = startServer();

@@ -35,7 +35,7 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-        url = "http://petstore.swagger.io/v2/swagger.json";
+        url = "http://localhost:8080/api/swagger.json";
       }
 
       // Pre load translate...
@@ -52,7 +52,7 @@
               clientId: "your-client-id",
               clientSecret: "your-client-secret-if-required",
               realm: "your-realms",
-              appName: "tpREST",
+              appName: "firstWebApp",
               scopeSeparator: ",",
               additionalQueryStringParams: {}
             });
