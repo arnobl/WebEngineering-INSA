@@ -7,7 +7,7 @@
     <description>Player cards album app</description>
 
     <welcome-file-list>
-        <welcome-file>canvas.html</welcome-file>
+        <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
     <servlet>
