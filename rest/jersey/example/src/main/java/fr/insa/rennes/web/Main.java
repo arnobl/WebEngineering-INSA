@@ -29,6 +29,8 @@ public class Main {
 		return GrizzlyHttpServerFactory.createHttpServer(URI.create(HTTP_ADDRESS), rc);
 	}
 
+	// http://localhost:8080/api/swagger.yaml to get the REST API
+
 	public static void main(String[] args) throws IOException {
 		final HttpServer server = startServer();
 		// Required to access the web pages stored in the webapp folder.
