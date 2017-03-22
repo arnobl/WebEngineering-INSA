@@ -1,0 +1,13 @@
+*.log
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+hs_err_pid*
+.idea
+target
+*.iml
+
+Supprimerait src/test/

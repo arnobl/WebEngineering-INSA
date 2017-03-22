@@ -1,0 +1,10 @@
+
+{
+	"idcard":"1843739",
+	"name":"John Doe",
+	"address":["Adress 1", "Adress 2"],
+	"phones": {
+		"work": "+339999999",
+		"home": "+338888888"
+	}
+}
