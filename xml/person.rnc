@@ -1,0 +1,8 @@
+
+start = person
+
+person = element person { idcard & name & address* }
+
+idcard = attribute idcard { text }
+address = element address { text }
+name = element name { text }

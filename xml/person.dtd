@@ -1,0 +1,5 @@
+<!ELEMENT person (name,address*)>
+<!ELEMENT name (#PCDATA)>
+<!ELEMENT address (#PCDATA)>
+
+<!ATTLIST person idcard CDATA #REQUIRED>
