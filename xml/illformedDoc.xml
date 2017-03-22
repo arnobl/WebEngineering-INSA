@@ -1,0 +1,29 @@
+
+<!-- 
+	This HTML document is not a valid XML one: 
+	attributes' value must be quoted;
+	the tag groupId must be closed;
+	the closing tag of "version must be </version> not <version>;
+	the opening tag of scope must be auto-closed.
+	Use "xmllint illformedDoc.xml" to check the well-formedess of an XML document. 
+-->
+
+<project xmlns=http://maven.apache.org/POM/4.0.0>
+    <groupId>web</groupId>
+    <artifactId>tpREST</artifactId>
+    <packaging>war</packaging>
+    <version>1.0.0</version>
+    <name>tpREST</name>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.glassfish.jersey
+                <artifactId>jersey-bom</artifact>
+                <version>${jersey.version}<version>
+                <type>pom</type>
+                <scope/>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

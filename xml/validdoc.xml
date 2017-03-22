@@ -1,0 +1,27 @@
+
+<!-- 
+	Valid document since t is well-formed and it conforms to its schema available here:
+	https://maven.apache.org/xsd/maven-4.0.0.xsd
+	wget https://maven.apache.org/xsd/maven-4.0.0.xsd
+	xmllint - -schema maven-4.0.0.xsd doc.xml (remove the space between the two dashes, double dashes are forbidden in XML comments)
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+    <groupId>web</groupId>
+    <artifactId>tpREST</artifactId>
+    <packaging>war</packaging>
+    <version>1.0.0</version>
+    <name>tpREST</name>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.glassfish.jersey</groupId>
+                <artifactId>jersey-bom</artifactId>
+                <version>${jersey.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
