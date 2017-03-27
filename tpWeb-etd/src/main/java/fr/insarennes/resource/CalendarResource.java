@@ -76,7 +76,7 @@ public class CalendarResource {
 		super.finalize();
 	}
 
-	//curl -H "Content-Type: application/json" -d '{"name":"blouin"}' -X POST "http://localhost:8080/tpREST/calendar/ens"
+	//curl -H "Content-Type: application/json" -d '{"name":"blouin"}' -X POST "http://localhost:8080/api/calendar/ens"
 	// To know the XML format, look at the returned XML message.
 	@POST
 	@Path("ens/")
@@ -91,7 +91,7 @@ public class CalendarResource {
 			em.getTransaction().commit();
 			return ens;
 		}catch(Throwable ex) {
-			// If an exception occurs, the transaction has to be roolbacked.
+			// If an exception occurs, the transaction has to be rollbacked.
 			em.getTransaction().rollback();
 			// A Web exception is then thrown.
 			throw new WebApplicationException(Response.status(HttpURLConnection.HTTP_BAD_REQUEST).build());
@@ -99,7 +99,7 @@ public class CalendarResource {
 	}
 
 
-	// DO NOT USE begin(), commit() or roolback() for the @GET verb.
+	// DO NOT USE begin(), commit() or rollback() for the @GET verb.
 
 	// When modifying an object (@PUT verb) DO NOT USE em.persits(obj) again since the object has been already added to the database during its @POST
 
