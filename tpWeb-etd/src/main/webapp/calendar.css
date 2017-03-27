@@ -1,0 +1,38 @@
+
+p {
+    font-family: serif;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+	background-color:lightblue;
+}
+
+.pair {
+	background-color:lightgray;
+}
+
+.impair {
+	background-color:white;
+}
+
+table {
+	width:100%
+}
+
+.hor {
+ width:40px
+}
+
+.mat {
+	font-weight: bold;
+}
+
+.cours {
+	display:inline-block;
+	padding:4px;
+}
