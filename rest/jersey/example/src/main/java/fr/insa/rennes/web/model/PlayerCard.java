@@ -7,12 +7,13 @@ import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @Entity
+@XmlRootElement
 public class PlayerCard extends ModelElement {
 //	@Id
 //	@GeneratedValue
@@ -26,6 +27,7 @@ public class PlayerCard extends ModelElement {
 	private Player player;
 
 	@Convert(converter = LocalDateConverter.class)
+	@XmlJavaTypeAdapter(LocalDateXmlAdapter.class)
 	private LocalDate date;
 
 	@Embedded

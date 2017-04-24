@@ -1,8 +1,10 @@
 package fr.insa.rennes.web.model;
 
 import javax.persistence.Entity;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
+@XmlRootElement
 public class BaseballPlayer extends Player {
 	private int totalHomeRuns;
 
