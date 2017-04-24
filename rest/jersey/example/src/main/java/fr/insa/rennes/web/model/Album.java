@@ -41,4 +41,19 @@ public class Album extends ModelElement {
 	public String toString() {
 		return "Album{" + "id=" + id + ", cards=" + cards + '}';
 	}
+
+	@Override
+	public boolean equals(final Object o) {
+		if(this == o) return true;
+		if(!(o instanceof Album)) return false;
+
+		Album album = (Album) o;
+
+		return cards.equals(album.cards);
+	}
+
+	@Override
+	public int hashCode() {
+		return cards.hashCode();
+	}
 }

@@ -27,4 +27,19 @@ public class Picture {
 	public void setPic(final String pic) {
 		this.pic = pic;
 	}
+
+	@Override
+	public boolean equals(final Object o) {
+		if(this == o) return true;
+		if(!(o instanceof Picture)) return false;
+
+		Picture picture = (Picture) o;
+
+		return pic != null ? pic.equals(picture.pic) : picture.pic == null;
+	}
+
+	@Override
+	public int hashCode() {
+		return pic != null ? pic.hashCode() : 0;
+	}
 }

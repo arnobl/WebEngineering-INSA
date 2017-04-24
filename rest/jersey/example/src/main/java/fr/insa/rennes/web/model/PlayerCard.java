@@ -100,4 +100,28 @@ public class PlayerCard extends ModelElement {
 		return "PlayerCard{" + "id=" + id + ", player=" + player + ", date=" + date + ", frontPicture=" + frontPicture + ", backPicture="
 			+ backPicture + '}';
 	}
+
+	@Override
+	public boolean equals(final Object o) {
+		if(this == o) return true;
+		if(!(o instanceof PlayerCard)) return false;
+
+		PlayerCard that = (PlayerCard) o;
+
+		if(album != null ? !album.equals(that.album) : that.album != null) return false;
+		if(player != null ? !player.equals(that.player) : that.player != null) return false;
+		if(date != null ? !date.equals(that.date) : that.date != null) return false;
+		if(frontPicture != null ? !frontPicture.equals(that.frontPicture) : that.frontPicture != null) return false;
+		return backPicture != null ? backPicture.equals(that.backPicture) : that.backPicture == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = album != null ? album.hashCode() : 0;
+		result = 31 * result + (player != null ? player.hashCode() : 0);
+		result = 31 * result + (date != null ? date.hashCode() : 0);
+		result = 31 * result + (frontPicture != null ? frontPicture.hashCode() : 0);
+		result = 31 * result + (backPicture != null ? backPicture.hashCode() : 0);
+		return result;
+	}
 }

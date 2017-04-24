@@ -1,6 +1,5 @@
 package fr.insa.rennes.web;
 
-import fr.insa.rennes.web.resource.AlbumResource;
 import fr.insa.rennes.web.utils.MyExceptionMapper;
 import java.io.IOException;
 import java.net.URI;
@@ -28,7 +27,7 @@ public class Main {
 		return GrizzlyHttpServerFactory.createHttpServer(URI.create(HTTP_ADDRESS), rc);
 	}
 
-	// http://localhost:8080/api/swagger.json to get the REST API in the JSON format
+	// http://localhost:8080/swagger.json to get the REST API in the JSON format
 	// http://localhost:8080/myFirstWebApp/swag/index.html to see the REST API using Swagger-UI
 
 	public static void main(String[] args) throws IOException {

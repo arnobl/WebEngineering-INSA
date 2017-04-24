@@ -111,6 +111,26 @@ public class AlbumResource {
 	}
 
 	@DELETE
+	@Path("player/{id}")
+	public Response deletePlayer(@PathParam("id") final String id) {
+		final EntityTransaction tr = em.getTransaction();
+		try {
+			final int idint = Integer.valueOf(id);
+			final Player player = em.find(Player.class, idint);
+			tr.begin();
+			em.remove(player);
+			tr.commit();
+			return Response.status(Response.Status.OK).build();
+		}catch(final Throwable ex) {
+			if(tr.isActive()) {
+				tr.rollback();
+			}
+			LOGGER.log(Level.SEVERE, "Crash on deleting a player with the id: " + id, ex);
+			throw new WebApplicationException(Response.status(HttpURLConnection.HTTP_BAD_REQUEST).build());
+		}
+	}
+
+	@DELETE
 	@Path("playercard/{id}")
 	public void deletePlayerCard(@PathParam("id") final String id) {
 		final EntityTransaction tr = em.getTransaction();

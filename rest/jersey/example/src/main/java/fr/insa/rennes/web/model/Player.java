@@ -53,4 +53,19 @@ public class Player extends ModelElement {
 	public String toString() {
 		return "Player{" + "id=" + id + ", name='" + name + '\'' + '}';
 	}
+
+	@Override
+	public boolean equals(final Object o) {
+		if(this == o) return true;
+		if(!(o instanceof Player)) return false;
+
+		Player player = (Player) o;
+
+		return name.equals(player.name);
+	}
+
+	@Override
+	public int hashCode() {
+		return name.hashCode();
+	}
 }
