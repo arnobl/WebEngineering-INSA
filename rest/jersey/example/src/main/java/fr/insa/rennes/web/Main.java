@@ -19,7 +19,7 @@ public class Main {
 	 * @return Grizzly HTTP server.
 	 */
 	public static HttpServer startServer() {
-		final ResourceConfig rc = new ResourceConfig(AlbumResource.class).
+		final ResourceConfig rc = new ResourceConfig().
 			packages("fr.insa.rennes.web.resource").
 			register(MyExceptionMapper.class).
 			register(io.swagger.jaxrs.listing.ApiListingResource.class).
