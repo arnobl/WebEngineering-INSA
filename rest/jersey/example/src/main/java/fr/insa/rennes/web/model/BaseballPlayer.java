@@ -22,4 +22,9 @@ public class BaseballPlayer extends Player {
 	public void setTotalHomeRuns(final int totalHomeRuns) {
 		this.totalHomeRuns = totalHomeRuns;
 	}
+
+	@Override
+	public String toString() {
+		return "BaseballPlayer{" + "id=" + id + ", name='" + name + '\'' + ", totalHomeRuns=" + totalHomeRuns + '}';
+	}
 }

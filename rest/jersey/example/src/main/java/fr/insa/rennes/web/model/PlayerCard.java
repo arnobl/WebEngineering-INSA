@@ -92,4 +92,10 @@ public class PlayerCard extends ModelElement {
 	public void setBackPicture(final Picture backPicture) {
 		this.backPicture = backPicture;
 	}
+
+	@Override
+	public String toString() {
+		return "PlayerCard{" + "id=" + id + ", player=" + player + ", date=" + date + ", frontPicture=" + frontPicture + ", backPicture="
+			+ backPicture + '}';
+	}
 }

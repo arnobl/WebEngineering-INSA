@@ -34,4 +34,9 @@ public class Album extends ModelElement {
 	public void addCard(final PlayerCard pc) {
 		cards.add(pc);
 	}
+
+	@Override
+	public String toString() {
+		return "Album{" + "id=" + id + ", cards=" + cards + '}';
+	}
 }

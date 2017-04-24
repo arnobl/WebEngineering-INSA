@@ -27,10 +27,10 @@ public class Player extends ModelElement {
 
 	@Basic(optional = false) // Not mandatory
 	@Column(name = "P_NAME", nullable = false) // Optional. Put here in an illustrative purpose.
-	private String name; // Idem
+	protected String name; // Idem
 
 	@Transient
-	private boolean anAttributeNotToMakePersistent;
+	protected boolean anAttributeNotToMakePersistent;
 
 	protected Player() {
 		super();
@@ -47,5 +47,10 @@ public class Player extends ModelElement {
 
 	public void setName(final String name) {
 		this.name = Objects.requireNonNull(name);
+	}
+
+	@Override
+	public String toString() {
+		return "Player{" + "id=" + id + ", name='" + name + '\'' + '}';
 	}
 }
