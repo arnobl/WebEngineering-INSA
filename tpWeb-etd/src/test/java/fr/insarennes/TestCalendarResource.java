@@ -17,7 +17,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 
 public class TestCalendarResource extends JerseyTest {
-	// @Inject permits to get the CalendarResource singleton created by Jersey (somehow line 36).
+	// @Inject permits to get the CalendarResource singleton created by Jersey (somehow line 29).
 	@Inject private CalendarResource calResource;
 
 	@Override
