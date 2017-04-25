@@ -40,7 +40,7 @@ public class TestCalendarResource extends JerseyTest {
 	@Test
 	public void testPostEnseignantOK() {
 		// Creation of a teacher.
-		Enseignant ens = new Enseignant("Cellier");
+		Enseignant ensWithoutID = new Enseignant("Cellier");
 		// Asks the addition of the teacher object to the server.
 		// target(...) is provided by the JerseyTest class to ease the writting of the tests
 		// the URI "calendar/ens" first identifies the service ("calendar") to which the request will be sent.
@@ -50,16 +50,16 @@ public class TestCalendarResource extends JerseyTest {
 		// Jersey provides operations (Entity.xml(...)) and processes to automatically serialised objects.
 		// To do so (for both XML and Json), the object's class must be tagged with the annotation @XmlRootElement (see Enseignant.java)
 		// A Response object is returned by the server.
-		Response responseMsg = target("calendar/ens").request().post(Entity.xml(ens));
+		Response responseAfterPost = target("calendar/ens").request().post(Entity.xml(ensWithoutID));
 		// This Response object provides a status that can be checked (see the HTTP header status picture in the subject).
-		assertEquals(Response.Status.OK.getStatusCode(), responseMsg.getStatus());
+		assertEquals(Response.Status.OK.getStatusCode(), responseAfterPost.getStatus());
 		// The Response object may also embed an object that can be read (give the expected class as parameter).
-		Enseignant ens2 = responseMsg.readEntity(Enseignant.class);
+		Enseignant ensWithID = responseAfterPost.readEntity(Enseignant.class);
 		// The two Enseignant instances must be equals.
-		assertEquals(ens, ens2);
+		assertEquals(ensWithoutID, ensWithID);
 		// But their ID will differ since the instance returned by the server has been serialised in the database and thus
 		// received a unique ID (see the JPA practice session).
-		assertNotSame(ens.getId(), ens2.getId());
+		assertNotSame(ensWithoutID.getId(), ensWithID.getId());
 	}
 
 	// In your tests, do not create teachers, topics, and courses that already exist (in the constructor of the CalendarResource).
