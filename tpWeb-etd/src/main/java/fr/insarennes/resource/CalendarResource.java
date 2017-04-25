@@ -29,7 +29,7 @@ public class CalendarResource {
 	static {
 		// Define the level of importance the Logger has to consider.
 		// The logged messages with an importance lower than the one defined here will be ignored.
-		LOGGER.setLevel(Level.SEVERE);
+		LOGGER.setLevel(Level.ALL);
 	}
 
 	private final EntityManagerFactory emf;
@@ -41,9 +41,12 @@ public class CalendarResource {
 		agenda = new Agenda();
 		emf = Persistence.createEntityManagerFactory("agendapp");
 		em = emf.createEntityManager();
-		em.getTransaction().begin();
+
+		final EntityTransaction tr = em.getTransaction();
+
+		tr.begin();
 		em.persist(agenda);
-		em.getTransaction().commit();
+		tr.commit();
 
 		// You can add here calendar elements to add by default in the database of the application.
 		// For instance:
@@ -53,7 +56,7 @@ public class CalendarResource {
 		//			// and a em.getTransaction().commit() at the end of the transaction to validate it.
 		//			// In case of crashes, you have to surround the code with a try/catch block, where the catch rollbacks the
 		//			// transaction using em.getTransaction().rollback()
-		//			em.getTransaction().begin();
+		//			tr.begin();
 		//			em.persist(agenda);
 		//
 		//			Enseignant ens = new Enseignant("Blouin");
@@ -65,15 +68,17 @@ public class CalendarResource {
 		//			TD td = new TD(mat, LocalDate.of(2015, Month.JANUARY, 2).atTime(8, 0), ens, Duration.ofHours(2));
 		//			agenda.addCours(td);
 		//			em.persist(td);
-		//			em.getTransaction().commit();
+		//			tr.commit();
 		//
-		//			System.out.println("LOG for calendar resource: ");
-		//			System.out.println(ens);
-		//			System.out.println(mat);
-		//			System.out.println(td);
+		//			LOGGER.log(Level.INFO, "Added during the creation of the calendar resource:");
+		//			LOGGER.log(Level.INFO, "a Enseignant: " + ens);
+		//			LOGGER.log(Level.INFO, "a Matiere: " + mat);
+		//			LOGGER.log(Level.INFO, "a TD: " + td);
 		//		}catch(final Throwable ex) {
-		//			ex.printStackTrace();
-		//			em.getTransaction().rollback();
+		//			LOGGER.log(Level.SEVERE, "Crash during the creation of initial data", ex);
+		//			if(tr.isActive()) {
+		//				tr.rollback();
+		//			}
 		//		}
 	}
 
