@@ -12,8 +12,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 public class Main {
 	// Base URI the Grizzly HTTP server will listen on
-	public static final String BASE_URI = "api/";
-	public static final String HTTP_ADDRESS = "http://localhost:8080/" + BASE_URI;
+	public static final String HTTP_ADDRESS = "http://localhost:8080/";
 
 	/**
 	 * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
@@ -29,13 +28,13 @@ public class Main {
 		return GrizzlyHttpServerFactory.createHttpServer(URI.create(HTTP_ADDRESS), rc);
 	}
 
-	// http://localhost:8080/api/swagger.json to get the REST API in the JSON format
+	// http://localhost:8080/swagger.json to get the REST API in the JSON format
 	// http://localhost:8080/myCalendarApp/swag/index.html to see the REST API using Swagger-UI
 
 	public static void main(String[] args) throws IOException {
 		final HttpServer server = startServer();
 		// Required to access the web pages stored in the webapp folder.
-		server.getServerConfiguration().addHttpHandler(new StaticHttpHandler("src/main/webapp"), "/myCalendarApp/" + BASE_URI);
+		server.getServerConfiguration().addHttpHandler(new StaticHttpHandler("src/main/webapp"), "/myCalendarApp/");
 		ClientBuilder.newClient().target(HTTP_ADDRESS);
 		System.in.read();
 		server.shutdownNow();
