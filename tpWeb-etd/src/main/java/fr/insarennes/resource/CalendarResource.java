@@ -4,6 +4,8 @@ import fr.insarennes.model.Agenda;
 import fr.insarennes.model.Enseignant;
 import io.swagger.annotations.Api;
 import java.net.HttpURLConnection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -21,6 +23,15 @@ import javax.ws.rs.core.Response;
 @Path("calendar")
 @Api(value = "calendar")
 public class CalendarResource {
+	private static final Logger LOGGER = Logger.getAnonymousLogger();
+
+	// Static blocks are used to parametrized static objects of the class.
+	static {
+		// Define the level of importance the Logger has to consider.
+		// The logged messages with an importance lower than the one defined here will be ignored.
+		LOGGER.setLevel(Level.SEVERE);
+	}
+
 	private final EntityManagerFactory emf;
 	private final EntityManager em;
 	private final Agenda agenda;
@@ -99,6 +110,13 @@ public class CalendarResource {
 			if(tr.isActive()) {
 				tr.rollback();
 			}
+			// Loggers are widely used to log information about the execution of a program.
+			// The classical use is a static final Logger for each class or for the whole application.
+			// Here, the first parameter is the level of importance of the message.
+			// The second parameter is the message, and the third one is the exception.
+			// Various useful methods compose a Logger.
+			// By default, when a message is logged it is printed in the console.
+			LOGGER.log(Level.SEVERE, "Crash on adding a Enseignant: " + ens, ex);
 			// A Web exception is then thrown.
 			throw new WebApplicationException(Response.status(HttpURLConnection.HTTP_BAD_REQUEST).build());
 		}
