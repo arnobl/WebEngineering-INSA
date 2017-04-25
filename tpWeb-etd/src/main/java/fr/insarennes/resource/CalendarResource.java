@@ -2,6 +2,7 @@ package fr.insarennes.resource;
 
 import fr.insarennes.model.Agenda;
 import fr.insarennes.model.Enseignant;
+import io.swagger.annotations.Api;
 import java.net.HttpURLConnection;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
@@ -17,6 +18,7 @@ import javax.ws.rs.core.Response;
 
 @Singleton // Q: with and without, see 3.4 https://jersey.java.net/documentation/latest/jaxrs-resources.html
 @Path("calendar")
+@Api(value = "calendar")
 public class CalendarResource {
 	private final EntityManagerFactory emf;
 	private final EntityManager em;
