@@ -7,6 +7,7 @@ import java.net.HttpURLConnection;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -84,17 +85,20 @@ public class CalendarResource {
 	@Path("ens/")
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Produces(MediaType.APPLICATION_JSON)
-	public Enseignant postEnseignant(Enseignant ens) {
+	public Enseignant postEnseignant(final Enseignant ens) {
+		final EntityTransaction tr = em.getTransaction();
 		try {
 			// begin starts a transaction:
 			// https://en.wikibooks.org/wiki/Java_Persistence/Transactions
-			em.getTransaction().begin();
+			tr.begin();
 			em.persist(ens);
-			em.getTransaction().commit();
+			tr.commit();
 			return ens;
-		}catch(Throwable ex) {
-			// If an exception occurs, the transaction has to be rollbacked.
-			em.getTransaction().rollback();
+		}catch(final Throwable ex) {
+			// If an exception occurs after a begin and before the commit, the transaction has to be rollbacked.
+			if(tr.isActive()) {
+				tr.rollback();
+			}
 			// A Web exception is then thrown.
 			throw new WebApplicationException(Response.status(HttpURLConnection.HTTP_BAD_REQUEST).build());
 		}
