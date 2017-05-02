@@ -56,8 +56,6 @@ public class AlbumResource {
 	}
 
 
-	// curl -H "Content-Type: application/json" -d '{"name":"blouin"}' -X POST "http://localhost:8080/album/player"
-	// -> {"type":"player","id":1,"name":"blouin"}
 	@POST
 	@Path("player/")
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
@@ -115,8 +113,7 @@ public class AlbumResource {
 	public Response deletePlayer(@PathParam("id") final String id) {
 		final EntityTransaction tr = em.getTransaction();
 		try {
-			final int idint = Integer.valueOf(id);
-			final Player player = em.find(Player.class, idint);
+			final Player player = em.find(Player.class, Integer.valueOf(id));
 			tr.begin();
 			em.remove(player);
 			tr.commit();
