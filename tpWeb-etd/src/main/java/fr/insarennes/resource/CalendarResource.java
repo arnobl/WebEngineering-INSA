@@ -140,5 +140,5 @@ public class CalendarResource {
 
 	// When getting the list of courses for a given week, do not use a SQL command but agenda.getCours();
 
-	// When getting the list of courses for a given week, the Cours class already has a function matchesID(int) that checkes whether the given ID is used by the course.
+	// When getting the list of courses for a given week, the Cours class already has a function matchesID(int) that checks whether the given ID is used by the course.
 }
