@@ -95,7 +95,7 @@ public class CalendarResource {
 		super.finalize();
 	}
 
-	//curl -H "Content-Type: application/json" -d '{"name":"blouin"}' -X POST "http://localhost:8080/api/calendar/ens"
+	//curl -H "Content-Type: application/json" -d '{"name":"blouin"}' -X POST "http://localhost:8080/calendar/ens"
 	// To know the XML format, look at the returned XML message.
 	@POST
 	@Path("ens/")
