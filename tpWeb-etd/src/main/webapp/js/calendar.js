@@ -1,5 +1,5 @@
 "use strict";
-let server = "http://localhost:8080/tpWeb-etd-1.0-SNAPSHOT/tpREST/";
+let server = "http://localhost:8080/";
 
 document.getElementById('loadCalendar').onclick = function () {
     let week = document.getElementById('semaine').value;
