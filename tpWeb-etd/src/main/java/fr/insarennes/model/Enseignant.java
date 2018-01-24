@@ -6,8 +6,7 @@ public class Enseignant extends CalendarElement {
 	private String name;
 
 	public Enseignant() {
-		super();
-		name = "enseignant";
+		this("enseignant");
 	}
 
 	public Enseignant(final String n) {
@@ -25,10 +24,14 @@ public class Enseignant extends CalendarElement {
 
 	@Override
 	public boolean equals(final Object o) {
-		if(this == o) return true;
-		if(o == null || getClass() != o.getClass()) return false;
+		if(this == o) {
+			return true;
+		}
+		if(o == null || getClass() != o.getClass()) {
+			return false;
+		}
 
-		Enseignant ens = (Enseignant) o;
+		final Enseignant ens = (Enseignant) o;
 
 		return name.equals(ens.name);
 

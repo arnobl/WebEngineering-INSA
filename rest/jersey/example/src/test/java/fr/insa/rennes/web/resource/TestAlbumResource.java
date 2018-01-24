@@ -1,13 +1,20 @@
 package fr.insa.rennes.web.resource;
 
+import fr.insa.rennes.web.model.Picture;
 import fr.insa.rennes.web.model.Player;
+import fr.insa.rennes.web.model.PlayerCard;
 import fr.insa.rennes.web.utils.MyExceptionMapper;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
@@ -15,6 +22,7 @@ import org.junit.After;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
@@ -24,11 +32,16 @@ public class TestAlbumResource extends JerseyTest {
 
     @Override
     protected Application configure() {
+		// For the logger
+		BasicConfigurator.configure();
+		Logger.getRootLogger().setLevel(Level.WARN);
+
         enable(TestProperties.LOG_TRAFFIC);
         enable(TestProperties.DUMP_ENTITY);
         // You must register the service you want to test
         // register(this) is just used to allow this class to access the CalendarResource instance.
-        return new ResourceConfig(AlbumResource.class).register(this).register(MyExceptionMapper.class).property("jersey.config.server.tracing.type", "ALL");
+        return new ResourceConfig(AlbumResource.class).register(this).register(MyExceptionMapper.class).
+			property("jersey.config.server.tracing.type", "ALL");
     }
 
 	@Override
@@ -94,4 +107,14 @@ public class TestAlbumResource extends JerseyTest {
         assertEquals(Response.Status.OK.getStatusCode(), responseAfterPost.getStatus());
         assertTrue(players.isEmpty());
     }
+
+	@Test
+	public void testPostPlayercard() {
+		final Player player = target("album/player").request().post(Entity.xml(new Player("Raymond"))).readEntity(Player.class);
+		final Response res = target("album/playercard").request().post(Entity.xml(new PlayerCard(player, new Picture("pic/gernot.jpg"),
+			LocalDate.of(2015, Month.JANUARY, 23))));
+		final PlayerCard card = res.readEntity(PlayerCard.class);
+		assertEquals(Response.Status.OK.getStatusCode(), res.getStatus());
+		assertNotNull(card);
+	}
 }

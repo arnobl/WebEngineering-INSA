@@ -1,5 +1,7 @@
 package fr.insa.rennes.web.model;
 
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -8,13 +10,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class BaseballPlayer extends Player {
 	private int totalHomeRuns;
 
+	@Basic(optional = false) @Column(name = "POSITION", nullable = false) private Position position;
+
+
 	protected BaseballPlayer() {
 		super();
 	}
 
-	public BaseballPlayer(final String name, final int totalHomeRuns) {
+	public BaseballPlayer(final String name, final Position playerPosition, final int totalHomeRuns) {
 		super(name);
 		this.totalHomeRuns = totalHomeRuns;
+		position = playerPosition;
 	}
 
 	public int getTotalHomeRuns() {
@@ -32,9 +38,15 @@ public class BaseballPlayer extends Player {
 
 	@Override
 	public boolean equals(final Object o) {
-		if(this == o) return true;
-		if(!(o instanceof BaseballPlayer)) return false;
-		if(!super.equals(o)) return false;
+		if(this == o) {
+			return true;
+		}
+		if(!(o instanceof BaseballPlayer)) {
+			return false;
+		}
+		if(!super.equals(o)) {
+			return false;
+		}
 
 		BaseballPlayer that = (BaseballPlayer) o;
 

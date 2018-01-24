@@ -1,7 +1,6 @@
 package fr.insarennes;
 
 import fr.insarennes.model.Agenda;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.persistence.EntityManager;
@@ -9,6 +8,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Table;
+import org.apache.log4j.BasicConfigurator;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,12 +17,14 @@ public class TestJPACalendar {
 	private EntityManagerFactory emf;
 	private EntityManager em;
 	private EntityTransaction tr;
-
 	private Agenda agenda;
 
 
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
+		BasicConfigurator.configure();
+		org.apache.log4j.Logger.getRootLogger().setLevel(org.apache.log4j.Level.WARN);
+
 		emf = Persistence.createEntityManagerFactory("agendapp");
 		em = emf.createEntityManager();
 		tr = em.getTransaction();
@@ -30,7 +32,7 @@ public class TestJPACalendar {
 		createTable();
 	}
 
-	private void createTable() throws SQLException {
+	private void createTable() {
 		agenda = new Agenda();
 		agenda.setName("agenda1");
 		em.getTransaction().begin();
@@ -53,7 +55,7 @@ public class TestJPACalendar {
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		em.clear();
 		em.close();
 		emf.close();

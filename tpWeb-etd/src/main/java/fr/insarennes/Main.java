@@ -5,6 +5,9 @@ import fr.insarennes.utils.MyExceptionMapper;
 import java.io.IOException;
 import java.net.URI;
 import javax.ws.rs.client.ClientBuilder;
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.StaticHttpHandler;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
@@ -33,6 +36,9 @@ public class Main {
 	// http://localhost:8080/myCalendarApp/index.html
 	// http://localhost:8080/myCalendarApp/calendar.html
 	public static void main(String[] args) throws IOException {
+		BasicConfigurator.configure();
+		Logger.getRootLogger().setLevel(Level.WARN);
+
 		final HttpServer server = startServer();
 		final StaticHttpHandler handler = new StaticHttpHandler("src/main/webapp");
 

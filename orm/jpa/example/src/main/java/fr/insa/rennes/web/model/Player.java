@@ -4,8 +4,6 @@ import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.NamedQueries;
@@ -36,9 +34,9 @@ public class Player extends ModelElement {
 		super();
 	}
 
-	public Player(final String name) {
+	public Player(final String playerName) {
 		super();
-		this.name = name;
+		name = playerName;
 	}
 
 	public String getName() {

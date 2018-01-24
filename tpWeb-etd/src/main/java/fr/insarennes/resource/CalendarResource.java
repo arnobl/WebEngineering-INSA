@@ -18,6 +18,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import org.apache.log4j.BasicConfigurator;
 
 @Singleton // Q: with and without, see 3.4 https://jersey.java.net/documentation/latest/jaxrs-resources.html
 @Path("calendar")
@@ -30,6 +31,9 @@ public class CalendarResource {
 		// Define the level of importance the Logger has to consider.
 		// The logged messages with an importance lower than the one defined here will be ignored.
 		LOGGER.setLevel(Level.ALL);
+
+		BasicConfigurator.configure();
+		org.apache.log4j.Logger.getRootLogger().setLevel(org.apache.log4j.Level.WARN);
 	}
 
 	private final EntityManagerFactory emf;

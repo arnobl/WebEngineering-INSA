@@ -16,7 +16,7 @@ public class Album extends ModelElement {
 	@OneToMany(mappedBy = "album", // The back reference to the album in the PlayerCard class. Note that the use of a string is not very maintainable.
 		cascade = CascadeType.PERSIST, // This means that if an Album is persisted, all its cards will be also persisted.
 		fetch = FetchType.LAZY) // Cards are loaded on demand only.
-	private Set<PlayerCard> cards;
+	private final Set<PlayerCard> cards;
 
 	public Album() {
 		super();
@@ -25,10 +25,6 @@ public class Album extends ModelElement {
 
 	public Set<PlayerCard> getCards() {
 		return cards;
-	}
-
-	protected void setCards(final Set<PlayerCard> cards) {
-		this.cards = cards;
 	}
 
 	public void addCard(final PlayerCard pc) {

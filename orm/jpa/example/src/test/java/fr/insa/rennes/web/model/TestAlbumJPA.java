@@ -15,28 +15,34 @@ public class TestAlbumJPA extends JPATest {
 	@Override
 	void fillDatabase() {
 		album = new Album();
+		em.getTransaction().begin();
 		em.persist(album);
+		em.getTransaction().commit();
 
-		Picture pic1 = new Picture("pic/gernot.jpg");
+		final Picture pic1 = new Picture("pic/gernot.jpg");
 
 		p1 = new Player("P1");
+		em.getTransaction().begin();
 		em.persist(p1);
+		em.getTransaction().commit();
 
 		pc1 = new PlayerCard(p1, pic1, LocalDate.of(2015, Month.JANUARY, 23));
 		pc1.setAlbum(album);
+		em.getTransaction().begin();
 		em.persist(pc1);
+		em.getTransaction().commit();
 
 		album.addCard(pc1);
 	}
 
 
 	@Test
-	public void testGetAlbum() throws Exception {
-		tr.begin();
+	public void testGetAlbum() {
+		em.getTransaction().begin();
 
-		List<Album> players = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
+		final List<Album> players = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 
-		tr.commit();
+		em.getTransaction().commit();
 
 		assertEquals(1, players.size());
 		assertEquals(album, players.get(0));
@@ -44,12 +50,12 @@ public class TestAlbumJPA extends JPATest {
 
 
 	@Test
-	public void testAlbumWithOnePlayerCard() throws Exception {
-		tr.begin();
+	public void testAlbumWithOnePlayerCard() {
+		em.getTransaction().begin();
 
-		List<Album> players = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
+		final List<Album> players = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 
-		tr.commit();
+		em.getTransaction().commit();
 
 		assertEquals(1, players.get(0).getCards().size());
 		assertEquals(pc1, players.get(0).getCards().iterator().next());

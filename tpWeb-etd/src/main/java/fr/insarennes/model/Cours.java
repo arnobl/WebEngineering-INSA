@@ -33,7 +33,7 @@ public abstract class Cours extends CalendarElement {
 		return agenda;
 	}
 
-	public void setAgenda(final Agenda agenda) {
+	protected void setAgenda(final Agenda agenda) {
 		this.agenda = agenda;
 	}
 
@@ -71,8 +71,12 @@ public abstract class Cours extends CalendarElement {
 
 	@Override
 	public boolean equals(final Object o) {
-		if(this == o) return true;
-		if(o == null || getClass() != o.getClass()) return false;
+		if(this == o) {
+			return true;
+		}
+		if(o == null || getClass() != o.getClass()) {
+			return false;
+		}
 
 		Cours c = (Cours) o;
 
@@ -85,15 +89,17 @@ public abstract class Cours extends CalendarElement {
 	public int hashCode() {
 		int result = getHoraire().hashCode();
 		result = 31 * result + getDuration().hashCode();
-		if(getMatiere() != null) result = 31 * result + getMatiere().hashCode();
-		;
-		if(getEns() != null) result = 31 * result + getEns().hashCode();
+		if(getMatiere() != null) {
+			result = 31 * result + getMatiere().hashCode();
+		}
+		if(getEns() != null) {
+			result = 31 * result + getEns().hashCode();
+		}
 		return result;
 	}
 
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + "{" + "id=" + getId() + ", duration=" + duration + ", matiere=" + matiere +
-			", horaire=" + horaire + ", ens=" + ens + '}';
+		return getClass().getSimpleName() + "{" + "id=" + getId() + ", duration=" + duration + ", matiere=" + matiere + ", horaire=" + horaire + ", ens=" + ens + '}';
 	}
 }

@@ -3,22 +3,25 @@ package fr.insarennes;
 import fr.insarennes.model.Enseignant;
 import fr.insarennes.resource.CalendarResource;
 import fr.insarennes.utils.MyExceptionMapper;
-import javax.inject.Inject;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
+import org.apache.log4j.BasicConfigurator;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.glassfish.jersey.test.TestProperties;
-import org.junit.After;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotSame;
 
 public class TestCalendarResource extends JerseyTest {
-	// @Inject permits to get the CalendarResource singleton created by Jersey (somehow line 29).
-	@Inject private CalendarResource calResource;
+	@BeforeClass
+	public static void beforeClass() {
+		BasicConfigurator.configure();
+		org.apache.log4j.Logger.getRootLogger().setLevel(org.apache.log4j.Level.WARN);
+	}
 
 	@Override
 	protected Application configure() {
@@ -26,15 +29,7 @@ public class TestCalendarResource extends JerseyTest {
 		enable(TestProperties.DUMP_ENTITY);
 		// You must register the service you want to test
 		// register(this) is just used to allow this class to access the CalendarResource instance.
-		return new ResourceConfig(CalendarResource.class).register(this).register(MyExceptionMapper.class);
-	}
-
-	@Override
-	@After // The @After annotation permits to tag methods to be executed after each test. This method is usually called tearDown.
-	public void tearDown() throws Exception {
-		super.tearDown();
-		// It is necessary to flush the database between each test to avoid side-effects.
-		calResource.flush();
+		return new ResourceConfig(CalendarResource.class).register(MyExceptionMapper.class);
 	}
 
 	@Test

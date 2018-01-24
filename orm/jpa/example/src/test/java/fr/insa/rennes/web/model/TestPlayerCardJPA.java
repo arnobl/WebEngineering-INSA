@@ -19,22 +19,27 @@ public class TestPlayerCardJPA extends JPATest {
 		// pic1 must not be persisted since it is not an entity.
 
 		player = new Player("P1");
+		em.getTransaction().begin();
 		em.persist(player);
+		em.getTransaction().commit();
 
-		LocalDate date = LocalDate.of(2015, Month.JANUARY, 23);
+		final LocalDate date = LocalDate.of(2015, Month.JANUARY, 23);
 
 		pc = new PlayerCard(player, pic1, date);
+		em.getTransaction().begin();
 		em.persist(pc);
+		em.getTransaction().commit();
 	}
 
 
 	@Test
 	public void testSelectP1() {
-		tr.begin();
+		em.getTransaction().begin();
 
-		List<PlayerCard> players = em.createQuery("SELECT pc FROM PlayerCard pc INNER JOIN Player p ON pc.player=p AND p.name='P1'", PlayerCard.class).getResultList();
+		final List<PlayerCard> players = em.createQuery("SELECT pc FROM PlayerCard pc INNER JOIN Player p ON pc.player=p AND p.name='P1'", PlayerCard.class).
+			getResultList();
 
-		tr.commit();
+		em.getTransaction().commit();
 
 		assertEquals(1, players.size());
 		assertEquals(pc, players.get(0));

@@ -14,19 +14,23 @@ public class TestPlayerJPA extends JPATest {
 	@Override
 	void fillDatabase() {
 		player = new Player("P1");
+		em.getTransaction().begin();
 		em.persist(player);
+		em.getTransaction().commit();
 
-		p2 = new BaseballPlayer("P2", 10);
+		p2 = new BaseballPlayer("P2", Position.CATCHER, 10);
+		em.getTransaction().begin();
 		em.persist(p2);
+		em.getTransaction().commit();
 	}
 
 	@Test
 	public void testSelectP1() {
-		tr.begin();
+		em.getTransaction().begin();
 
-		List<Player> players = em.createQuery("SELECT p FROM Player p WHERE p.name='P1'",  Player.class).getResultList();
+		final List<Player> players = em.createQuery("SELECT p FROM Player p WHERE p.name='P1'", Player.class).getResultList();
 
-		tr.commit();
+		em.getTransaction().commit();
 
 		assertEquals(1, players.size());
 		assertEquals(player, players.get(0));
@@ -34,11 +38,11 @@ public class TestPlayerJPA extends JPATest {
 
 	@Test
 	public void testSelectP2() {
-		tr.begin();
+		em.getTransaction().begin();
 
-		List<Player> players = em.createQuery("SELECT p FROM Player p WHERE p.name='P2'",  Player.class).getResultList();
+		final List<Player> players = em.createQuery("SELECT p FROM Player p WHERE p.name='P2'", Player.class).getResultList();
 
-		tr.commit();
+		em.getTransaction().commit();
 
 		assertEquals(1, players.size());
 		assertEquals(p2, players.get(0));
@@ -46,61 +50,63 @@ public class TestPlayerJPA extends JPATest {
 
 	@Test
 	public void testFindPlayer() {
-		tr.begin();
+		em.getTransaction().begin();
 
-		Player foundPlayer = em.find(Player.class, p2.getId());
+		final Player foundPlayer = em.find(Player.class, p2.getId());
 
-		tr.commit();
+		em.getTransaction().commit();
 
-		assertEquals(foundPlayer, p2);
+		assertEquals(p2, foundPlayer);
 	}
 
 
-	// Do not write unit test like this.
+	// DO NOT WRITE UNIT TEST LIKE THIS.
 	// Demonstration purpose only.
 	// Shows that if a crash occurs during a transaction and the transaction is not closed, the app will throw
 	// an IllegalStateException for each next transaction.
 	@Test(expected = IllegalStateException.class)
 	public void testForceCrash() {
 		try {
-			tr.begin();
+			em.getTransaction().begin();
 
-			Player p2 = new Player();
+			final Player p2 = new Player();
 			p2.setName(null);
 
-			tr.commit();
-		}catch(NullPointerException ex) {
-			tr.begin();
-			Player foundPlayer = em.find(Player.class, p2.getId());
-			tr.commit();
+			em.getTransaction().commit();
+		}catch(final NullPointerException ex) {
+			em.getTransaction().begin();
+			final Player foundPlayer = em.find(Player.class, p2.getId());
+			em.getTransaction().commit();
 		}
 	}
 
-	// Following the previous "test", this one -- still, do not write tests like this -- shows how to rollback on failures
+	// Following the previous "test", this one -- still, DO NOT WRITE UNIT TEST LIKE THIS -- shows how to rollback on failures
 	@Test
 	public void testForceCrashRoolback() {
 		try {
-			tr.begin();
+			em.getTransaction().begin();
 
-			Player p2 = new Player();
+			final Player p2 = new Player();
 			p2.setName(null);
 
-			tr.commit();
-		}catch(NullPointerException ex) {
-			tr.rollback();
-			tr.begin();
-			Player foundPlayer = em.find(Player.class, p2.getId());
-			tr.commit();
+			em.getTransaction().commit();
+		}catch(final NullPointerException ex) {
+			if(em.getTransaction().isActive()) {
+				em.getTransaction().rollback();
+			}
+			em.getTransaction().begin();
+			final Player foundPlayer = em.find(Player.class, p2.getId());
+			em.getTransaction().commit();
 		}
 	}
 
 
 	@Test
 	public void testQuerygetPlayerWithName() {
-		tr.begin();
-		TypedQuery<Player> query = em.createNamedQuery("getPlayerWithName", Player.class);
-		tr.commit();
-		Player foundPlayer = query.setParameter("name", "P1").getSingleResult();
+		em.getTransaction().begin();
+		final TypedQuery<Player> query = em.createNamedQuery("getPlayerWithName", Player.class);
+		em.getTransaction().commit();
+		final Player foundPlayer = query.setParameter("name", "P1").getSingleResult();
 
 		assertEquals(player, foundPlayer);
 	}

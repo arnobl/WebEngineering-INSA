@@ -80,6 +80,26 @@ public class AlbumResource {
 		}
 	}
 
+	@POST
+	@Path("playercard/")
+	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response postPlayerCard(final PlayerCard card) {
+		final EntityTransaction tr = em.getTransaction();
+		try {
+			tr.begin();
+			em.persist(card);
+			tr.commit();
+			return Response.status(Response.Status.OK).entity(card).build();
+		}catch(final Throwable ex) {
+			if(tr.isActive()) {
+				tr.rollback();
+			}
+			LOGGER.log(Level.SEVERE, "Crash on adding a playercard: " + card, ex);
+			throw new WebApplicationException(Response.status(HttpURLConnection.HTTP_BAD_REQUEST).build());
+		}
+	}
+
 	@GET
 	@Path("player/{name}")
 	@Produces(MediaType.APPLICATION_JSON)

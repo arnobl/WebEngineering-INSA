@@ -51,7 +51,7 @@ public class Agenda extends CalendarElement {
 		return cours;
 	}
 
-	public void setCours(final Set<Cours> cs) {
+	protected void setCours(final Set<Cours> cs) {
 		cours = Objects.requireNonNull(cs);
 	}
 

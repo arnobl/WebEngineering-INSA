@@ -13,12 +13,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@NamedQueries({
-	@NamedQuery(
-		name="getPlayerWithName",
-		query="SELECT p FROM Player p WHERE p.name=:name"
-	),
-})
+@NamedQueries({@NamedQuery(name = "getPlayerWithName", query = "SELECT p FROM Player p WHERE p.name=:name"),})
 @XmlRootElement
 public class Player extends ModelElement {
 	//	@Id
@@ -36,9 +31,9 @@ public class Player extends ModelElement {
 		super();
 	}
 
-	public Player(final String name) {
+	public Player(final String playerName) {
 		super();
-		this.name = name;
+		name = playerName;
 	}
 
 	public String getName() {
@@ -56,8 +51,12 @@ public class Player extends ModelElement {
 
 	@Override
 	public boolean equals(final Object o) {
-		if(this == o) return true;
-		if(!(o instanceof Player)) return false;
+		if(this == o) {
+			return true;
+		}
+		if(!(o instanceof Player)) {
+			return false;
+		}
 
 		Player player = (Player) o;
 
