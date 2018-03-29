@@ -15,7 +15,7 @@ public class Picture {
 		super();
 	}
 
-	public Picture(String img) {
+	public Picture(final String img) {
 		super();
 		pic = img;
 	}
