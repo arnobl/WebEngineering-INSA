@@ -35,12 +35,12 @@ public class TestJPACalendar {
 	private void createTable() {
 		agenda = new Agenda();
 		agenda.setName("agenda1");
-		em.getTransaction().begin();
+		tr.begin();
 		em.persist(agenda);
 //        Use em.persist to put an object into the database
 //        em.persist(myObjectToPutIntoTheDatabase);
 
-		em.getTransaction().commit();
+		tr.commit();
 		printTables();
 	}
 
@@ -74,5 +74,14 @@ public class TestJPACalendar {
 //        assertEquals(agenda.getId(), a.getId());
 	}
 
-
+	// ADD NEW TESTS
+	// for example, to test a teacher:
+/*
+		tr.begin();
+		Enseignant ens = ...;
+		em.persist(ens);
+		tr.commit();
+		Enseignant ens2 = em.createQuery("SELECT e FROM Enseignant e", Enseignant.class).getSingleResult();
+		assertEquals(ens, ens2);
+*/
 }
