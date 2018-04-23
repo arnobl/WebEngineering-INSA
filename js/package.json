@@ -1,0 +1,19 @@
+{
+  "name": "introjs",
+  "version": "2.0.0",
+  "author": "Arnaud Blouin",
+  "devDependencies": {
+    "@types/jest": "^22.2.3",
+    "jest": "^22.4.3",
+    "jshint": "^2.9.5",
+    "babel-jest": "^22.4.3",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0"
+  },
+  "scripts": {
+    "all": "npm run clean && npm run test && npm run coverage && npm run lint",
+    "clean": "rm -rf coverage/*",
+    "test": "jest",
+    "lint": "jshint --config .jshintrc src/main",
+    "coverage": "jest --coverage --collectCoverageFrom=src/main/*.js"
+  }
+}

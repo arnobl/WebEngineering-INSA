@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>A simple canvas</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="canvas.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <form>
+        <div class="mx-button">
+            <input type="radio" name="mx" id="butRect" checked>
+            <label for="butRect" unselectable>Rectangle</label>
+        </div>
+        <div class="mx-button">
+            <input type="radio" name="mx" id="butLine" checked>
+            <label for="butLine" unselectable>Line</label>
+        </div>
+    </form>
+    <input id="spinnerWidth" type="number" min="1" max="50" step="1" value="5" size="4">
+    <input id="colour" type="color">
+    <br/>
+    <br/>
+
+    <canvas class="myCanvas" id="myCanvas" width="800" height="600"></canvas>
+    <script src="main.js" type="module"></script>
+</body>
+
+</html>
