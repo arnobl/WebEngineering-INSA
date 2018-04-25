@@ -1,13 +1,4 @@
 "use strict";
-let server = "http://localhost:8080/";
-
-document.getElementById('loadCalendar').onclick = function () {
-    let week = document.getElementById('semaine').value;
-    let idRes = document.getElementById('ressource').value;
-
-    //TODO
-};
-
 
 // Helpers
 
@@ -31,4 +22,12 @@ function getEns(xmlDoc) {
     let ens = xmlDoc.getElementsByTagName("ens")[0];
     return ens.getElementsByTagName("name")[0].textContent;
 }
+
+document.getElementById('loadCalendar').onclick = function () {
+    let week = document.getElementById('semaine').value;
+    let idRes = document.getElementById('ressource').value;
+
+    //TODO
+};
+
 
