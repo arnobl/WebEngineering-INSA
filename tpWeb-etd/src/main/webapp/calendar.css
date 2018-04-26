@@ -8,18 +8,6 @@ th, td {
     text-align: left;
 }
 
-th {
-	background-color:lightblue;
-}
-
-.pair {
-	background-color:lightgray;
-}
-
-.impair {
-	background-color:white;
-}
-
 table {
 	width:100%
 }
