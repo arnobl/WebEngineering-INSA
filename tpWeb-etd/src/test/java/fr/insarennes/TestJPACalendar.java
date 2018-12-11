@@ -9,9 +9,9 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import javax.persistence.Table;
 import org.apache.log4j.BasicConfigurator;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TestJPACalendar {
 	private EntityManagerFactory emf;
@@ -20,8 +20,8 @@ public class TestJPACalendar {
 	private Agenda agenda;
 
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		BasicConfigurator.configure();
 		org.apache.log4j.Logger.getRootLogger().setLevel(org.apache.log4j.Level.WARN);
 
@@ -54,7 +54,7 @@ public class TestJPACalendar {
 		}).collect(Collectors.joining("\n", "****************\nTables:\n", "\n****************")));
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() {
 		em.clear();
 		em.close();

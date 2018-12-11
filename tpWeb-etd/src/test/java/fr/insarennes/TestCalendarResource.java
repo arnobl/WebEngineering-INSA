@@ -1,39 +1,39 @@
 package fr.insarennes;
 
+import com.github.hanleyt.JerseyExtension;
 import fr.insarennes.model.Enseignant;
 import fr.insarennes.resource.CalendarResource;
 import fr.insarennes.utils.MyExceptionMapper;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.BasicConfigurator;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.test.JerseyTest;
-import org.glassfish.jersey.test.TestProperties;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
-public class TestCalendarResource extends JerseyTest {
-	@BeforeClass
+public class TestCalendarResource {
+	@RegisterExtension JerseyExtension jerseyExtension = new JerseyExtension(this::configureJersey);
+
+	Application configureJersey() {
+		return new ResourceConfig(CalendarResource.class).
+			register(MyExceptionMapper.class).
+			property("jersey.config.server.tracing.type", "ALL");
+	}
+
+	@BeforeAll
 	public static void beforeClass() {
 		BasicConfigurator.configure();
 		org.apache.log4j.Logger.getRootLogger().setLevel(org.apache.log4j.Level.WARN);
 	}
 
-	@Override
-	protected Application configure() {
-		enable(TestProperties.LOG_TRAFFIC);
-		enable(TestProperties.DUMP_ENTITY);
-		// You must register the service you want to test
-		// register(this) is just used to allow this class to access the CalendarResource instance.
-		return new ResourceConfig(CalendarResource.class).register(MyExceptionMapper.class);
-	}
-
 	@Test
-	public void testPostEnseignantOK() {
+	void testPostEnseignantOK(final WebTarget target) {
 		// Creation of a teacher.
 		Enseignant ensWithoutID = new Enseignant("Cellier");
 		// Asks the addition of the teacher object to the server.
@@ -45,7 +45,7 @@ public class TestCalendarResource extends JerseyTest {
 		// Jersey provides operations (Entity.xml(...)) and processes to automatically serialised objects.
 		// To do so (for both XML and Json), the object's class must be tagged with the annotation @XmlRootElement (see Enseignant.java)
 		// A Response object is returned by the server.
-		Response responseAfterPost = target("calendar/ens").request().post(Entity.xml(ensWithoutID));
+		Response responseAfterPost = target.path("calendar/ens").request().post(Entity.xml(ensWithoutID));
 		// This Response object provides a status that can be checked (see the HTTP header status picture in the subject).
 		assertEquals(Response.Status.OK.getStatusCode(), responseAfterPost.getStatus());
 		// The Response object may also embed an object that can be read (give the expected class as parameter).
