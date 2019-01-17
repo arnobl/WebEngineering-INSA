@@ -3,9 +3,9 @@ package fr.insa.rennes.web.model;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestAlbumJPA extends JPATest {
 	Album album;
@@ -37,7 +37,7 @@ public class TestAlbumJPA extends JPATest {
 
 
 	@Test
-	public void testGetAlbum() {
+	void testGetAlbum() {
 		em.getTransaction().begin();
 
 		final List<Album> players = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
@@ -50,7 +50,7 @@ public class TestAlbumJPA extends JPATest {
 
 
 	@Test
-	public void testAlbumWithOnePlayerCard() {
+	void testAlbumWithOnePlayerCard() {
 		em.getTransaction().begin();
 
 		final List<Album> players = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();

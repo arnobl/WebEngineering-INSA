@@ -2,9 +2,9 @@ package fr.insa.rennes.web.model;
 
 import java.util.List;
 import javax.persistence.TypedQuery;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestPlayerJPA extends JPATest {
 	Player player;
@@ -25,7 +25,7 @@ public class TestPlayerJPA extends JPATest {
 	}
 
 	@Test
-	public void testSelectP1() {
+	void testSelectP1() {
 		em.getTransaction().begin();
 
 		final List<Player> players = em.createQuery("SELECT p FROM Player p WHERE p.name='P1'", Player.class).getResultList();
@@ -37,7 +37,7 @@ public class TestPlayerJPA extends JPATest {
 	}
 
 	@Test
-	public void testSelectP2() {
+	void testSelectP2() {
 		em.getTransaction().begin();
 
 		final List<Player> players = em.createQuery("SELECT p FROM Player p WHERE p.name='P2'", Player.class).getResultList();
@@ -49,7 +49,7 @@ public class TestPlayerJPA extends JPATest {
 	}
 
 	@Test
-	public void testFindPlayer() {
+	void testFindPlayer() {
 		em.getTransaction().begin();
 
 		final Player foundPlayer = em.find(Player.class, p2.getId());
@@ -60,49 +60,8 @@ public class TestPlayerJPA extends JPATest {
 	}
 
 
-	// DO NOT WRITE UNIT TEST LIKE THIS.
-	// Demonstration purpose only.
-	// Shows that if a crash occurs during a transaction and the transaction is not closed, the app will throw
-	// an IllegalStateException for each next transaction.
-	@Test(expected = IllegalStateException.class)
-	public void testForceCrash() {
-		try {
-			em.getTransaction().begin();
-
-			final Player p2 = new Player();
-			p2.setName(null);
-
-			em.getTransaction().commit();
-		}catch(final NullPointerException ex) {
-			em.getTransaction().begin();
-			final Player foundPlayer = em.find(Player.class, p2.getId());
-			em.getTransaction().commit();
-		}
-	}
-
-	// Following the previous "test", this one -- still, DO NOT WRITE UNIT TEST LIKE THIS -- shows how to rollback on failures
 	@Test
-	public void testForceCrashRoolback() {
-		try {
-			em.getTransaction().begin();
-
-			final Player p2 = new Player();
-			p2.setName(null);
-
-			em.getTransaction().commit();
-		}catch(final NullPointerException ex) {
-			if(em.getTransaction().isActive()) {
-				em.getTransaction().rollback();
-			}
-			em.getTransaction().begin();
-			final Player foundPlayer = em.find(Player.class, p2.getId());
-			em.getTransaction().commit();
-		}
-	}
-
-
-	@Test
-	public void testQuerygetPlayerWithName() {
+	void testQuerygetPlayerWithName() {
 		em.getTransaction().begin();
 		final TypedQuery<Player> query = em.createNamedQuery("getPlayerWithName", Player.class);
 		em.getTransaction().commit();

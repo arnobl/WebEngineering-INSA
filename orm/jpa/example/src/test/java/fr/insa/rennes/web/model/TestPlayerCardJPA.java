@@ -3,9 +3,9 @@ package fr.insa.rennes.web.model;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestPlayerCardJPA extends JPATest {
 	Player player;
@@ -33,7 +33,7 @@ public class TestPlayerCardJPA extends JPATest {
 
 
 	@Test
-	public void testSelectP1() {
+	void testSelectP1() {
 		em.getTransaction().begin();
 
 		final List<PlayerCard> players = em.createQuery("SELECT pc FROM PlayerCard pc INNER JOIN Player p ON pc.player=p AND p.name='P1'", PlayerCard.class).

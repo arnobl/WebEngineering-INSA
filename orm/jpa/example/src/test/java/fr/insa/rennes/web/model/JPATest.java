@@ -6,15 +6,15 @@ import javax.persistence.Persistence;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 abstract class JPATest {
 	EntityManagerFactory emf;
 	EntityManager em;
 
-	@Before
-	public void setUp() {
+	@BeforeEach
+	void setUp() {
 		// For the logger
 		BasicConfigurator.configure();
 		Logger.getRootLogger().setLevel(Level.WARN);
@@ -31,8 +31,8 @@ abstract class JPATest {
 	}
 
 
-	@After
-	public void tearDown() {
+	@AfterEach
+	void tearDown() {
 		em.clear();
 		em.close();
 		emf.close();
