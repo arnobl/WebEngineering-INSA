@@ -1,14 +1,19 @@
 package fr.insa.rennes.web.resource;
 
-import fr.insa.rennes.web.model.Picture;
+import com.github.hanleyt.JerseyExtension;
+import fr.insa.rennes.web.model.Album;
 import fr.insa.rennes.web.model.Player;
 import fr.insa.rennes.web.model.PlayerCard;
 import fr.insa.rennes.web.utils.MyExceptionMapper;
-import java.time.LocalDate;
-import java.time.Month;
+import io.swagger.jaxrs.listing.ApiListingResource;
+import io.swagger.jaxrs.listing.SwaggerSerializers;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
-import javax.inject.Inject;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Application;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
@@ -16,105 +21,218 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.test.JerseyTest;
-import org.glassfish.jersey.test.TestProperties;
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class TestAlbumResource extends JerseyTest {
-	// @Inject permits to get the AlbumResource singleton created by Jersey.
-	@Inject private AlbumResource albumResource;
+public class TestAlbumResource {
+	@SuppressWarnings("unused") @RegisterExtension JerseyExtension jerseyExtension = new JerseyExtension(this::configureJersey);
 
-    @Override
-    protected Application configure() {
-		// For the logger
+	private Application configureJersey() {
+		// logger init
 		BasicConfigurator.configure();
 		Logger.getRootLogger().setLevel(Level.WARN);
-
-        enable(TestProperties.LOG_TRAFFIC);
-        enable(TestProperties.DUMP_ENTITY);
-        // You must register the service you want to test
-        // register(this) is just used to allow this class to access the CalendarResource instance.
-        return new ResourceConfig(AlbumResource.class).register(this).register(MyExceptionMapper.class).
-			property("jersey.config.server.tracing.type", "ALL");
-    }
-
-	@Override
-	@After // The @After annotation permits to tag methods to be executed after each test. This method is usually called tearDown.
-	public void tearDown() throws Exception {
-		super.tearDown();
-		// It is necessary to flush the database between each test to avoid side-effects.
-		albumResource.flush();
+		return new ResourceConfig(AlbumResource.class)
+			.register(MyExceptionMapper.class)
+			.register(ApiListingResource.class)
+			.register(SwaggerSerializers.class);
 	}
 
 	@Test
-    public void testPostPlayerOK() {
-        // Creation of a player.
-		Player player = new Player("Raymond");
-        // Asks the addition of the player object to the server.
-        // target(...) is provided by the JerseyTest class to ease the writing of the tests
-        // the URI "album/player" first identifies the resource class ("album") to which the request will be sent.
-        // "player" permits the identification of the resource method that will process the request.
-        // post(...) corresponds to the HTTP verb POST.
-        // To POST an object to the server, this object must be serialised into a standard format: XML and JSON
-        // Jersey provides operations (Entity.xml(...)) and processes to automatically serialised objects.
-        // To do so (for both XML and Json), the object's class must be tagged with the annotation @XmlRootElement.
-        // A Response object is returned by the server.
-        Response responseMsg = target("album/player").request().post(Entity.xml(player));
-        // This Response object provides a status that can be checked (see the HTTP header status picture in the subject).
-        assertEquals(Response.Status.OK.getStatusCode(), responseMsg.getStatus());
-        // The Response object may also embed an object that can be read (give the expected class as parameter).
-		Player playerWithID = responseMsg.readEntity(Player.class);
-        // The two Players instances must be equals (but their ID that are not compared in the equals method).
-        assertEquals(player, playerWithID);
-        // But their ID will differ since the instance returned by the server has been serialised in the database and thus
-        // received a unique ID (see the JPA practice session).
-        assertNotSame(player.getId(), playerWithID.getId());
-    }
+	void testPostAlbum(final WebTarget target) {
+		final Response responseMsg = target
+			.path("album/album")
+			.request()
+			.post(Entity.text(""));
 
-    @Test
-	public void testGetPlayerOK() {
-		Player player = target("album/player").request().post(Entity.xml(new Player("Raymond"))).readEntity(Player.class);
-		Response responseAfterPost = target("album/player/"+player.getName()).request().get();
+		final Album albumWithID = responseMsg.readEntity(Album.class);
+
+		assertEquals(Response.Status.OK.getStatusCode(), responseMsg.getStatus());
+		assertEquals(1, albumWithID.getId());
+	}
+
+	@Test
+	void testPostANewAlbum(final WebTarget target) {
+		target.path("album/album").request().post(Entity.text(""));
+
+		final Response responseMsg = target
+			.path("album/album")
+			.request()
+			.post(Entity.text(""));
+
+		final Album albumWithID = responseMsg.readEntity(Album.class);
+
+		assertEquals(Response.Status.OK.getStatusCode(), responseMsg.getStatus());
+		assertEquals(2, albumWithID.getId());
+	}
+
+	@Test
+	void testNoAlbumNoPlayer(final WebTarget target) {
+		final Response responseMsg = target
+			.path("album/player")
+			.request()
+			.post(Entity.xml(new Player("Raymond")));
+
+		assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), responseMsg.getStatus());
+	}
+
+	@Test
+	void testGetPlayerNothing(final WebTarget target) {
+		final Response responseAfterPost = target
+			.path("album/player/foo")
+			.request()
+			.get();
+
 		// This awful code is required to get a list.
-		List<Player> players = responseAfterPost.readEntity(new GenericType<List<Player>>(){});
+		final List<Player> players = responseAfterPost.readEntity(new GenericType<List<Player>>(){});
+
+		assertTrue(players.isEmpty());
+	}
+
+	@Test
+	void testChangePlayerNameKO(final WebTarget target) {
+		final Response res = target
+			.path("album/player/3/Robert")
+			.request()
+			.put(Entity.text(""));
+
+		assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), res.getStatus());
+	}
+
+
+	@Test
+	void testPostPlayerOK(final WebTarget target) {
+		target.path("album/album").request().post(Entity.text(""));
+		// Creation of a player.
+		final Player player = new Player("Raymond");
+		// Asks the addition of the player object to the server.
+		// the URI "album/player" first identifies the resource class ("album") to which the request will be sent.
+		// "player" permits the identification of the resource method that will process the request.
+		// post(...) corresponds to the HTTP verb POST.
+		// To POST an object to the server, this object must be serialised into a standard format: XML and JSON
+		// Jersey provides operations (Entity.xml(...)) and processes to automatically serialised objects.
+		// To do so (for both XML and Json), the object's class must be tagged with the annotation @XmlRootElement.
+		// A Response object is returned by the server.
+		final Response responseMsg = target
+			.path("album/player")
+			.request()
+			.post(Entity.xml(player));
+
+		// The Response object may also embed an object that can be read (give the expected class as parameter).
+		final Player playerWithID = responseMsg.readEntity(Player.class);
+
+		// This Response object provides a status that can be checked (see the HTTP header status picture in the subject).
+		assertEquals(Response.Status.OK.getStatusCode(), responseMsg.getStatus());
+		// The two Players instances must be equals (but their ID that are not compared in the equals method).
+		assertEquals(player, playerWithID);
+		// But their ID will differ since the instance returned by the server has been serialised in the database and thus
+		// received a unique ID (see the JPA practice session).
+		assertNotEquals(player.getId(), playerWithID.getId());
+	}
+
+	@Test
+	void testGetPlayerOK(final WebTarget target) {
+		target.path("album/album").request().post(Entity.text(""));
+		final Player player = target
+			.path("album/player")
+			.request()
+			.post(Entity.xml(new Player("Raymond")))
+			.readEntity(Player.class);
+
+		final Response responseAfterPost = target
+			.path("album/player/" + player.getName())
+			.request()
+			.get();
+
+		// This awful code is required to get a list.
+		final List<Player> players = responseAfterPost.readEntity(new GenericType<List<Player>>(){});
 
 		assertEquals(1, players.size());
 		assertEquals(player, players.get(0));
 	}
 
-    @Test
-    public void testChangePlayerNameOK() {
-		Player player = target("album/player").request().post(Entity.xml(new Player("Raymond"))).readEntity(Player.class);
-        Player playerWithNewName = target("album/player/"+player.getId()+"/Robert").request().put(Entity.text("")).readEntity(Player.class);
-        assertEquals("Robert", playerWithNewName.getName());
-        assertEquals(player.getId(), playerWithNewName.getId());
-    }
+	@Test
+	void testChangePlayerNameOK(final WebTarget target) {
+		target.path("album/album").request().post(Entity.text(""));
+		final Player player = target
+			.path("album/player")
+			.request()
+			.post(Entity.xml(new Player("Raymond")))
+			.readEntity(Player.class);
 
-    @Test
-    public void testDeletePlayerOK() {
-		Player player = target("album/player").request().post(Entity.xml(new Player("Raymond"))).readEntity(Player.class);
+		final Player playerWithNewName = target
+			.path("album/player/" + player.getId() + "/Robert")
+			.request()
+			.put(Entity.text(""))
+			.readEntity(Player.class);
 
-        Response responseAfterPost = target("album/player/"+player.getId()).request().delete();
-        Response responseAfterDeletion = target("album/player/"+player.getName()).request().get();
-		List<Player> players = responseAfterDeletion.readEntity(new GenericType<List<Player>>(){});
-
-        assertEquals(Response.Status.OK.getStatusCode(), responseAfterPost.getStatus());
-        assertTrue(players.isEmpty());
-    }
+		assertEquals("Robert", playerWithNewName.getName());
+		assertEquals(player.getId(), playerWithNewName.getId());
+	}
 
 	@Test
-	public void testPostPlayercard() {
-		final Player player = target("album/player").request().post(Entity.xml(new Player("Raymond"))).readEntity(Player.class);
-		final Response res = target("album/playercard").request().post(Entity.xml(new PlayerCard(player, new Picture("pic/gernot.jpg"),
-			LocalDate.of(2015, Month.JANUARY, 23))));
+	public void testPostPlayercard(final WebTarget target) throws UnsupportedEncodingException {
+		target.path("album/album").request().post(Entity.text(""));
+		final Player player = target
+			.path("album/player")
+			.request()
+			.post(Entity.json(new Player("Raymond")))
+			.readEntity(Player.class);
+
+		final Response res = target
+			.path("album/playercard/" +
+				player.getId() + "/" +
+				URLEncoder.encode(LocalDateTime.of(2019, 1, 23, 12, 0).
+					format(DateTimeFormatter.ISO_DATE_TIME), "UTF-8") + "/" +
+				URLEncoder.encode("pic/gernot.jpg", "UTF-8") + "/" +
+				URLEncoder.encode("pic/foo.jpg", "UTF-8"))
+			.request()
+			.post(Entity.text(""));
+
 		final PlayerCard card = res.readEntity(PlayerCard.class);
+
 		assertEquals(Response.Status.OK.getStatusCode(), res.getStatus());
 		assertNotNull(card);
+		assertTrue(card.getId() > 0);
+	}
+
+	@Test
+	void testDeletePlayerCard(final WebTarget target) throws UnsupportedEncodingException {
+		target.path("album/album").request().post(Entity.text(""));
+		final Player player = target.path("album/player").request().post(Entity.json(new Player("Raymond"))).readEntity(Player.class);
+		final PlayerCard card = target.path("album/playercard/" +
+				player.getId() + "/" +
+				URLEncoder.encode(LocalDateTime.of(2019, 1, 23, 12, 0).
+					format(DateTimeFormatter.ISO_DATE_TIME), "UTF-8") + "/" +
+				URLEncoder.encode("pic/gernot.jpg", "UTF-8") + "/" +
+				URLEncoder.encode("pic/foo.jpg", "UTF-8"))
+			.request()
+			.post(Entity.text("")).readEntity(PlayerCard.class);
+
+		final Response res = target.path("album/playercard/" + card.getId()).request().delete();
+
+		assertEquals(Response.Status.OK.getStatusCode(), res.getStatus());
+	}
+
+	@Test
+	void testDeletePlayerCardKO(final WebTarget target) throws UnsupportedEncodingException {
+		target.path("album/album").request().post(Entity.text(""));
+		final Player player = target.path("album/player").request().post(Entity.json(new Player("Raymond"))).readEntity(Player.class);
+		target.path("album/playercard/" +
+				player.getId() + "/" +
+				URLEncoder.encode(LocalDateTime.of(2019, 1, 23, 12, 0).
+					format(DateTimeFormatter.ISO_DATE_TIME), "UTF-8") + "/" +
+				URLEncoder.encode("pic/gernot.jpg", "UTF-8") + "/" +
+				URLEncoder.encode("pic/foo.jpg", "UTF-8"))
+			.request()
+			.post(Entity.text(""));
+
+		final Response res = target.path("album/playercard/15146846").request().delete();
+
+		assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), res.getStatus());
 	}
 }

@@ -1,6 +1,9 @@
 package fr.insa.rennes.web.model;
 
+import com.google.common.base.MoreObjects;
+import java.util.Objects;
 import javax.persistence.Embeddable;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * This class is useless since PlayerCard can directly have a Image attribute.
@@ -8,6 +11,7 @@ import javax.persistence.Embeddable;
  * See PlayerCard
  */
 @Embeddable
+@XmlRootElement
 public class Picture {
 	private String pic;
 
@@ -15,7 +19,7 @@ public class Picture {
 		super();
 	}
 
-	public Picture(String img) {
+	public Picture(final String img) {
 		super();
 		pic = img;
 	}
@@ -37,13 +41,18 @@ public class Picture {
 			return false;
 		}
 
-		Picture picture = (Picture) o;
+		final Picture picture = (Picture) o;
 
-		return pic != null ? pic.equals(picture.pic) : picture.pic == null;
+		return Objects.equals(pic, picture.pic);
 	}
 
 	@Override
 	public int hashCode() {
 		return pic != null ? pic.hashCode() : 0;
+	}
+
+	@Override
+	public String toString() {
+		return MoreObjects.toStringHelper(this).add("pic", pic).toString();
 	}
 }

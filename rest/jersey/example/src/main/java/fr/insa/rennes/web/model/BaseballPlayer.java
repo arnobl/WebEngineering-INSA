@@ -1,16 +1,23 @@
 package fr.insa.rennes.web.model;
 
+import com.google.common.base.MoreObjects;
+import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class BaseballPlayer extends Player {
 	private int totalHomeRuns;
 
-	@Basic(optional = false) @Column(name = "POSITION", nullable = false) private Position position;
+	@Basic(optional = false)
+	@Column(name = "POSITION", nullable = false)
+	private Position position;
 
 
 	protected BaseballPlayer() {
@@ -27,13 +34,8 @@ public class BaseballPlayer extends Player {
 		return totalHomeRuns;
 	}
 
-	public void setTotalHomeRuns(final int totalHomeRuns) {
-		this.totalHomeRuns = totalHomeRuns;
-	}
-
-	@Override
-	public String toString() {
-		return "BaseballPlayer{" + "id=" + id + ", name='" + name + '\'' + ", totalHomeRuns=" + totalHomeRuns + '}';
+	public Position getPosition() {
+		return position;
 	}
 
 	@Override
@@ -47,16 +49,23 @@ public class BaseballPlayer extends Player {
 		if(!super.equals(o)) {
 			return false;
 		}
-
-		BaseballPlayer that = (BaseballPlayer) o;
-
-		return totalHomeRuns == that.totalHomeRuns;
+		final BaseballPlayer that = (BaseballPlayer) o;
+		return getTotalHomeRuns() == that.getTotalHomeRuns() && getPosition() == that.getPosition();
 	}
 
 	@Override
 	public int hashCode() {
-		int result = super.hashCode();
-		result = 31 * result + totalHomeRuns;
-		return result;
+		return Objects.hash(super.hashCode(), getTotalHomeRuns(), getPosition());
+	}
+
+	@Override
+	public String toString() {
+		return MoreObjects
+			.toStringHelper(this)
+			.add("totalHomeRuns", totalHomeRuns)
+			.add("position", position)
+			.add("name", name)
+			.add("id", id)
+			.toString();
 	}
 }
