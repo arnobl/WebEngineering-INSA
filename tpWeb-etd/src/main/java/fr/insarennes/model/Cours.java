@@ -1,5 +1,6 @@
 package fr.insarennes.model;
 
+import com.google.common.base.MoreObjects;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -70,36 +71,36 @@ public abstract class Cours extends CalendarElement {
 	}
 
 	@Override
+	public String toString() {
+		return MoreObjects
+			.toStringHelper(this)
+			.add("matiere", matiere)
+			.add("horaire", horaire)
+			.add("ens", ens)
+			.add("duration", duration)
+			.add("agenda", agenda)
+			.add("id", id)
+			.toString();
+	}
+
+	@Override
 	public boolean equals(final Object o) {
 		if(this == o) {
 			return true;
 		}
-		if(o == null || getClass() != o.getClass()) {
+		if(!(o instanceof Cours)) {
 			return false;
 		}
-
-		Cours c = (Cours) o;
-
-		return getDuration().equals(c.getDuration()) && getMatiere().equals(c.getMatiere()) &&
-			getHoraire().equals(c.getHoraire()) && getEns().equals(c.getEns());
-
+		if(!super.equals(o)) {
+			return false;
+		}
+		final Cours cours = (Cours) o;
+		return Objects.equals(getMatiere(), cours.getMatiere()) && Objects.equals(getHoraire(), cours.getHoraire()) && Objects.equals(getEns(),
+			cours.getEns()) && Objects.equals(getDuration(), cours.getDuration()) && Objects.equals(getAgenda(), cours.getAgenda());
 	}
 
 	@Override
 	public int hashCode() {
-		int result = getHoraire().hashCode();
-		result = 31 * result + getDuration().hashCode();
-		if(getMatiere() != null) {
-			result = 31 * result + getMatiere().hashCode();
-		}
-		if(getEns() != null) {
-			result = 31 * result + getEns().hashCode();
-		}
-		return result;
-	}
-
-	@Override
-	public String toString() {
-		return getClass().getSimpleName() + "{" + "id=" + getId() + ", duration=" + duration + ", matiere=" + matiere + ", horaire=" + horaire + ", ens=" + ens + '}';
+		return Objects.hash(super.hashCode(), getMatiere(), getHoraire(), getEns(), getDuration(), getAgenda());
 	}
 }

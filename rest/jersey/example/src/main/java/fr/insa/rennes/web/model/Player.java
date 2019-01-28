@@ -86,14 +86,12 @@ public class Player extends ModelElement {
 		if(!(o instanceof Player)) {
 			return false;
 		}
-
-		Player player = (Player) o;
-
-		return name.equals(player.name);
+		final Player player = (Player) o;
+		return isAnAttributeNotToMakePersistent() == player.isAnAttributeNotToMakePersistent() && Objects.equals(getName(), player.getName()) && Objects.equals(album, player.album);
 	}
 
 	@Override
 	public int hashCode() {
-		return name.hashCode();
+		return Objects.hash(getName(), album, isAnAttributeNotToMakePersistent());
 	}
 }

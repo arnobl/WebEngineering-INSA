@@ -11,9 +11,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import javax.ws.rs.Consumes;
+import javax.persistence.RollbackException;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
@@ -61,7 +62,6 @@ public class CalendarResource {
 		//			// In case of crashes, you have to surround the code with a try/catch block, where the catch rollbacks the
 		//			// transaction using em.getTransaction().rollback()
 		//			tr.begin();
-		//			em.persist(agenda);
 		//
 		//			Enseignant ens = new Enseignant("Blouin");
 		//			Matiere mat = new Matiere("Web", 3);
@@ -78,7 +78,7 @@ public class CalendarResource {
 		//			LOGGER.log(Level.INFO, "a Enseignant: " + ens);
 		//			LOGGER.log(Level.INFO, "a Matiere: " + mat);
 		//			LOGGER.log(Level.INFO, "a TD: " + td);
-		//		}catch(final Throwable ex) {
+		//		}catch(final RollbackException | IllegalStateException ex) {
 		//			LOGGER.log(Level.SEVERE, "Crash during the creation of initial data", ex);
 		//			if(tr.isActive()) {
 		//				tr.rollback();
@@ -102,19 +102,19 @@ public class CalendarResource {
 	//curl -H "Content-Type: application/json" -d '{"name":"blouin"}' -X POST "http://localhost:8080/calendar/ens"
 	// To know the XML format, look at the returned XML message.
 	@POST
-	@Path("ens/")
-	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+	@Path("ens/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Enseignant postEnseignant(final Enseignant ens) {
+	public Enseignant postEnseignant(@PathParam("name") final String name) {
 		final EntityTransaction tr = em.getTransaction();
 		try {
+			final Enseignant ens = new Enseignant(name);
 			// begin starts a transaction:
 			// https://en.wikibooks.org/wiki/Java_Persistence/Transactions
 			tr.begin();
 			em.persist(ens);
 			tr.commit();
 			return ens;
-		}catch(final Throwable ex) {
+		}catch(final RollbackException | IllegalStateException ex) {
 			// If an exception occurs after a begin and before the commit, the transaction has to be rollbacked.
 			if(tr.isActive()) {
 				tr.rollback();
@@ -125,9 +125,11 @@ public class CalendarResource {
 			// The second parameter is the message, and the third one is the exception.
 			// Various useful methods compose a Logger.
 			// By default, when a message is logged it is printed in the console.
-			LOGGER.log(Level.SEVERE, "Crash on adding a Enseignant: " + ens, ex);
+			LOGGER.log(Level.SEVERE, "Crash on adding a Enseignant: " + name, ex);
 			// A Web exception is then thrown.
-			throw new WebApplicationException(Response.status(HttpURLConnection.HTTP_BAD_REQUEST).build());
+			throw new WebApplicationException(Response.status(HttpURLConnection.HTTP_BAD_REQUEST, "Cannot persist").build());
+		}catch(final NullPointerException ex) {
+			throw new WebApplicationException(Response.status(HttpURLConnection.HTTP_BAD_REQUEST, "The name is not correct").build());
 		}
 	}
 
@@ -136,7 +138,7 @@ public class CalendarResource {
 
 	// When modifying an object (@PUT verb) DO NOT USE em.persits(obj) again since the object has been already added to the database during its @POST
 
-	// Do not use @Consumes when the parameters are primitive types (String, etc.)
+	// Do not use @Consumes when no data are sent
 
 	// When adding a course (@POST a course), do not forget to add it to the agenda as well:
 	// em.persist(c);

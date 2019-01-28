@@ -1,5 +1,6 @@
 package fr.insarennes.model;
 
+import com.google.common.base.MoreObjects;
 import java.util.Objects;
 
 public class Enseignant extends CalendarElement {
@@ -23,27 +24,31 @@ public class Enseignant extends CalendarElement {
 	}
 
 	@Override
+	public String toString() {
+		return MoreObjects
+			.toStringHelper(this)
+			.add("name", name)
+			.add("id", id)
+			.toString();
+	}
+
+	@Override
 	public boolean equals(final Object o) {
 		if(this == o) {
 			return true;
 		}
-		if(o == null || getClass() != o.getClass()) {
+		if(!(o instanceof Enseignant)) {
 			return false;
 		}
-
-		final Enseignant ens = (Enseignant) o;
-
-		return name.equals(ens.name);
-
+		if(!super.equals(o)) {
+			return false;
+		}
+		final Enseignant that = (Enseignant) o;
+		return Objects.equals(getName(), that.getName());
 	}
 
 	@Override
 	public int hashCode() {
-		return name.hashCode();
-	}
-
-	@Override
-	public String toString() {
-		return "Enseignant{id=" + getId() + ", name='" + name + '\'' + '}';
+		return Objects.hash(super.hashCode(), getName());
 	}
 }

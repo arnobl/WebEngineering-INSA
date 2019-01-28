@@ -1,11 +1,11 @@
 package fr.insarennes.model;
 
+import com.google.common.base.MoreObjects;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 //TODO Q4
-//http://www.oracle.com/technetwork/middleware/ias/toplink-jpa-annotations-096251.html
 public class Agenda extends CalendarElement {
 	private String name;
 	private Set<Cours> cours;
@@ -57,6 +57,23 @@ public class Agenda extends CalendarElement {
 
 	@Override
 	public String toString() {
-		return "Agenda{" + "id=" + getId() + "cours=" + cours + ", name='" + name + '\'' + '}';
+		return MoreObjects.toStringHelper(this).add("name", name).add("cours", cours).add("id", id).toString();
+	}
+
+	@Override
+	public boolean equals(final Object o) {
+		if(this == o) {
+			return true;
+		}
+		if(!(o instanceof Agenda)) {
+			return false;
+		}
+		final Agenda agenda = (Agenda) o;
+		return Objects.equals(getName(), agenda.getName()) && getCours().equals(agenda.getCours());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(getName(), getCours());
 	}
 }

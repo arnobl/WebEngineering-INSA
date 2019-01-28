@@ -15,15 +15,15 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestCalendarResource {
 	@RegisterExtension JerseyExtension jerseyExtension = new JerseyExtension(this::configureJersey);
 
 	Application configureJersey() {
-		return new ResourceConfig(CalendarResource.class).
-			register(MyExceptionMapper.class).
-			property("jersey.config.server.tracing.type", "ALL");
+		return new ResourceConfig(CalendarResource.class)
+			.register(MyExceptionMapper.class)
+			.property("jersey.config.server.tracing.type", "ALL");
 	}
 
 	@BeforeAll
@@ -34,8 +34,6 @@ public class TestCalendarResource {
 
 	@Test
 	void testPostEnseignantOK(final WebTarget target) {
-		// Creation of a teacher.
-		Enseignant ensWithoutID = new Enseignant("Cellier");
 		// Asks the addition of the teacher object to the server.
 		// target(...) is provided by the JerseyTest class to ease the writting of the tests
 		// the URI "calendar/ens" first identifies the service ("calendar") to which the request will be sent.
@@ -45,16 +43,19 @@ public class TestCalendarResource {
 		// Jersey provides operations (Entity.xml(...)) and processes to automatically serialised objects.
 		// To do so (for both XML and Json), the object's class must be tagged with the annotation @XmlRootElement (see Enseignant.java)
 		// A Response object is returned by the server.
-		Response responseAfterPost = target.path("calendar/ens").request().post(Entity.xml(ensWithoutID));
+		Response responseAfterPost = target
+			.path("calendar/ens/Cellier")
+			.request()
+			.post(Entity.text(""));
 		// This Response object provides a status that can be checked (see the HTTP header status picture in the subject).
 		assertEquals(Response.Status.OK.getStatusCode(), responseAfterPost.getStatus());
 		// The Response object may also embed an object that can be read (give the expected class as parameter).
 		Enseignant ensWithID = responseAfterPost.readEntity(Enseignant.class);
 		// The two Enseignant instances must be equals.
-		assertEquals(ensWithoutID, ensWithID);
+		assertEquals("Cellier", ensWithID.getName());
 		// But their ID will differ since the instance returned by the server has been serialised in the database and thus
 		// received a unique ID (see the JPA practice session).
-		assertNotSame(ensWithoutID.getId(), ensWithID.getId());
+		assertTrue(ensWithID.getId() > 0);
 	}
 
 	// In your tests, do not create teachers, topics, and courses that already exist (in the constructor of the CalendarResource).

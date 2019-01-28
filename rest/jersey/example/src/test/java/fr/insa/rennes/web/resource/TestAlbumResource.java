@@ -5,8 +5,6 @@ import fr.insa.rennes.web.model.Album;
 import fr.insa.rennes.web.model.Player;
 import fr.insa.rennes.web.model.PlayerCard;
 import fr.insa.rennes.web.utils.MyExceptionMapper;
-import io.swagger.jaxrs.listing.ApiListingResource;
-import io.swagger.jaxrs.listing.SwaggerSerializers;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
@@ -18,9 +16,8 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.BasicConfigurator;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.glassfish.jersey.server.ResourceConfig;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
@@ -32,14 +29,16 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class TestAlbumResource {
 	@SuppressWarnings("unused") @RegisterExtension JerseyExtension jerseyExtension = new JerseyExtension(this::configureJersey);
 
-	private Application configureJersey() {
-		// logger init
-		BasicConfigurator.configure();
-		Logger.getRootLogger().setLevel(Level.WARN);
+	Application configureJersey() {
 		return new ResourceConfig(AlbumResource.class)
 			.register(MyExceptionMapper.class)
-			.register(ApiListingResource.class)
-			.register(SwaggerSerializers.class);
+			.property("jersey.config.server.tracing.type", "ALL");
+	}
+
+	@BeforeAll
+	public static void beforeClass() {
+		BasicConfigurator.configure();
+		org.apache.log4j.Logger.getRootLogger().setLevel(org.apache.log4j.Level.WARN);
 	}
 
 	@Test
