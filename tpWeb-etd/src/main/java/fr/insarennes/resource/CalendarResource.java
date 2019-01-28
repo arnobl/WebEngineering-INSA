@@ -93,12 +93,6 @@ public class CalendarResource {
 		emf.close();
 	}
 
-	@Override
-	protected void finalize() throws Throwable {
-		flush();
-		super.finalize();
-	}
-
 	//curl -H "Content-Type: application/json" -d '{"name":"blouin"}' -X POST "http://localhost:8080/calendar/ens"
 	// To know the XML format, look at the returned XML message.
 	@POST
