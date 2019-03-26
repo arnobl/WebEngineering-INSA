@@ -4,6 +4,7 @@ import com.google.common.base.MoreObjects;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
+import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlTransient;
 
 public abstract class Cours extends CalendarElement {
@@ -11,6 +12,8 @@ public abstract class Cours extends CalendarElement {
 	protected LocalDateTime horaire;
 	protected Enseignant ens;
 	protected Duration duration;
+	@ManyToOne
+	@XmlTransient
 	protected Agenda agenda;
 
 	public Cours() {
@@ -96,11 +99,11 @@ public abstract class Cours extends CalendarElement {
 		}
 		final Cours cours = (Cours) o;
 		return Objects.equals(getMatiere(), cours.getMatiere()) && Objects.equals(getHoraire(), cours.getHoraire()) && Objects.equals(getEns(),
-			cours.getEns()) && Objects.equals(getDuration(), cours.getDuration()) && Objects.equals(getAgenda(), cours.getAgenda());
+			cours.getEns()) && Objects.equals(getDuration(), cours.getDuration());
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(super.hashCode(), getMatiere(), getHoraire(), getEns(), getDuration(), getAgenda());
+		return Objects.hash(super.hashCode(), getMatiere(), getHoraire(), getEns(), getDuration());
 	}
 }
