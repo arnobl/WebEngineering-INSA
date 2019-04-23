@@ -4,10 +4,12 @@ import com.google.common.base.MoreObjects;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import javax.persistence.Transient;
 
 //TODO Q4
 public class Agenda extends CalendarElement {
 	private String name;
+	@Transient // Temporary annotation, to remove at Q6
 	private Set<Cours> cours;
 
 	/**

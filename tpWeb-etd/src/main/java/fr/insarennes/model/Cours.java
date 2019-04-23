@@ -4,7 +4,6 @@ import com.google.common.base.MoreObjects;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import javax.persistence.ManyToOne;
 import javax.xml.bind.annotation.XmlTransient;
 
 public abstract class Cours extends CalendarElement {
@@ -12,7 +11,6 @@ public abstract class Cours extends CalendarElement {
 	protected LocalDateTime horaire;
 	protected Enseignant ens;
 	protected Duration duration;
-	@ManyToOne
 	@XmlTransient
 	protected Agenda agenda;
 
