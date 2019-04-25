@@ -57,6 +57,4 @@ public class TestCalendarResource {
 		// received a unique ID (see the JPA practice session).
 		assertTrue(ensWithID.getId() > 0);
 	}
-
-	// In your tests, do not create teachers, topics, and courses that already exist (in the constructor of the CalendarResource).
 }
