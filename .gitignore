@@ -6,3 +6,5 @@ target/
 *.war
 *.ear
 hs_err_pid*
+*.ddl
+node_modules/
