@@ -21,7 +21,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.BasicConfigurator;
 
-@Singleton // Q: with and without, see 3.4 https://jersey.java.net/documentation/latest/jaxrs-resources.html
+@Singleton
 @Path("calendar")
 @Api(value = "calendar")
 public class CalendarResource {
@@ -53,37 +53,37 @@ public class CalendarResource {
 		em.persist(agenda);
 		tr.commit();
 
-		// You can add here calendar elements to add by default in the database of the application.
-		// For instance:
-		//		try {
-		//			// Each time you add an object into the database or modify an object already added into the database,
-		//			// You must surround your code with a em.getTransaction().begin() that identifies the beginning of a transaction
-		//			// and a em.getTransaction().commit() at the end of the transaction to validate it.
-		//			// In case of crashes, you have to surround the code with a try/catch block, where the catch rollbacks the
-		//			// transaction using em.getTransaction().rollback()
-		//			tr.begin();
-		//
-		//			Enseignant ens = new Enseignant("Blouin");
-		//			Matiere mat = new Matiere("Web", 3);
-		//
-		//			em.persist(ens);
-		//			em.persist(mat);
-		//
-		//			TD td = new TD(mat, LocalDate.of(2015, Month.JANUARY, 2).atTime(8, 0), ens, Duration.ofHours(2));
-		//			agenda.addCours(td);
-		//			em.persist(td);
-		//			tr.commit();
-		//
-		//			LOGGER.log(Level.INFO, "Added during the creation of the calendar resource:");
-		//			LOGGER.log(Level.INFO, "a Enseignant: " + ens);
-		//			LOGGER.log(Level.INFO, "a Matiere: " + mat);
-		//			LOGGER.log(Level.INFO, "a TD: " + td);
-		//		}catch(final RollbackException | IllegalStateException ex) {
-		//			LOGGER.log(Level.SEVERE, "Crash during the creation of initial data", ex);
-		//			if(tr.isActive()) {
-		//				tr.rollback();
-		//			}
-		//		}
+//	 	You can add here calendar elements to add by default in the database of the application.
+//	 	For instance:
+//		try {
+//			// Each time you add an object into the database or modify an object already added into the database,
+//			// You must surround your code with a em.getTransaction().begin() that identifies the beginning of a transaction
+//			// and a em.getTransaction().commit() at the end of the transaction to validate it.
+//			// In case of crashes, you have to surround the code with a try/catch block, where the catch rollbacks the
+//			// transaction using em.getTransaction().rollback()
+//			tr.begin();
+//
+//			Enseignant ens = new Enseignant("Blouin");
+//			Matiere mat = new Matiere("Web", 3);
+//
+//			em.persist(ens);
+//			em.persist(mat);
+//
+//			TD td = new TD(mat, LocalDate.of(2015, Month.JANUARY, 2).atTime(8, 0), ens, Duration.ofHours(2));
+//			agenda.addCours(td);
+//			em.persist(td);
+//			tr.commit();
+//
+//			LOGGER.log(Level.INFO, "Added during the creation of the calendar resource:");
+//			LOGGER.log(Level.INFO, "a Enseignant: " + ens);
+//			LOGGER.log(Level.INFO, "a Matiere: " + mat);
+//			LOGGER.log(Level.INFO, "a TD: " + td);
+//		}catch(final RollbackException | IllegalStateException ex) {
+//			LOGGER.log(Level.SEVERE, "Crash during the creation of initial data", ex);
+//			if(tr.isActive()) {
+//				tr.rollback();
+//			}
+//		}
 	}
 
 
@@ -93,17 +93,15 @@ public class CalendarResource {
 		emf.close();
 	}
 
-	//curl -H "Content-Type: application/json" -d '{"name":"blouin"}' -X POST "http://localhost:8080/calendar/ens"
-	// To know the XML format, look at the returned XML message.
+	//curl -X POST "http://localhost:8080/calendar/ens/Foo"
 	@POST
 	@Path("ens/{name}")
-	@Produces(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_XML)
 	public Enseignant postEnseignant(@PathParam("name") final String name) {
 		final EntityTransaction tr = em.getTransaction();
 		try {
 			final Enseignant ens = new Enseignant(name);
-			// begin starts a transaction:
-			// https://en.wikibooks.org/wiki/Java_Persistence/Transactions
+			// 'begin' starts a transaction
 			tr.begin();
 			em.persist(ens);
 			tr.commit();
