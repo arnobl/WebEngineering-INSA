@@ -31,7 +31,7 @@ import javax.ws.rs.core.Response;
 
 @Singleton
 @Path("album")
-@Api(value = "album", description = "Operations on the album")
+@Api(value = "album")
 public class AlbumResource {
 	private static final Logger LOGGER = Logger.getAnonymousLogger();
 
@@ -174,10 +174,10 @@ public class AlbumResource {
 	@PUT
 	@Path("player/{id}/{newname}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Player setPlayerName(@PathParam("id") final String id, @PathParam("newname") final String newName) {
+	public Player setPlayerName(@PathParam("id") final int id, @PathParam("newname") final String newName) {
 		final EntityTransaction tr = em.getTransaction();
 		try {
-			final Player player = em.createQuery("SELECT p FROM Player p WHERE p.id=:id", Player.class).setParameter("id", Integer.valueOf(id)).getSingleResult();
+			final Player player = em.createQuery("SELECT p FROM Player p WHERE p.id=:id", Player.class).setParameter("id", id).getSingleResult();
 			tr.begin();
 			player.setName(newName);
 			tr.commit();
@@ -196,14 +196,13 @@ public class AlbumResource {
 
 	@DELETE
 	@Path("playercard/{id}")
-	public Response deletePlayerCard(@PathParam("id") final String id) {
+	public Response deletePlayerCard(@PathParam("id") final int id) {
 		final EntityTransaction tr = em.getTransaction();
 		try {
-			final int idint = Integer.valueOf(id);
 			final PlayerCard playerCard = album
 				.getCards()
 				.parallelStream()
-				.filter(card -> card.getId() == idint)
+				.filter(card -> card.getId() == id)
 				.findAny()
 				.orElseThrow(() -> new WebApplicationException(Response.status(HttpURLConnection.HTTP_BAD_REQUEST, "no card").build()));
 
