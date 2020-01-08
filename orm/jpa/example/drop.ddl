@@ -1473,3 +1473,143 @@
     drop table if exists PlayerCard CASCADE 
 
     drop sequence hibernate_sequence if exists
+
+    drop table if exists Album CASCADE 
+
+    drop table if exists BaseballPlayer CASCADE 
+
+    drop table if exists Player CASCADE 
+
+    drop table if exists PlayerCard CASCADE 
+
+    drop sequence hibernate_sequence if exists
+
+    drop table if exists Album CASCADE 
+
+    drop table if exists BaseballPlayer CASCADE 
+
+    drop table if exists Player CASCADE 
+
+    drop table if exists PlayerCard CASCADE 
+
+    drop sequence hibernate_sequence if exists
+
+    drop table if exists Album CASCADE 
+
+    drop table if exists BaseballPlayer CASCADE 
+
+    drop table if exists Player CASCADE 
+
+    drop table if exists PlayerCard CASCADE 
+
+    drop sequence hibernate_sequence if exists
+
+    drop table if exists Album CASCADE 
+
+    drop table if exists BaseballPlayer CASCADE 
+
+    drop table if exists Player CASCADE 
+
+    drop table if exists PlayerCard CASCADE 
+
+    drop sequence hibernate_sequence if exists
+
+    drop table if exists Album CASCADE 
+
+    drop table if exists BaseballPlayer CASCADE 
+
+    drop table if exists Player CASCADE 
+
+    drop table if exists PlayerCard CASCADE 
+
+    drop sequence hibernate_sequence if exists
+
+    drop table if exists Album CASCADE 
+
+    drop table if exists BaseballPlayer CASCADE 
+
+    drop table if exists Player CASCADE 
+
+    drop table if exists PlayerCard CASCADE 
+
+    drop sequence hibernate_sequence if exists
+
+    drop table if exists Album CASCADE 
+
+    drop table if exists BaseballPlayer CASCADE 
+
+    drop table if exists Player CASCADE 
+
+    drop table if exists PlayerCard CASCADE 
+
+    drop sequence hibernate_sequence if exists
+
+    drop table if exists Album CASCADE 
+
+    drop table if exists BaseballPlayer CASCADE 
+
+    drop table if exists Player CASCADE 
+
+    drop table if exists PlayerCard CASCADE 
+
+    drop sequence hibernate_sequence if exists
+
+    drop table if exists Album CASCADE 
+
+    drop table if exists BaseballPlayer CASCADE 
+
+    drop table if exists Player CASCADE 
+
+    drop table if exists PlayerCard CASCADE 
+
+    drop sequence hibernate_sequence if exists
+
+    drop table if exists Album CASCADE 
+
+    drop table if exists BaseballPlayer CASCADE 
+
+    drop table if exists Player CASCADE 
+
+    drop table if exists PlayerCard CASCADE 
+
+    drop sequence hibernate_sequence if exists
+
+    drop table if exists Album CASCADE 
+
+    drop table if exists BaseballPlayer CASCADE 
+
+    drop table if exists Player CASCADE 
+
+    drop table if exists PlayerCard CASCADE 
+
+    drop sequence hibernate_sequence if exists
+
+    drop table if exists Album CASCADE 
+
+    drop table if exists BaseballPlayer CASCADE 
+
+    drop table if exists Player CASCADE 
+
+    drop table if exists PlayerCard CASCADE 
+
+    drop sequence hibernate_sequence if exists
+
+    drop table if exists Album CASCADE 
+
+    drop table if exists BaseballPlayer CASCADE 
+
+    drop table if exists Player CASCADE 
+
+    drop table if exists PlayerCard CASCADE 
+
+    drop sequence hibernate_sequence if exists
+
+    drop table if exists Album CASCADE 
+
+    drop table if exists BaseballPlayer CASCADE 
+
+    drop table if exists Player CASCADE 
+
+    drop table if exists PlayerCard CASCADE 
+
+    drop sequence hibernate_sequence if exists
