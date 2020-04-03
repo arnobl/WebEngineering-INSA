@@ -42,6 +42,15 @@
                 <version>3.0.0-M4</version>
             </plugin>
         </plugins>
+
+        <resources>
+            <resource>
+                <directory>src/main/webapp</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
     </build>
 
     <dependencies>
@@ -89,6 +98,7 @@
             <groupId>io.swagger</groupId>
             <artifactId>swagger-jersey2-jaxrs</artifactId>
             <version>1.6.0</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
