@@ -11,7 +11,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 public class Main {
 	// Base URI the Grizzly HTTP server will listen on
-	public static final String HTTP_ADDRESS = "http://localhost:8080/";
+	public static final String HTTP_ADDRESS = "http://localhost:4444/";
 
 	/**
 	 * Starts Grizzly HTTP server exposing JAX-RS resources defined in this application.
@@ -27,9 +27,8 @@ public class Main {
 		return GrizzlyHttpServerFactory.createHttpServer(URI.create(HTTP_ADDRESS), rc);
 	}
 
-	// http://localhost:8080/swagger.json to get the REST API in the JSON format
-	// http://localhost:8080/myFirstWebApp/swag/index.html to see the REST API using Swagger-UI
-
+	// http://localhost:4444/swagger.json to get the REST API in the JSON format
+	// http://localhost:4444/swag/index.html
 	public static void main(final String[] args) throws IOException {
 		final HttpServer server = startServer();
 		// Required to access the web pages stored in the webapp folder.
