@@ -7,9 +7,9 @@ import javax.ws.rs.ext.ExceptionMapper;
 
 public class MyExceptionMapper implements ExceptionMapper<Exception> {
 	@Override
-	public Response toResponse(Exception exception) {
+	public Response toResponse(final Exception exception) {
 		if(exception instanceof NotFoundException) {
-			System.err.println("You tried to access a resource that does not exist, so: " + exception.getMessage());
+			System.err.printf("You tried to access a resource that does not exist, so: %s%n", exception.getMessage());
 			return ((NotFoundException) exception).getResponse();
 		}
 		exception.printStackTrace();

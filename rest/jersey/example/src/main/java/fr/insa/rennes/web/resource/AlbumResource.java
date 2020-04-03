@@ -152,7 +152,7 @@ public class AlbumResource {
 			if(tr.isActive()) {
 				tr.rollback();
 			}
-			LOGGER.log(Level.SEVERE, "Crash on adding a playercard: " + card, ex);
+			LOGGER.log(Level.SEVERE, String.format("Crash on adding a playercard: %s", card), ex);
 			throw new WebApplicationException(Response.status(HttpURLConnection.HTTP_BAD_REQUEST).build());
 		}
 	}
@@ -186,10 +186,10 @@ public class AlbumResource {
 			if(tr.isActive()) {
 				tr.rollback();
 			}
-			LOGGER.log(Level.SEVERE, "Crash on setting the name of a player with id: " + id + " and the new name: " + newName, ex);
+			LOGGER.log(Level.SEVERE, String.format("Crash on setting the name of a player with id: %d and the new name: %s", id, newName), ex);
 			throw new WebApplicationException(Response.status(HttpURLConnection.HTTP_BAD_REQUEST, "cannot add").build());
 		}catch(final NoResultException ex) {
-			LOGGER.log(Level.SEVERE, "The id may not be a good one: " + id, ex);
+			LOGGER.log(Level.SEVERE, String.format("The id may not be a good one: %d", id), ex);
 			throw new WebApplicationException(Response.status(HttpURLConnection.HTTP_BAD_REQUEST, "invalid request").build());
 		}
 	}
@@ -215,7 +215,7 @@ public class AlbumResource {
 			if(tr.isActive()) {
 				tr.rollback();
 			}
-			LOGGER.log(Level.SEVERE, "Crash on deleting a player card with the id: " + id, ex);
+			LOGGER.log(Level.SEVERE, String.format("Crash on deleting a player card with the id: %d", id), ex);
 			throw new WebApplicationException(Response.status(HttpURLConnection.HTTP_BAD_REQUEST).build());
 		}
 

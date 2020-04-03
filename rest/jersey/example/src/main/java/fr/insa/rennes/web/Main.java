@@ -30,7 +30,7 @@ public class Main {
 	// http://localhost:8080/swagger.json to get the REST API in the JSON format
 	// http://localhost:8080/myFirstWebApp/swag/index.html to see the REST API using Swagger-UI
 
-	public static void main(String[] args) throws IOException {
+	public static void main(final String[] args) throws IOException {
 		final HttpServer server = startServer();
 		// Required to access the web pages stored in the webapp folder.
 		server.getServerConfiguration().addHttpHandler(new StaticHttpHandler("src/main/webapp"), "/myFirstWebApp/");
