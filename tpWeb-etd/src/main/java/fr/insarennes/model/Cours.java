@@ -4,17 +4,14 @@ import com.google.common.base.MoreObjects;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import javax.xml.bind.annotation.XmlTransient;
 
 public abstract class Cours extends CalendarElement {
 	protected Matiere matiere;
 	protected LocalDateTime horaire;
 	protected Enseignant ens;
 	protected Duration duration;
-	@XmlTransient
-	protected Agenda agenda;
 
-	public Cours() {
+	Cours() {
 		super();
 	}
 
@@ -28,15 +25,6 @@ public abstract class Cours extends CalendarElement {
 
 	public boolean matchesID(final int i) {
 		return i == getId() || i == matiere.getId() || i == ens.getId();
-	}
-
-	@XmlTransient // The agenda of a cours must not be considered during a REST serialisation.
-	public Agenda getAgenda() {
-		return agenda;
-	}
-
-	protected void setAgenda(final Agenda agenda) {
-		this.agenda = agenda;
 	}
 
 	public Matiere getMatiere() {
@@ -79,29 +67,28 @@ public abstract class Cours extends CalendarElement {
 			.add("horaire", horaire)
 			.add("ens", ens)
 			.add("duration", duration)
-			.add("agenda", agenda)
 			.add("id", id)
 			.toString();
 	}
 
-	@Override
-	public boolean equals(final Object o) {
-		if(this == o) {
-			return true;
-		}
-		if(!(o instanceof Cours)) {
-			return false;
-		}
-		if(!super.equals(o)) {
-			return false;
-		}
-		final Cours cours = (Cours) o;
-		return Objects.equals(getMatiere(), cours.getMatiere()) && Objects.equals(getHoraire(), cours.getHoraire()) && Objects.equals(getEns(),
-			cours.getEns()) && Objects.equals(getDuration(), cours.getDuration());
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(super.hashCode(), getMatiere(), getHoraire(), getEns(), getDuration());
-	}
+//	@Override
+//	public boolean equals(final Object o) {
+//		if(this == o) {
+//			return true;
+//		}
+//		if(!(o instanceof Cours)) {
+//			return false;
+//		}
+//		if(!super.equals(o)) {
+//			return false;
+//		}
+//		final Cours cours = (Cours) o;
+//		return Objects.equals(getMatiere(), cours.getMatiere()) && Objects.equals(getHoraire(), cours.getHoraire()) && Objects.equals(getEns(),
+//			cours.getEns()) && Objects.equals(getDuration(), cours.getDuration());
+//	}
+//
+//	@Override
+//	public int hashCode() {
+//		return Objects.hash(super.hashCode(), getMatiere(), getHoraire(), getEns(), getDuration());
+//	}
 }

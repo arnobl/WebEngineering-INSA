@@ -5,7 +5,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class CM extends Cours {
-	public CM() {
+	CM() {
 		super();
 	}
 

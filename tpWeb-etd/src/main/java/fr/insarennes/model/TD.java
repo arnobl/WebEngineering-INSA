@@ -5,7 +5,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class TD extends Cours {
-	public TD() {
+	TD() {
 		super();
 	}
 

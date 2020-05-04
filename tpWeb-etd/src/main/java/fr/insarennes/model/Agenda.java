@@ -2,15 +2,12 @@ package fr.insarennes.model;
 
 import com.google.common.base.MoreObjects;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
-import javax.persistence.Transient;
 
-//TODO Q4
 public class Agenda extends CalendarElement {
 	private String name;
-	@Transient // Temporary annotation, to remove at Q6
-	private Set<Cours> cours;
+	private final Set<Cours> cours;
+	private final Set<Enseignant> enseignants;
 
 	/**
 	 * Creates the agenda with a name and an empty set of courses, teachers, and topics.
@@ -19,6 +16,7 @@ public class Agenda extends CalendarElement {
 		super();
 		name = "myAgenda";
 		cours = new HashSet<>();
+		enseignants = new HashSet<>();
 	}
 
 	/**
@@ -45,37 +43,45 @@ public class Agenda extends CalendarElement {
 	public void addCours(final Cours c) {
 		if(c != null) {
 			cours.add(c);
-			c.setAgenda(this);
 		}
+	}
+
+	public void addEnseignant(final Enseignant ens) throws IllegalArgumentException {
+		if(enseignants.stream().anyMatch(ens2 -> ens.getName().equals(ens2.getName()))) {
+			throw new IllegalArgumentException("Two teachers cannot have the same name");
+		}
+		enseignants.add(ens);
 	}
 
 	public Set<Cours> getCours() {
 		return cours;
 	}
 
-	protected void setCours(final Set<Cours> cs) {
-		cours = Objects.requireNonNull(cs);
+	public Set<Enseignant> getEnseignants() {
+		return enseignants;
 	}
+
+
 
 	@Override
 	public String toString() {
 		return MoreObjects.toStringHelper(this).add("name", name).add("cours", cours).add("id", id).toString();
 	}
 
-	@Override
-	public boolean equals(final Object o) {
-		if(this == o) {
-			return true;
-		}
-		if(!(o instanceof Agenda)) {
-			return false;
-		}
-		final Agenda agenda = (Agenda) o;
-		return Objects.equals(getName(), agenda.getName()) && getCours().equals(agenda.getCours());
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(getName(), getCours());
-	}
+//	@Override
+//	public boolean equals(final Object o) {
+//		if(this == o) {
+//			return true;
+//		}
+//		if(!(o instanceof Agenda)) {
+//			return false;
+//		}
+//		final Agenda agenda = (Agenda) o;
+//		return Objects.equals(getName(), agenda.getName()) && getCours().equals(agenda.getCours());
+//	}
+//
+//	@Override
+//	public int hashCode() {
+//		return Objects.hash(getName(), getCours());
+//	}
 }

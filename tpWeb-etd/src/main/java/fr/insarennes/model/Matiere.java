@@ -5,10 +5,9 @@ import java.util.Objects;
 
 public class Matiere extends CalendarElement {
 	private String name;
-
 	private int annee;
 
-	public Matiere() {
+	Matiere() {
 		super();
 		name = "matiere";
 		annee = -1;
@@ -23,26 +22,6 @@ public class Matiere extends CalendarElement {
 	@Override
 	public String toString() {
 		return MoreObjects.toStringHelper(this).add("name", name).add("annee", annee).add("id", id).toString();
-	}
-
-	@Override
-	public boolean equals(final Object o) {
-		if(this == o) {
-			return true;
-		}
-		if(!(o instanceof Matiere)) {
-			return false;
-		}
-		if(!super.equals(o)) {
-			return false;
-		}
-		final Matiere matiere = (Matiere) o;
-		return getAnnee() == matiere.getAnnee() && Objects.equals(getName(), matiere.getName());
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(super.hashCode(), getName(), getAnnee());
 	}
 
 	public int getAnnee() {
@@ -60,4 +39,24 @@ public class Matiere extends CalendarElement {
 	public void setName(final String name) {
 		this.name = name;
 	}
+
+//	@Override
+//	public boolean equals(final Object o) {
+//		if(this == o) {
+//			return true;
+//		}
+//		if(!(o instanceof Matiere)) {
+//			return false;
+//		}
+//		if(!super.equals(o)) {
+//			return false;
+//		}
+//		final Matiere matiere = (Matiere) o;
+//		return getAnnee() == matiere.getAnnee() && Objects.equals(getName(), matiere.getName());
+//	}
+//
+//	@Override
+//	public int hashCode() {
+//		return Objects.hash(super.hashCode(), getName(), getAnnee());
+//	}
 }

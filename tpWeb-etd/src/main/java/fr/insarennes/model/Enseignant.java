@@ -2,11 +2,13 @@ package fr.insarennes.model;
 
 import com.google.common.base.MoreObjects;
 import java.util.Objects;
+import javax.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
 public class Enseignant extends CalendarElement {
 	private String name;
 
-	public Enseignant() {
+	Enseignant() {
 		this("enseignant");
 	}
 
@@ -32,23 +34,23 @@ public class Enseignant extends CalendarElement {
 			.toString();
 	}
 
-	@Override
-	public boolean equals(final Object o) {
-		if(this == o) {
-			return true;
-		}
-		if(!(o instanceof Enseignant)) {
-			return false;
-		}
-		if(!super.equals(o)) {
-			return false;
-		}
-		final Enseignant that = (Enseignant) o;
-		return Objects.equals(getName(), that.getName());
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(super.hashCode(), getName());
-	}
+//	@Override
+//	public boolean equals(final Object o) {
+//		if(this == o) {
+//			return true;
+//		}
+//		if(!(o instanceof Enseignant)) {
+//			return false;
+//		}
+//		if(!super.equals(o)) {
+//			return false;
+//		}
+//		final Enseignant that = (Enseignant) o;
+//		return Objects.equals(getName(), that.getName());
+//	}
+//
+//	@Override
+//	public int hashCode() {
+//		return Objects.hash(super.hashCode(), getName());
+//	}
 }
