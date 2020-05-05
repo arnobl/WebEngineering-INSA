@@ -50,7 +50,7 @@ public class AlbumResource {
 	}
 
 	@POST
-	@Path("album/")
+	@Path("album")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response postAlbum() {
 		final Album oldAlbum = album;
@@ -95,7 +95,7 @@ public class AlbumResource {
 	See postPlayerCard for the alternative.
 	 */
 	@POST
-	@Path("player/")
+	@Path("player")
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
 	@Produces(MediaType.APPLICATION_XML)
 	public Response postPlayer(final Player player) {
