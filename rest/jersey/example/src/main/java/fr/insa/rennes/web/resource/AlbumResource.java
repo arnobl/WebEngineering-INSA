@@ -20,6 +20,7 @@ import javax.persistence.RollbackException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.PATCH;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -159,7 +160,7 @@ public class AlbumResource {
 
 
 	@GET
-	@Path("player/{name}")
+	@Path("players/{name}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Player> getPlayers(@PathParam("name") final String name) {
 		// This example makes no use of the album (as it should be expected).
@@ -170,7 +171,13 @@ public class AlbumResource {
 			.getResultList();
 	}
 
-
+	// This REST route is quite useless as the next one (patchPlayer) can update
+	// any attribute of a player object.
+	// The idea of this route is to show how to modify an object simply.
+	// According to the RFC 5789 (https://tools.ietf.org/html/rfc5789)
+	// The PATCH verb should be used to modify an object while PUT should be used to replace
+	// an object with another one.
+	// Anyway, in this example we use PUT to modify the name of a player
 	@PUT
 	@Path("player/{id}/{newname}")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -191,6 +198,34 @@ public class AlbumResource {
 		}catch(final NoResultException ex) {
 			LOGGER.log(Level.SEVERE, String.format("The id may not be a good one: %d", id), ex);
 			throw new WebApplicationException(Response.status(HttpURLConnection.HTTP_BAD_REQUEST, "invalid request").build());
+		}
+	}
+
+	// Instead of having a PUT/PATCH method for each property of an object
+	// we can use PUT/PATCH to apply partial updates:
+	// We take as arguments the player to update with the modified attributes
+	// This object is then merged with the corresponding object in the database to update this last.
+	// The benefits: can update several attributes, reduce the number of REST routes
+	@PATCH
+	@Path("player/")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Player patchPlayer(final Player player) {
+		final EntityTransaction tr = em.getTransaction();
+		try {
+			if(em.find(Player.class, player.getId()) == null) {
+				throw new WebApplicationException(Response.status(HttpURLConnection.HTTP_BAD_REQUEST, "not a invalid player").build());
+			}
+
+			tr.begin();
+			em.merge(player);
+			tr.commit();
+			return player;
+		}catch(final RollbackException | IllegalStateException | IllegalArgumentException ex) {
+			if(tr.isActive()) {
+				tr.rollback();
+			}
+			throw new WebApplicationException(Response.status(HttpURLConnection.HTTP_BAD_REQUEST, "cannot add").build());
 		}
 	}
 

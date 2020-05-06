@@ -16,8 +16,10 @@ import javax.ws.rs.core.Application;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import org.apache.log4j.BasicConfigurator;
+import org.glassfish.jersey.client.HttpUrlConnectorProvider;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 
@@ -33,6 +35,11 @@ public class TestAlbumResource {
 		return new ResourceConfig(AlbumResource.class)
 			.register(MyExceptionMapper.class)
 			.property("jersey.config.server.tracing.type", "ALL");
+	}
+
+	@BeforeEach
+	void setUp(final WebTarget target) {
+		target.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
 	}
 
 	@BeforeAll
@@ -82,7 +89,7 @@ public class TestAlbumResource {
 	@Test
 	void testGetPlayerNothing(final WebTarget target) {
 		final Response responseAfterPost = target
-			.path("album/player/foo")
+			.path("album/players/foo")
 			.request()
 			.get();
 
@@ -91,17 +98,6 @@ public class TestAlbumResource {
 
 		assertTrue(players.isEmpty());
 	}
-
-	@Test
-	void testChangePlayerNameKO(final WebTarget target) {
-		final Response res = target
-			.path("album/player/3/Robert")
-			.request()
-			.put(Entity.text(""));
-
-		assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), res.getStatus());
-	}
-
 
 	@Test
 	void testPostPlayerOK(final WebTarget target) {
@@ -143,7 +139,7 @@ public class TestAlbumResource {
 			.readEntity(Player.class);
 
 		final Response responseAfterPost = target
-			.path("album/player/" + player.getName())
+			.path("album/players/" + player.getName())
 			.request()
 			.get();
 
@@ -152,6 +148,16 @@ public class TestAlbumResource {
 
 		assertEquals(1, players.size());
 		assertEquals(player, players.get(0));
+	}
+
+	@Test
+	void testChangePlayerNameKO(final WebTarget target) {
+		final Response res = target
+			.path("album/player/3/Robert")
+			.request()
+			.put(Entity.text(""));
+
+		assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), res.getStatus());
 	}
 
 	@Test
@@ -167,6 +173,39 @@ public class TestAlbumResource {
 			.path("album/player/" + player.getId() + "/Robert")
 			.request()
 			.put(Entity.text(""))
+			.readEntity(Player.class);
+
+		assertEquals("Robert", playerWithNewName.getName());
+		assertEquals(player.getId(), playerWithNewName.getId());
+	}
+
+	@Test
+	void testPatchPlayerKO(final WebTarget target) {
+		final Response res = target
+			.path("album/player/")
+			.request()
+			.build("PATCH", Entity.json(new Player("Foo")))
+			.invoke();
+
+		assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), res.getStatus());
+	}
+
+	@Test
+	void testpatchPlayerOK(final WebTarget target) {
+		target.path("album/album").request().post(Entity.text(""));
+		final Player player = target
+			.path("album/player")
+			.request()
+			.post(Entity.xml(new Player("Raymond")))
+			.readEntity(Player.class);
+
+		player.setName("Robert");
+
+		final Player playerWithNewName = target
+			.path("album/player")
+			.request()
+			.build("PATCH", Entity.json(player))
+			.invoke()
 			.readEntity(Player.class);
 
 		assertEquals("Robert", playerWithNewName.getName());

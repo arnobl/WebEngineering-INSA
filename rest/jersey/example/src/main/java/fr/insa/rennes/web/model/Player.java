@@ -1,6 +1,7 @@
 package fr.insa.rennes.web.model;
 
 import com.google.common.base.MoreObjects;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -39,6 +40,7 @@ public class Player extends ModelElement {
 
 	// The persistence API (JPA) will ignore this attribute
 	@Transient
+	@ApiModelProperty(hidden = true) // This attribute (primary key) will be ignored by Swagger
 	protected boolean anAttributeNotToMakePersistent;
 
 	protected Player() {

@@ -1,6 +1,7 @@
 package fr.insa.rennes.web.model;
 
 import fr.insa.rennes.web.utils.IntStringAdapter;
+import io.swagger.annotations.ApiModelProperty;
 import java.util.Objects;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -26,6 +27,7 @@ public abstract class ModelElement {
 		return id;
 	}
 
+	@ApiModelProperty(hidden = true) // This attribute (primary key) will be ignored by Swagger
 	protected void setId(final int id) {
 		this.id = id;
 	}

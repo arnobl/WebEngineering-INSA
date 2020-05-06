@@ -28,7 +28,8 @@ public final class Main {
 			.register(MyExceptionMapper.class)
 			.register(MoxyJsonFeature.class)
 			.register(io.swagger.jaxrs.listing.ApiListingResource.class)
-			.register(io.swagger.jaxrs.listing.SwaggerSerializers.class);
+			.register(io.swagger.jaxrs.listing.SwaggerSerializers.class)
+			.property("jersey.config.client.httpUrlConnection.setMethodWorkaround",true);
 
 		return GrizzlyHttpServerFactory.createHttpServer(URI.create(HTTP_ADDRESS), rc);
 	}
