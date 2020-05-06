@@ -214,7 +214,7 @@ public class AlbumResource {
 		final EntityTransaction tr = em.getTransaction();
 		try {
 			if(em.find(Player.class, player.getId()) == null) {
-				throw new WebApplicationException(Response.status(HttpURLConnection.HTTP_BAD_REQUEST, "not a invalid player").build());
+				throw new WebApplicationException(Response.status(HttpURLConnection.HTTP_BAD_REQUEST, "not a valid player").build());
 			}
 
 			tr.begin();
@@ -225,7 +225,7 @@ public class AlbumResource {
 			if(tr.isActive()) {
 				tr.rollback();
 			}
-			throw new WebApplicationException(Response.status(HttpURLConnection.HTTP_BAD_REQUEST, "cannot add").build());
+			throw new WebApplicationException(Response.status(HttpURLConnection.HTTP_BAD_REQUEST, "cannot modify the player").build());
 		}
 	}
 
