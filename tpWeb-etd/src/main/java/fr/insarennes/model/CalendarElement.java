@@ -18,6 +18,10 @@ public abstract class CalendarElement {
 		return id;
 	}
 
+	public void setId(final int id) {
+		this.id = id;
+	}
+
 //	@Override
 //	public boolean equals(final Object o) {
 //		if(this == o) {
