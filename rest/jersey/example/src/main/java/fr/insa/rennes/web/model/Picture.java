@@ -13,6 +13,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Embeddable
 @XmlRootElement
 public class Picture {
+	// should be URLs such as:
+	// https://1.bp.blogspot.com/-5Yh_rZ1pP50/TxBGA_C2aOI/AAAAAAAAVUk/9ochTrqbipE/s1600/1981+Raymond+DOMENECH+Panini+Strasbourg.png
+	// https://1.bp.blogspot.com/-rgHG4O7srKA/TgMGhDrIu_I/AAAAAAAAREY/CSdAejbfcAQ/s1600/Tony+VAIRELLES+Panini+Olympique+Lyonnais+1999-2000.png
 	private String pic;
 
 	protected Picture() {
