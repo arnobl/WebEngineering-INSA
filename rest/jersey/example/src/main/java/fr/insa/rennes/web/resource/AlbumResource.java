@@ -8,6 +8,7 @@ import fr.insa.rennes.web.model.PlayerCard;
 import io.swagger.annotations.Api;
 import java.net.HttpURLConnection;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.inject.Singleton;
@@ -82,6 +83,13 @@ public class AlbumResource {
 		}
 	}
 
+	@GET
+	@Path("album")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Album getAlbum() {
+		return this.album;
+	}
+
 	private void checkAlbum() {
 		if(album == null) {
 			throw new WebApplicationException(Response.status(HttpURLConnection.HTTP_BAD_REQUEST, "no album").build());
@@ -121,6 +129,13 @@ public class AlbumResource {
 			// A Web exception is then thrown.
 			throw new WebApplicationException(Response.status(HttpURLConnection.HTTP_BAD_REQUEST).build());
 		}
+	}
+
+	@GET
+	@Path("players")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Set<Player> getPlayers() {
+		return this.album.getPlayers();
 	}
 
 
