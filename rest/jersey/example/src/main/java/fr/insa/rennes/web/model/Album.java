@@ -23,21 +23,10 @@ public class Album extends ModelElement {
 		fetch = FetchType.LAZY) // Cards are loaded on demand only.
 	private final Set<PlayerCard> cards;
 
-	// We assume that a player is part of an album (cannot be shared, composition)
-	@OneToMany(mappedBy = "album",
-		cascade = CascadeType.ALL,
-		fetch = FetchType.LAZY)
-	private final Set<Player> players;
-
 
 	public Album() {
 		super();
 		cards = new HashSet<>();
-		players = new HashSet<>();
-	}
-
-	public Set<Player> getPlayers() {
-		return players;
 	}
 
 	public Set<PlayerCard> getCards() {
@@ -46,17 +35,10 @@ public class Album extends ModelElement {
 
 	public void addCard(final PlayerCard pc) {
 		cards.add(pc);
-		if(!players.contains(pc.getPlayer())) {
-			addPlayer(pc.getPlayer());
-		}
 	}
 
 	public void removeCard(final PlayerCard pc) {
 		cards.remove(pc);
-	}
-
-	public void addPlayer(final Player p) {
-		players.add(p);
 	}
 
 	@Override
@@ -65,7 +47,6 @@ public class Album extends ModelElement {
 			.toStringHelper(this)
 			.add("id", id)
 			.add("cards", cards)
-			.add("players", players)
 			.toString();
 	}
 
@@ -78,11 +59,11 @@ public class Album extends ModelElement {
 			return false;
 		}
 		final Album album = (Album) o;
-		return Objects.equals(getCards(), album.getCards()) && Objects.equals(getPlayers(), album.getPlayers());
+		return Objects.equals(getCards(), album.getCards());
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(getCards(), getPlayers());
+		return Objects.hash(getCards());
 	}
 }

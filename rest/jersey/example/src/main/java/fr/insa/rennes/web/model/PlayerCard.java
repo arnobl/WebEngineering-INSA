@@ -1,6 +1,7 @@
 package fr.insa.rennes.web.model;
 
 import com.google.common.base.MoreObjects;
+import fr.insa.rennes.web.utils.LocalDateXmlAdapter;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javax.persistence.AttributeOverride;
@@ -69,6 +70,10 @@ public class PlayerCard extends ModelElement {
 
 	public void setAlbum(final Album album) {
 		this.album = album;
+	}
+
+	public Album getAlbum() {
+		return album;
 	}
 
 	public Player getPlayer() {

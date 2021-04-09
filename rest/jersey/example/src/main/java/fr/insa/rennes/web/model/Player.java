@@ -8,7 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Transient;
@@ -34,9 +33,6 @@ public class Player extends ModelElement {
 	@Basic(optional = false) // Not mandatory
 	@Column(name = "P_NAME", nullable = false) // Optional. Put here in an illustrative purpose.
 	protected String name; // Idem
-
-	@ManyToOne
-	private Album album;
 
 	// The persistence API (JPA) will ignore this attribute
 	@Transient
@@ -89,11 +85,11 @@ public class Player extends ModelElement {
 			return false;
 		}
 		final Player player = (Player) o;
-		return isAnAttributeNotToMakePersistent() == player.isAnAttributeNotToMakePersistent() && Objects.equals(getName(), player.getName()) && Objects.equals(album, player.album);
+		return isAnAttributeNotToMakePersistent() == player.isAnAttributeNotToMakePersistent() && Objects.equals(getName(), player.getName());
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(getName(), album, isAnAttributeNotToMakePersistent());
+		return Objects.hash(getName(), isAnAttributeNotToMakePersistent());
 	}
 }

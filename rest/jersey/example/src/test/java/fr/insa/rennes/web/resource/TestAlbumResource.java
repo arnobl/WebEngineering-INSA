@@ -1,54 +1,42 @@
 package fr.insa.rennes.web.resource;
 
-import com.github.hanleyt.JerseyExtension;
 import fr.insa.rennes.web.model.Album;
-import fr.insa.rennes.web.model.Player;
-import fr.insa.rennes.web.model.PlayerCard;
-import fr.insa.rennes.web.utils.MyExceptionMapper;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
+import javax.persistence.EntityTransaction;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Application;
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
-import org.apache.log4j.BasicConfigurator;
-import org.glassfish.jersey.client.HttpUrlConnectorProvider;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.RegisterExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-public class TestAlbumResource {
-	@SuppressWarnings("unused") @RegisterExtension JerseyExtension jerseyExtension = new JerseyExtension(this::configureJersey);
+public class TestAlbumResource extends TestResource {
+	@Test
+	@DisplayName("A wrong route should not be found")
+	void testWrongRoute(final WebTarget target) {
+		final Response responseMsg = target
+			.path("album/album/foo")
+			.request()
+			.get();
 
-	Application configureJersey() {
-		return new ResourceConfig(AlbumResource.class)
-			.register(MyExceptionMapper.class)
-			.property("jersey.config.server.tracing.type", "ALL");
-	}
-
-	@BeforeEach
-	void setUp(final WebTarget target) {
-		target.property(HttpUrlConnectorProvider.SET_METHOD_WORKAROUND, true);
-	}
-
-	@BeforeAll
-	public static void beforeClass() {
-		BasicConfigurator.configure();
-		org.apache.log4j.Logger.getRootLogger().setLevel(org.apache.log4j.Level.WARN);
+		assertEquals(Response.Status.NOT_FOUND.getStatusCode(), responseMsg.getStatus());
 	}
 
 	@Test
+	@DisplayName("Getting an album when no one is created should return null")
+	void testgetAlbumNull(final WebTarget target) {
+		final Response responseMsg = target
+			.path("album/album/1")
+			.request()
+			.get();
+
+		assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), responseMsg.getStatus());
+		assertNull(responseMsg.readEntity(Album.class));
+	}
+
+	@Test
+	@DisplayName("Posting an album should work")
 	void testPostAlbum(final WebTarget target) {
 		final Response responseMsg = target
 			.path("album/album")
@@ -62,8 +50,70 @@ public class TestAlbumResource {
 	}
 
 	@Test
+	@DisplayName("Crashing the database when posting an album should be OK")
+	void testPostAlbumCrashDB(final WebTarget target) {
+		// I want to crash the transaction to go into the exception
+		// So I create a transaction and I open it so that the next transaction
+		// will not be possible and the request will crash
+		// The goal here is to check that even on error the service works.
+		final EntityTransaction tr = em.getTransaction();
+		tr.begin();
+
+		final Response responseMsg = target
+			.path("album/album")
+			.request()
+			.post(Entity.text(""));
+
+		assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), responseMsg.getStatus());
+		assertNull(responseMsg.readEntity(Album.class));
+	}
+
+	@Test
+	@DisplayName("Crashing the database when posting an album should not prevent next operations")
+	void testPostAlbumCrashDBButThenWorks(final WebTarget target) {
+		final EntityTransaction tr = em.getTransaction();
+		tr.begin();
+
+		target
+			.path("album/album")
+			.request()
+			.post(Entity.text(""));
+
+		final Response responseMsg = target
+			.path("album/album")
+			.request()
+			.post(Entity.text(""));
+
+		assertEquals(Response.Status.OK.getStatusCode(), responseMsg.getStatus());
+		assertEquals(1, responseMsg.readEntity(Album.class).getId());
+	}
+
+
+	@Test
+	@DisplayName("Getting an album when one is created should return the album")
+	void testgetAlbum(final WebTarget target) {
+		final var album = target
+			.path("album/album")
+			.request()
+			.post(Entity.text(""))
+			.readEntity(Album.class);
+
+		final Response responseMsg = target
+			.path("album/album/" + album.getId())
+			.request()
+			.get();
+
+		assertEquals(Response.Status.OK.getStatusCode(), responseMsg.getStatus());
+		assertEquals(album.getId(), responseMsg.readEntity(Album.class).getId());
+	}
+
+	@Test
+	@DisplayName("Posting a new album when one album already exists should replace this last")
 	void testPostANewAlbum(final WebTarget target) {
-		target.path("album/album").request().post(Entity.text(""));
+		target
+			.path("album/album")
+			.request()
+			.post(Entity.text(""));
 
 		final Response responseMsg = target
 			.path("album/album")
@@ -76,201 +126,236 @@ public class TestAlbumResource {
 		assertEquals(2, albumWithID.getId());
 	}
 
-	@Test
-	void testNoAlbumNoPlayer(final WebTarget target) {
-		final Response responseMsg = target
-			.path("album/player")
-			.request()
-			.post(Entity.xml(new Player("Raymond")));
+//	@Test
+//	@DisplayName("Adding a player into an album should work")
+//	void testAddPlayerIntoAnAlbum(final WebTarget target) {
+//		final var album = target
+//			.path("album")
+//			.request()
+//			.post(Entity.text(""))
+//			.readEntity(Album.class);
+//
+//		final var player = target
+//			.path("player")
+//			.request()
+//			.post(Entity.xml(new Player("Footix")))
+//			.readEntity(Player.class);
+//
+//		final Response responseMsg = target
+//			.path("album/player/" + album.getId() + "/" + player.getId())
+//			.request()
+//			.put(Entity.text(""));
+//
+//		final Album newAlbum = responseMsg.readEntity(Album.class);
+//
+//		assertEquals(Response.Status.OK.getStatusCode(), responseMsg.getStatus());
+//		assertEquals(Set.of(player), newAlbum.getPlayers());
+//	}
 
-		assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), responseMsg.getStatus());
-	}
 
-	@Test
-	void testGetPlayerNothing(final WebTarget target) {
-		final Response responseAfterPost = target
-			.path("album/players/foo")
-			.request()
-			.get();
+//	@Test
+//	@DisplayName("Posting a player card without an album should not work")
+//	public void testPostPlayercardNoAlbum(final WebTarget target) {
+//		final Response res = target
+//			.path("album/playercard")
+//			.request()
+//			.post(Entity.json(new PlayerCardDTO(1,
+//				LocalDateTime.of(2019, 1, 23, 12, 0).format(DateTimeFormatter.ISO_DATE_TIME),"foo.png")));
+//
+//		assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), res.getStatus());
+//	}
 
-		// This awful code is required to get a list.
-		final List<Player> players = responseAfterPost.readEntity(new GenericType<List<Player>>(){});
-
-		assertTrue(players.isEmpty());
-	}
-
-	@Test
-	void testPostPlayerOK(final WebTarget target) {
-		target.path("album/album").request().post(Entity.text(""));
-		// Creation of a player.
-		final Player player = new Player("Raymond");
-		// Asks the addition of the player object to the server.
-		// the URI "album/player" first identifies the resource class ("album") to which the request will be sent.
-		// "player" permits the identification of the resource method that will process the request.
-		// post(...) corresponds to the HTTP verb POST.
-		// To POST an object to the server, this object must be serialised into a standard format: XML and JSON
-		// Jersey provides operations (Entity.xml(...)) and processes to automatically serialised objects.
-		// To do so (for both XML and Json), the object's class must be tagged with the annotation @XmlRootElement.
-		// A Response object is returned by the server.
-		final Response responseMsg = target
-			.path("album/player")
-			.request()
-			.post(Entity.xml(player));
-
-		// The Response object may also embed an object that can be read (give the expected class as parameter).
-		final Player playerWithID = responseMsg.readEntity(Player.class);
-
-		// This Response object provides a status that can be checked (see the HTTP header status picture in the subject).
-		assertEquals(Response.Status.OK.getStatusCode(), responseMsg.getStatus());
-		// The two Players instances must be equals (but their ID that are not compared in the equals method).
-		assertEquals(player, playerWithID);
-		// But their ID will differ since the instance returned by the server has been serialised in the database and thus
-		// received a unique ID (see the JPA practice session).
-		assertNotEquals(player.getId(), playerWithID.getId());
-	}
-
-	@Test
-	void testGetPlayerOK(final WebTarget target) {
-		target.path("album/album").request().post(Entity.text(""));
-		final Player player = target
-			.path("album/player")
-			.request()
-			.post(Entity.xml(new Player("Raymond")))
-			.readEntity(Player.class);
-
-		final Response responseAfterPost = target
-			.path("album/players/" + player.getName())
-			.request()
-			.get();
-
-		// This awful code is required to get a list.
-		final List<Player> players = responseAfterPost.readEntity(new GenericType<List<Player>>(){});
-
-		assertEquals(1, players.size());
-		assertEquals(player, players.get(0));
-	}
-
-	@Test
-	void testChangePlayerNameKO(final WebTarget target) {
-		final Response res = target
-			.path("album/player/3/Robert")
-			.request()
-			.put(Entity.text(""));
-
-		assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), res.getStatus());
-	}
-
-	@Test
-	void testChangePlayerNameOK(final WebTarget target) {
-		target.path("album/album").request().post(Entity.text(""));
-		final Player player = target
-			.path("album/player")
-			.request()
-			.post(Entity.xml(new Player("Raymond")))
-			.readEntity(Player.class);
-
-		final Player playerWithNewName = target
-			.path("album/player/" + player.getId() + "/Robert")
-			.request()
-			.put(Entity.text(""))
-			.readEntity(Player.class);
-
-		assertEquals("Robert", playerWithNewName.getName());
-		assertEquals(player.getId(), playerWithNewName.getId());
-	}
-
-	@Test
-	void testPatchPlayerKO(final WebTarget target) {
-		final Response res = target
-			.path("album/player/")
-			.request()
-			.build("PATCH", Entity.json(new Player("Foo")))
-			.invoke();
-
-		assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), res.getStatus());
-	}
-
-	@Test
-	void testpatchPlayerOK(final WebTarget target) {
-		target.path("album/album").request().post(Entity.text(""));
-		final Player player = target
-			.path("album/player")
-			.request()
-			.post(Entity.xml(new Player("Raymond")))
-			.readEntity(Player.class);
-
-		player.setName("Robert");
-
-		final Player playerWithNewName = target
-			.path("album/player")
-			.request()
-			.build("PATCH", Entity.json(player))
-			.invoke()
-			.readEntity(Player.class);
-
-		assertEquals("Robert", playerWithNewName.getName());
-		assertEquals(player.getId(), playerWithNewName.getId());
-	}
-
-	@Test
-	public void testPostPlayercard(final WebTarget target) throws UnsupportedEncodingException {
-		target.path("album/album").request().post(Entity.text(""));
-		final Player player = target
-			.path("album/player")
-			.request()
-			.post(Entity.json(new Player("Raymond")))
-			.readEntity(Player.class);
-
-		final Response res = target
-			.path("album/playercard/" +
-				player.getId() + "/" +
-				URLEncoder.encode(LocalDateTime.of(2019, 1, 23, 12, 0).
-					format(DateTimeFormatter.ISO_DATE_TIME), "UTF-8") + "/" +
-				URLEncoder.encode("pic/gernot.jpg", "UTF-8") + "/" +
-				URLEncoder.encode("pic/foo.jpg", "UTF-8"))
-			.request()
-			.post(Entity.text(""));
-
-		final PlayerCard card = res.readEntity(PlayerCard.class);
-
-		assertEquals(Response.Status.OK.getStatusCode(), res.getStatus());
-		assertNotNull(card);
-		assertTrue(card.getId() > 0);
-	}
-
-	@Test
-	void testDeletePlayerCard(final WebTarget target) throws UnsupportedEncodingException {
-		target.path("album/album").request().post(Entity.text(""));
-		final Player player = target.path("album/player").request().post(Entity.json(new Player("Raymond"))).readEntity(Player.class);
-		final PlayerCard card = target.path("album/playercard/" +
-				player.getId() + "/" +
-				URLEncoder.encode(LocalDateTime.of(2019, 1, 23, 12, 0).
-					format(DateTimeFormatter.ISO_DATE_TIME), "UTF-8") + "/" +
-				URLEncoder.encode("pic/gernot.jpg", "UTF-8") + "/" +
-				URLEncoder.encode("pic/foo.jpg", "UTF-8"))
-			.request()
-			.post(Entity.text("")).readEntity(PlayerCard.class);
-
-		final Response res = target.path("album/playercard/" + card.getId()).request().delete();
-
-		assertEquals(Response.Status.OK.getStatusCode(), res.getStatus());
-	}
-
-	@Test
-	void testDeletePlayerCardKO(final WebTarget target) throws UnsupportedEncodingException {
-		target.path("album/album").request().post(Entity.text(""));
-		final Player player = target.path("album/player").request().post(Entity.json(new Player("Raymond"))).readEntity(Player.class);
-		target.path("album/playercard/" +
-				player.getId() + "/" +
-				URLEncoder.encode(LocalDateTime.of(2019, 1, 23, 12, 0).
-					format(DateTimeFormatter.ISO_DATE_TIME), "UTF-8") + "/" +
-				URLEncoder.encode("pic/gernot.jpg", "UTF-8") + "/" +
-				URLEncoder.encode("pic/foo.jpg", "UTF-8"))
-			.request()
-			.post(Entity.text(""));
-
-		final Response res = target.path("album/playercard/15146846").request().delete();
-
-		assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), res.getStatus());
-	}
+//	@Nested
+//	class PostPlayerCard {
+//		PlayerCardDTO cardDTO;
+//
+//		@BeforeEach
+//		void setUp(final WebTarget target) {
+//			target
+//				.path("album/album")
+//				.request()
+//				.post(Entity.text(""));
+//
+//			final Player player = target
+//				.path("album/player")
+//				.request()
+//				.post(Entity.json(new Player("Raymond")))
+//				.readEntity(Player.class);
+//
+//			cardDTO = new PlayerCardDTO(player.getId(),
+//				LocalDateTime.of(2019, 1, 23, 12, 0).format(DateTimeFormatter.ISO_DATE_TIME),
+//				"https://3.bp.blogspot.com/-CvBaKv_U0W4/Tq61vTIs0lI/AAAAAAAATw8/0TLHyZ-jJqQ/s1600/Tony+VAIRELLES+Panini+France+2000.png");
+//		}
+//
+//		@Test
+//		@DisplayName("Posting a player card should work")
+//		public void testPostPlayercard(final WebTarget target) {
+//			final Response res = target
+//				.path("album/playercard")
+//				.request()
+//				.post(Entity.json(cardDTO));
+//
+//			final PlayerCard card = res.readEntity(PlayerCard.class);
+//
+//			assertEquals(Response.Status.OK.getStatusCode(), res.getStatus());
+//			assertNotNull(card);
+//			assertTrue(card.getId() > 0);
+//		}
+//
+//		@Test
+//		@DisplayName("Posting a player card should work")
+//		public void testPostPlayercardCrashWithNoPicture(final WebTarget target) {
+//			cardDTO.img = null;
+//			final Response res = target
+//				.path("album/playercard")
+//				.request()
+//				.post(Entity.json(cardDTO));
+//
+//			assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), res.getStatus());
+//			assertNull(res.readEntity(PlayerCard.class));
+//		}
+//
+//		@Test
+//		@DisplayName("Crash the database while posting a player card should be supported")
+//		public void testPostPlayercardCrashDB(final WebTarget target) {
+//			em.getTransaction().begin();
+//			final Response res = target
+//				.path("album/playercard")
+//				.request()
+//				.post(Entity.json(cardDTO));
+//
+//			assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), res.getStatus());
+//			assertNull(res.readEntity(PlayerCard.class));
+//		}
+//
+//
+//		@Test
+//		@DisplayName("Crash the database while posting a player card should not block be app")
+//		public void testPostPlayercardCrashDBOKAfter(final WebTarget target) {
+//			em.getTransaction().begin();
+//			target
+//				.path("album/playercard")
+//				.request()
+//				.post(Entity.json(cardDTO));
+//
+//			final Response res = target
+//				.path("album/playercard")
+//				.request()
+//				.post(Entity.json(cardDTO));
+//
+//			final PlayerCard card = res.readEntity(PlayerCard.class);
+//
+//			assertEquals(Response.Status.OK.getStatusCode(), res.getStatus());
+//			assertNotNull(card);
+//			assertTrue(card.getId() > 0);
+//		}
+//
+//		@Test
+//		@DisplayName("Posting a playercard that uses an unkown player should not work")
+//		public void testPostPlayercardWithUnkownPlayer(final WebTarget target) {
+//			cardDTO.id = 1000;
+//
+//			final Response res = target
+//				.path("album/playercard")
+//				.request()
+//				.post(Entity.json(cardDTO));
+//
+//
+//			assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), res.getStatus());
+//			assertNull(res.readEntity(PlayerCard.class));
+//		}
+//	}
+//
+//
+//
+//	@Test
+//	@DisplayName("Deleting a player card without any album should be managed")
+//	void testDeletePlayerCardNoAlbum(final WebTarget target) {
+//		final Response res = target
+//			.path("album/playercard/1")
+//			.request()
+//			.delete();
+//
+//		assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), res.getStatus());
+//	}
+//
+//	@Nested
+//	class DeletePlayerCard {
+//		PlayerCard card;
+//
+//		@BeforeEach
+//		void setUp(final WebTarget target) {
+//			target
+//				.path("album/album")
+//				.request()
+//				.post(Entity.text(""));
+//
+//			final Player player = target
+//				.path("album/player")
+//				.request()
+//				.post(Entity.json(new Player("Raymond")))
+//				.readEntity(Player.class);
+//
+//			final PlayerCardDTO cardDTO = new PlayerCardDTO(player.getId(),
+//				LocalDateTime.of(2019, 1, 23, 12, 0).format(DateTimeFormatter.ISO_DATE_TIME),
+//				"https://3.bp.blogspot.com/-CvBaKv_U0W4/Tq61vTIs0lI/AAAAAAAATw8/0TLHyZ-jJqQ/s1600/Tony+VAIRELLES+Panini+France+2000.png");
+//
+//			card = target
+//				.path("album/playercard")
+//				.request()
+//				.post(Entity.json(cardDTO))
+//				.readEntity(PlayerCard.class);
+//		}
+//
+//		@Test
+//		@DisplayName("Deleting a player card should work")
+//		void testDeletePlayerCard(final WebTarget target) {
+//			final Response res = target
+//				.path("album/playercard/" + card.getId())
+//				.request()
+//				.delete();
+//
+//			assertEquals(Response.Status.OK.getStatusCode(), res.getStatus());
+//		}
+//
+//		@Test
+//		@DisplayName("Deleting a player card without any album should be managed")
+//		void testDeletePlayerCardCrash(final WebTarget target) {
+//			em.getTransaction().begin();
+//			final Response res = target
+//				.path("album/playercard/" + card.getId())
+//				.request()
+//				.delete();
+//
+//			assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), res.getStatus());
+//		}
+//
+//		@Test
+//		@DisplayName("Deleting a player card after a database crash shoulb work")
+//		void testDeletePlayerCardCrashOkAfter(final WebTarget target) {
+//			em.getTransaction().begin();
+//			target
+//				.path("album/playercard/" + card.getId())
+//				.request()
+//				.delete();
+//
+//			final Response res = target
+//				.path("album/playercard/" + card.getId())
+//				.request()
+//				.delete();
+//
+//			assertEquals(Response.Status.OK.getStatusCode(), res.getStatus());
+//		}
+//
+//		@Test
+//		@DisplayName("Deleting a player card with an incorrect ID should be managed")
+//		void testDeletePlayerCardNoID(final WebTarget target) {
+//			final Response res = target
+//				.path("album/playercard/" + 100)
+//				.request()
+//				.delete();
+//
+//			assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), res.getStatus());
+//		}
+//	}
 }

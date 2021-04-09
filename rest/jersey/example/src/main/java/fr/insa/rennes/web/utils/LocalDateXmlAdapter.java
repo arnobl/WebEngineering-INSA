@@ -1,4 +1,4 @@
-package fr.insa.rennes.web.model;
+package fr.insa.rennes.web.utils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
