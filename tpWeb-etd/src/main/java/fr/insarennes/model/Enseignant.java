@@ -4,7 +4,7 @@ import com.google.common.base.MoreObjects;
 import java.util.Objects;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+//@XmlRootElement
 public class Enseignant extends CalendarElement {
 	private String name;
 
