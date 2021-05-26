@@ -8,7 +8,6 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -33,7 +32,7 @@ public class TestPlayerResource extends TestResource {
 		// To do so (for both XML and Json), the object's class must be tagged with the annotation @XmlRootElement.
 		// A Response object is returned by the server.
 		final Response responseMsg = target
-			.path("player/player")
+			.path("api/player/player")
 			.request()
 			.post(Entity.xml(player));
 
@@ -55,7 +54,7 @@ public class TestPlayerResource extends TestResource {
 	void testPostPlayerCrashDBOkAfter(final WebTarget target) {
 		em.getTransaction().begin();
 		final Response responseMsg = target
-			.path("player/player")
+			.path("api/player/player")
 			.request()
 			.post(Entity.xml(new Player("Raymond")));
 
@@ -68,7 +67,7 @@ public class TestPlayerResource extends TestResource {
 	@DisplayName("Crashing the database while posting a new player should be supported")
 	void testPostPlayerCrashWithNull(final WebTarget target) {
 		final Response responseMsg = target
-			.path("player/player")
+			.path("api/player/player")
 			.request()
 			.post(Entity.xml(new Player(null)));
 
@@ -83,12 +82,12 @@ public class TestPlayerResource extends TestResource {
 		final Player player = new Player("Raymond");
 		em.getTransaction().begin();
 		target
-			.path("player/player")
+			.path("api/player/player")
 			.request()
 			.post(Entity.xml(player));
 
 		final Response responseMsg = target
-			.path("player/player")
+			.path("api/player/player")
 			.request()
 			.post(Entity.xml(player));
 
@@ -103,7 +102,7 @@ public class TestPlayerResource extends TestResource {
 	@DisplayName("Getting the players when no player should return en empty list")
 	void getPlayersWithEmptyAlbum(final WebTarget target) {
 		final Response responseMsg = target
-			.path("player/players")
+			.path("api/player/players")
 			.request()
 			.get();
 
@@ -119,7 +118,7 @@ public class TestPlayerResource extends TestResource {
 		@BeforeEach
 		void setUp(final WebTarget target) {
 			player = target
-				.path("player/player")
+				.path("api/player/player")
 				.request()
 				.post(Entity.xml(new Player("Raymond")))
 				.readEntity(Player.class);
@@ -129,7 +128,7 @@ public class TestPlayerResource extends TestResource {
 		@DisplayName("Getting all the players should work")
 		void testGetPlayerOK(final WebTarget target) {
 			final Response responseAfterPost = target
-				.path("player/players/" + player.getName())
+				.path("api/player/players/" + player.getName())
 				.request()
 				.get();
 
@@ -144,7 +143,7 @@ public class TestPlayerResource extends TestResource {
 		@DisplayName("Changing the name of a player that does not exist should be supported")
 		void testChangePlayerNameKO(final WebTarget target) {
 			final Response res = target
-				.path("player/player/30/Robert")
+				.path("api/player/player/30/Robert")
 				.request()
 				.put(Entity.text(""));
 
@@ -155,7 +154,7 @@ public class TestPlayerResource extends TestResource {
 		@DisplayName("Changing the name of a player that exists should work")
 		void testChangePlayerNameOK(final WebTarget target) {
 			final Player playerWithNewName = target
-				.path("player/player/" + player.getId() + "/Robert")
+				.path("api/player/player/" + player.getId() + "/Robert")
 				.request()
 				.put(Entity.text(""))
 				.readEntity(Player.class);
@@ -169,7 +168,7 @@ public class TestPlayerResource extends TestResource {
 		void testChangePlayerNameCrashOK(final WebTarget target) {
 			em.getTransaction().begin();
 			final Response res = target
-				.path("player/player/" + player.getId() + "/Robert")
+				.path("api/player/player/" + player.getId() + "/Robert")
 				.request()
 				.put(Entity.text(""));
 
@@ -182,12 +181,12 @@ public class TestPlayerResource extends TestResource {
 		void testChangePlayerNameAfterCrashOK(final WebTarget target) {
 			em.getTransaction().begin();
 			target
-				.path("player/player/" + player.getId() + "/Robert")
+				.path("api/player/player/" + player.getId() + "/Robert")
 				.request()
 				.put(Entity.text(""));
 
 			final Player playerWithNewName = target
-				.path("player/player/" + player.getId() + "/Robert")
+				.path("api/player/player/" + player.getId() + "/Robert")
 				.request()
 				.put(Entity.text(""))
 				.readEntity(Player.class);
@@ -197,12 +196,11 @@ public class TestPlayerResource extends TestResource {
 		}
 
 
-		@Disabled
 		@Test
 		@DisplayName("Changing the name of a player that does not exist should be supported")
 		void testPatchPlayerKO(final WebTarget target) {
 			final Response res = target
-				.path("player/player/")
+				.path("api/player/player/")
 				.request()
 				.build("PATCH", Entity.json(new Player("Foo")))
 				.invoke();
@@ -210,14 +208,13 @@ public class TestPlayerResource extends TestResource {
 			assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), res.getStatus());
 		}
 
-		@Disabled
 		@Test
 		@DisplayName("Changing the name of a player that exists should work")
 		void testpatchPlayerOK(final WebTarget target) {
 			player.setName("Robert");
 
 			final Player playerWithNewName = target
-				.path("player/player")
+				.path("api/player/player")
 				.request()
 				.build("PATCH", Entity.json(player))
 				.invoke()
@@ -228,7 +225,6 @@ public class TestPlayerResource extends TestResource {
 		}
 
 
-		@Disabled
 		@Test
 		@DisplayName("Crashing the database while changing the name should be supported")
 		void testpatchPlayerCrashOK(final WebTarget target) {
@@ -236,7 +232,7 @@ public class TestPlayerResource extends TestResource {
 
 			em.getTransaction().begin();
 			final Response res = target
-				.path("player/player")
+				.path("api/player/player")
 				.request()
 				.build("PATCH", Entity.json(player))
 				.invoke();

@@ -16,7 +16,7 @@ public class TestAlbumResource extends TestResource {
 	@DisplayName("A wrong route should not be found")
 	void testWrongRoute(final WebTarget target) {
 		final Response responseMsg = target
-			.path("album/album/foo")
+			.path("api/album/album/foo")
 			.request()
 			.get();
 
@@ -27,7 +27,7 @@ public class TestAlbumResource extends TestResource {
 	@DisplayName("Getting an album when no one is created should return null")
 	void testgetAlbumNull(final WebTarget target) {
 		final Response responseMsg = target
-			.path("album/album/1")
+			.path("api/album/album/1")
 			.request()
 			.get();
 
@@ -39,7 +39,7 @@ public class TestAlbumResource extends TestResource {
 	@DisplayName("Posting an album should work")
 	void testPostAlbum(final WebTarget target) {
 		final Response responseMsg = target
-			.path("album/album")
+			.path("api/album/album")
 			.request()
 			.post(Entity.text(""));
 
@@ -60,7 +60,7 @@ public class TestAlbumResource extends TestResource {
 		tr.begin();
 
 		final Response responseMsg = target
-			.path("album/album")
+			.path("api/album/album")
 			.request()
 			.post(Entity.text(""));
 
@@ -75,12 +75,12 @@ public class TestAlbumResource extends TestResource {
 		tr.begin();
 
 		target
-			.path("album/album")
+			.path("api/album/album")
 			.request()
 			.post(Entity.text(""));
 
 		final Response responseMsg = target
-			.path("album/album")
+			.path("api/album/album")
 			.request()
 			.post(Entity.text(""));
 
@@ -93,13 +93,13 @@ public class TestAlbumResource extends TestResource {
 	@DisplayName("Getting an album when one is created should return the album")
 	void testgetAlbum(final WebTarget target) {
 		final var album = target
-			.path("album/album")
+			.path("api/album/album")
 			.request()
 			.post(Entity.text(""))
 			.readEntity(Album.class);
 
 		final Response responseMsg = target
-			.path("album/album/" + album.getId())
+			.path("api/album/album/" + album.getId())
 			.request()
 			.get();
 
@@ -111,12 +111,12 @@ public class TestAlbumResource extends TestResource {
 	@DisplayName("Posting a new album when one album already exists should replace this last")
 	void testPostANewAlbum(final WebTarget target) {
 		target
-			.path("album/album")
+			.path("api/album/album")
 			.request()
 			.post(Entity.text(""));
 
 		final Response responseMsg = target
-			.path("album/album")
+			.path("api/album/album")
 			.request()
 			.post(Entity.text(""));
 
@@ -130,19 +130,19 @@ public class TestAlbumResource extends TestResource {
 //	@DisplayName("Adding a player into an album should work")
 //	void testAddPlayerIntoAnAlbum(final WebTarget target) {
 //		final var album = target
-//			.path("album")
+//			.path("api/album")
 //			.request()
 //			.post(Entity.text(""))
 //			.readEntity(Album.class);
 //
 //		final var player = target
-//			.path("player")
+//			.path("api/player")
 //			.request()
 //			.post(Entity.xml(new Player("Footix")))
 //			.readEntity(Player.class);
 //
 //		final Response responseMsg = target
-//			.path("album/player/" + album.getId() + "/" + player.getId())
+//			.path("api/album/player/" + album.getId() + "/" + player.getId())
 //			.request()
 //			.put(Entity.text(""));
 //
@@ -157,7 +157,7 @@ public class TestAlbumResource extends TestResource {
 //	@DisplayName("Posting a player card without an album should not work")
 //	public void testPostPlayercardNoAlbum(final WebTarget target) {
 //		final Response res = target
-//			.path("album/playercard")
+//			.path("api/album/playercard")
 //			.request()
 //			.post(Entity.json(new PlayerCardDTO(1,
 //				LocalDateTime.of(2019, 1, 23, 12, 0).format(DateTimeFormatter.ISO_DATE_TIME),"foo.png")));
@@ -172,12 +172,12 @@ public class TestAlbumResource extends TestResource {
 //		@BeforeEach
 //		void setUp(final WebTarget target) {
 //			target
-//				.path("album/album")
+//				.path("api/album/album")
 //				.request()
 //				.post(Entity.text(""));
 //
 //			final Player player = target
-//				.path("album/player")
+//				.path("api/album/player")
 //				.request()
 //				.post(Entity.json(new Player("Raymond")))
 //				.readEntity(Player.class);
@@ -191,7 +191,7 @@ public class TestAlbumResource extends TestResource {
 //		@DisplayName("Posting a player card should work")
 //		public void testPostPlayercard(final WebTarget target) {
 //			final Response res = target
-//				.path("album/playercard")
+//				.path("api/album/playercard")
 //				.request()
 //				.post(Entity.json(cardDTO));
 //
@@ -207,7 +207,7 @@ public class TestAlbumResource extends TestResource {
 //		public void testPostPlayercardCrashWithNoPicture(final WebTarget target) {
 //			cardDTO.img = null;
 //			final Response res = target
-//				.path("album/playercard")
+//				.path("api/album/playercard")
 //				.request()
 //				.post(Entity.json(cardDTO));
 //
@@ -220,7 +220,7 @@ public class TestAlbumResource extends TestResource {
 //		public void testPostPlayercardCrashDB(final WebTarget target) {
 //			em.getTransaction().begin();
 //			final Response res = target
-//				.path("album/playercard")
+//				.path("api/album/playercard")
 //				.request()
 //				.post(Entity.json(cardDTO));
 //
@@ -234,12 +234,12 @@ public class TestAlbumResource extends TestResource {
 //		public void testPostPlayercardCrashDBOKAfter(final WebTarget target) {
 //			em.getTransaction().begin();
 //			target
-//				.path("album/playercard")
+//				.path("api/album/playercard")
 //				.request()
 //				.post(Entity.json(cardDTO));
 //
 //			final Response res = target
-//				.path("album/playercard")
+//				.path("api/album/playercard")
 //				.request()
 //				.post(Entity.json(cardDTO));
 //
@@ -256,7 +256,7 @@ public class TestAlbumResource extends TestResource {
 //			cardDTO.id = 1000;
 //
 //			final Response res = target
-//				.path("album/playercard")
+//				.path("api/album/playercard")
 //				.request()
 //				.post(Entity.json(cardDTO));
 //
@@ -272,7 +272,7 @@ public class TestAlbumResource extends TestResource {
 //	@DisplayName("Deleting a player card without any album should be managed")
 //	void testDeletePlayerCardNoAlbum(final WebTarget target) {
 //		final Response res = target
-//			.path("album/playercard/1")
+//			.path("api/album/playercard/1")
 //			.request()
 //			.delete();
 //
@@ -286,12 +286,12 @@ public class TestAlbumResource extends TestResource {
 //		@BeforeEach
 //		void setUp(final WebTarget target) {
 //			target
-//				.path("album/album")
+//				.path("api/album/album")
 //				.request()
 //				.post(Entity.text(""));
 //
 //			final Player player = target
-//				.path("album/player")
+//				.path("api/album/player")
 //				.request()
 //				.post(Entity.json(new Player("Raymond")))
 //				.readEntity(Player.class);
@@ -301,7 +301,7 @@ public class TestAlbumResource extends TestResource {
 //				"https://3.bp.blogspot.com/-CvBaKv_U0W4/Tq61vTIs0lI/AAAAAAAATw8/0TLHyZ-jJqQ/s1600/Tony+VAIRELLES+Panini+France+2000.png");
 //
 //			card = target
-//				.path("album/playercard")
+//				.path("api/album/playercard")
 //				.request()
 //				.post(Entity.json(cardDTO))
 //				.readEntity(PlayerCard.class);
@@ -311,7 +311,7 @@ public class TestAlbumResource extends TestResource {
 //		@DisplayName("Deleting a player card should work")
 //		void testDeletePlayerCard(final WebTarget target) {
 //			final Response res = target
-//				.path("album/playercard/" + card.getId())
+//				.path("api/album/playercard/" + card.getId())
 //				.request()
 //				.delete();
 //
@@ -323,7 +323,7 @@ public class TestAlbumResource extends TestResource {
 //		void testDeletePlayerCardCrash(final WebTarget target) {
 //			em.getTransaction().begin();
 //			final Response res = target
-//				.path("album/playercard/" + card.getId())
+//				.path("api/album/playercard/" + card.getId())
 //				.request()
 //				.delete();
 //
@@ -335,12 +335,12 @@ public class TestAlbumResource extends TestResource {
 //		void testDeletePlayerCardCrashOkAfter(final WebTarget target) {
 //			em.getTransaction().begin();
 //			target
-//				.path("album/playercard/" + card.getId())
+//				.path("api/album/playercard/" + card.getId())
 //				.request()
 //				.delete();
 //
 //			final Response res = target
-//				.path("album/playercard/" + card.getId())
+//				.path("api/album/playercard/" + card.getId())
 //				.request()
 //				.delete();
 //
@@ -351,7 +351,7 @@ public class TestAlbumResource extends TestResource {
 //		@DisplayName("Deleting a player card with an incorrect ID should be managed")
 //		void testDeletePlayerCardNoID(final WebTarget target) {
 //			final Response res = target
-//				.path("album/playercard/" + 100)
+//				.path("api/album/playercard/" + 100)
 //				.request()
 //				.delete();
 //
