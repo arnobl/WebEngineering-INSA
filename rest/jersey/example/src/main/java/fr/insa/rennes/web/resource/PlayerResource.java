@@ -25,7 +25,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Singleton
-@Path("player")
+@Path("api/player")
 @Api(value = "player")
 public class PlayerResource {
 	private static final Logger LOGGER = Logger.getAnonymousLogger();
@@ -41,6 +41,11 @@ public class PlayerResource {
 	public PlayerResource(final EntityManager em) {
 		super();
 		this.em = em;
+
+		postPlayer(new Player("Raymond Kopa"));
+		postPlayer(new Player("Antoine Rigaudeau"));
+		postPlayer(new Player("Jim Bilba"));
+		postPlayer(new Player("Bruno Coqueran"));
 	}
 
 
@@ -55,7 +60,7 @@ public class PlayerResource {
 	@POST
 	@Path("player")
 	@Consumes({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
-	@Produces(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response postPlayer(final Player pl) {
 		final EntityTransaction tr = em.getTransaction();
 		try {

@@ -25,7 +25,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Singleton
-@Path("card")
+@Path("api/card")
 @Api(value = "card")
 public class PlayerCardResource {
 	private static final Logger LOGGER = Logger.getAnonymousLogger();

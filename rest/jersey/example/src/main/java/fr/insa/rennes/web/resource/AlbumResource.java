@@ -20,7 +20,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Singleton
-@Path("album")
+@Path("api/album")
 @Api(value = "album")
 public class AlbumResource {
 	private static final Logger LOGGER = Logger.getAnonymousLogger();
