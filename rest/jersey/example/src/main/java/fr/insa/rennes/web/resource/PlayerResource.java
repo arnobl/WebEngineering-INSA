@@ -41,11 +41,6 @@ public class PlayerResource {
 	public PlayerResource(final EntityManager em) {
 		super();
 		this.em = em;
-
-		postPlayer(new Player("Raymond Kopa"));
-		postPlayer(new Player("Antoine Rigaudeau"));
-		postPlayer(new Player("Jim Bilba"));
-		postPlayer(new Player("Bruno Coqueran"));
 	}
 
 
