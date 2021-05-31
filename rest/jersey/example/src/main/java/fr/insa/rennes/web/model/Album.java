@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @Entity
@@ -21,6 +22,7 @@ public class Album extends ModelElement {
 	@OneToMany(mappedBy = "album", // The back reference to the album in the PlayerCard class. Note that the use of a string is not very maintainable.
 		cascade = CascadeType.ALL, // This means that if an Album is persisted, all its cards will be also persisted.
 		fetch = FetchType.LAZY) // Cards are loaded on demand only.
+	@XmlIDREF
 	private final Set<PlayerCard> cards;
 
 

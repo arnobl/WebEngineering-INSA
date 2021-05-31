@@ -7,6 +7,7 @@ import fr.insa.rennes.web.utils.DBFactory;
 import fr.insa.rennes.web.utils.MyExceptionMapper;
 import java.io.IOException;
 import java.net.URI;
+import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import org.apache.log4j.BasicConfigurator;
 import org.glassfish.grizzly.http.server.CLStaticHttpHandler;
@@ -30,7 +31,7 @@ public final class Main {
 			.register(new AbstractBinder() {
 				@Override
 				protected void configure() {
-					bindFactory(DBFactory.class).to(EntityManager.class);
+					bindFactory(DBFactory.class).to(EntityManager.class).in(Singleton.class);
 				}
 			})
 //			.register(MoxyJsonFeature.class)

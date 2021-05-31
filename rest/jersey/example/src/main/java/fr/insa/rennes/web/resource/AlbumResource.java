@@ -1,6 +1,7 @@
 package fr.insa.rennes.web.resource;
 
 import fr.insa.rennes.web.model.Album;
+import fr.insa.rennes.web.model.PlayerCard;
 import io.swagger.annotations.Api;
 import java.net.HttpURLConnection;
 import java.util.logging.Level;
@@ -12,6 +13,7 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.RollbackException;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -70,31 +72,20 @@ public class AlbumResource {
 		return album;
 	}
 
-//	@PUT
-//	@Path("player/{ida}/{idp}")
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public Album addPlayer(@PathParam("ida") final int ida, @PathParam("idp") final int idp) {
-//		final Player player = em.find(Player.class, idp);
-//		final Album album = em.find(Album.class, ida);
-//		if(player == null || album == null) {
-//			throw new WebApplicationException(HttpURLConnection.HTTP_BAD_REQUEST);
-//		}
-//
-//		final EntityTransaction tr = em.getTransaction();
-//		try {
-//			album.addPlayer(player);
-//			tr.begin();
-//			em.merge(album);
-//			tr.commit();
-//
-//			return album;
-//		}catch(final RollbackException | IllegalStateException ex) {
-//			if(tr.isActive()) {
-//				tr.rollback();
-//			}
-//			LOGGER.log(Level.SEVERE, "Crash on adding a player to an album", ex);
-//			// A Web exception is then thrown.
-//			throw new WebApplicationException(HttpURLConnection.HTTP_BAD_REQUEST);
-//		}
-//	}
+	@PUT
+	@Path("album/card/{id}/{idCard}")
+	public void addCardInAlbum(@PathParam("id") final int idAlbum, @PathParam("idCard") final int idCard) {
+		final Album album = em.find(Album.class, idAlbum);
+		final PlayerCard card = em.find(PlayerCard.class, idCard);
+
+		if(album == null || card == null) {
+			throw new WebApplicationException("incorrect resources", HttpURLConnection.HTTP_BAD_REQUEST);
+		}
+
+		if(album.getCards().contains(card)) {
+			throw new WebApplicationException("This album already has this card", HttpURLConnection.HTTP_BAD_REQUEST);
+		}
+
+		album.addCard(card);
+	}
 }
