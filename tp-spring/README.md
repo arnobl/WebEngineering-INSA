@@ -1,4 +1,11 @@
 
+# Préambule
+
+Le sujet est tout neuf et contient certainement des erreurs. N'hésitez pas à me les indiquer. Également, faites le sujet à votre vitesse : ce sujet fera l'objet de plusieurs séances de TP (voire toutes) ; les séances de TP ne sont pas associées à des séries de questions. 
+
+N'hésitez pas à nous demander des explications sur des concepts Java/POO que vous ne comprenez pas.
+
+
 # Compétences visées
 
 - Créer un back-end Java avec Spring
@@ -18,7 +25,7 @@
 
 # Sujet
 
-Opérations CRUD pour des todos.
+Le sujet des TP concerne la création d'un back-end pour réaliser des opérations CRUD pour des todos.
 
 ```mermaid
 classDiagram
@@ -46,7 +53,7 @@ classDiagram
     Category "* categories" <-- Todo 
 ```
 
-# Préambule
+# Prérequis logiciels
 
 - Les vrais sont sous Linux. En ce qui concerne les autres, vous pouvez toujours vous y mettre.
 
