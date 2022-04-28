@@ -53,6 +53,9 @@ classDiagram
     Category "* categories" <-- Todo 
 ```
 
+Par simplification du problème, nous considérerons le nom d'un utilisateur comme clé unique. De même, le nom d'une todo list sera unique par utilisateur. Le titre d'un todo sera unique par todo list.
+
+
 # Prérequis logiciels
 
 - Les vrais sont sous Linux. En ce qui concerne les autres, vous pouvez toujours vous y mettre.
@@ -121,7 +124,7 @@ Cf le cours vers la page 56 pour un exemple.
 
 - Ajouter un attribut `users` dans la classe de la ressource REST `TodoV1` dont le type sera une liste de `User`.
 
-- Ajouter une route `POST` user pour créer un nouvel utilisateur en utilisant son nom uniquement. Nous considérons le nom d'un utilisateur comme clé unique : le `POST` doit vérifier qu'aucun utilisateur existant porte déjà ce nom. Ce nouvel utilisateur sera ajouter à la liste `users`.
+- Ajouter une route `POST user` pour créer un nouvel utilisateur en utilisant son nom uniquement. Nous considérons le nom d'un utilisateur comme clé unique : le `POST` doit vérifier qu'aucun utilisateur existant porte déjà ce nom. Ce nouvel utilisateur sera ajouter à la liste `users`.
 
 - Tester avec Postman
 
@@ -142,8 +145,34 @@ Le patch permet de modifier les attributs d'un objet. Mais la classe `User` cont
 - Tester avec Postman
 
 
+### Q1.9
 
-## Plus tard
+- Ajouter une requête `POST todolist/{userName}`. Cette requête doit avoir un paramètre `idName` correspondant au nom de l'utilisateur à qui il faut ajouter la todo list (embarquée dans le body de la requête).<br/>
+Cela vous demandera de coder une méthode `findUser(String userName)` dans le contrôleur pour chercher un utilisateur dans la liste `users` en fonction d'un nom. Cette méthode retournera `null` si aucun utilisateur ne correspond au nom. 
+
+- Tester avec Postman
+
+
+### Q1.10
+
+
+- Modifier la requête `POST todo` pour que son URI soit désormais `todo/{userName}/{todolistName}`. En effet, l'ajout d'un todo requière le nom de la todo list ainsi que le nom de l'utilisateur. Modifier le code de cette requête pour qu'elle ajoute le todo envoyé dans la todo list de destination (ne rien faire si pas possible).<br/>
+Cela vous demandera de coder : une méthode `findTodoList(String todolistName)` dans la classe `User` ; une methode `findTodo(String todoTitle)` dans la classe `TodoList` ; une méthode `findTodo(String userName, String todolistName)` dans le contrôleur.
+
+
+- Tester avec Postman
+
+# Exercice 2
+
+
+### Q2.1
+
+- Créer une classe de tests `TestTodoList` (dans `src/test/java/web/model`) pour y tester la méthode `findTodo`.
+
+- Créer une classe de tests `TestUser` (dans `src/test/java/web/model`) pour y tester la méthode `findTodoList`.
+
+
+### Q2.2
 
 - Écrire un test JUnit qui testera la route `GET todo` (les données et le code HTTP retournés). Pour cela créer une classe de test `TestTodoV1` dans `src/test/java/web/controller`. Cf le cours pour comment tester avec Spring (vers la page 67). Il n'y a pour l'instant pas de service à pré-cabler (`@Autowired`), juste le classique `MockMvc`. Raccourci clavier pour importer une méthode statique (telle que `get()`) : curseur positionné sur la méthode -> `alt+entrée` -> *import static method* -> trouver la bonne méthode. Pour le `get` de Spring, le package à importer est :<br/>
  `import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;`
@@ -156,7 +185,8 @@ Ainsi, lors de l'ajout d'un nouvel attribut, le test ne passera plus et il faudr
 
 
 
-## Plus tard
+### Q2.3
+
 - Tester (JUnit) que l'ajout (`POST todo`) ne crash pas : que le code de retour est bien `OK` (exemple vers page 73). Noter qu'en Java 17 vous pouvez écrire un *text block* :
 ```java
     .content("""
@@ -172,3 +202,50 @@ Un block de triple quote `""" """` permet de mettre ce que l'on veut à l'intér
 
 
 - De manière générale, comment tester qu'un ajout a bien fonctionné (on le fera plus tard) ?
+
+
+# Exercice 3
+
+Vous avez réalisé une version *v1* de l'API REST (avec peu de tests unitaires, mais on fera mieux par la suite).
+
+Cette *v1* souffre d'un défaut majeur : toutes les données sont contenues dans les contrôleurs REST de Spring (les attributs de la classe `TodoV1`). Le but de cet exercice est de réaliser une *v2* qui résoudra ce problème.
+
+### Q3.1
+
+- Pourquoi contenir les données dans les contrôleurs REST est une très mauvaises pratiques ?
+
+
+### Q3.2
+
+- Créer un nouveau contrôleur REST Spring `TodoV2` avec l'URI `'api/insa/v2/todo'` (cf le cours). Y copier-coller le contenu de `TodoV1`.
+
+### Q3.3
+
+- Créer un service `TodoService` (cf. à partir de la page 64 dans le cours). 
+
+
+- Y mettre les données (la liste de `user`) utilisées par `TodoV2` **ainsi que les méthodes `findUser` et `findTodo`**. 
+
+- `TodoV2` devra avoir un attribut du type de ce service et qui sera instancier, pour l'instant, dans le constructeur du contrôleur. Les routes devront alors passer par ce service pour accéder aux données et aux méthodes `findUser` et `findTodo`.
+
+
+### Q3.4
+
+En fait, c'est également un très mauvaise pratique d'instancier un service directement dans un contrôleur. Un service est un objet créé et géré par le serveur (l'application Spring) et fourni aux différents contrôleurs qui le demande. C'est le principe de l'injection de dépendances que nous verrons en 4INFO. Le but est de pourvoir partager un même service au travers de différents contrôleurs.
+
+- Faire comme dans le slide 67 : le service est un paramètre du constructeur du contrôleur et non instancié dans celui-ci.
+
+- Pour rappel, qui instancie les contrôleurs et les services, etc. ?
+
+
+### Q3.5
+
+- Créer une classe de tests `TestTodoV2` et y copier-coller le contenu de `TestTodoV1`. Modifier ensuite la classe de tests pour y ajouter un attribut :
+```java
+@Autowired
+private TodoService todoService;
+```
+
+- Compléter vos test existants pour utiliser ce service afin de vérifier que les requêtes REST ont bien un effet sur les données
+
+
