@@ -117,6 +117,7 @@ Cf. le cours vers la page 56 pour un exemple.
 
 - Créer une route REST `todo` (`POST`) qui recevra un objet `Todo` (en JSON, `consumes`) avec les données que vous voulez. Le type de retour de la route sera `void`.
 - La route affichera pour l'instant juste cet objet (`System.out.println(...)`).
+**Attention :** la sortie de `println` sera visible dans la console d'IntelliJ (et non dans Postman). 
 - Tester avec Curl (exemple vers page 51) et Postman (dans *body*, choisir *raw* au format *JSON* et écrire le JSON).
 
 
