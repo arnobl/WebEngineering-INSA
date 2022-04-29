@@ -149,7 +149,7 @@ Le patch permet de modifier les attributs d'un objet. Mais la classe `User` cont
 
 ### Q1.9
 
-- Ajouter une requête `POST todolist/{userName}`. Cette requête doit avoir un paramètre `idName` correspondant au nom de l'utilisateur à qui il faut ajouter la todo list (embarquée dans le body de la requête).<br/>
+- Ajouter une requête `POST todolist/{userName}`. Cette requête doit avoir un paramètre `userName` correspondant au nom de l'utilisateur à qui il faut ajouter la todo list (embarquée dans le body de la requête).<br/>
 Cela vous demandera de coder une méthode `findUser(String userName)` dans le contrôleur pour chercher un utilisateur dans la liste `users` en fonction d'un nom. Cette méthode retournera `null` si aucun utilisateur ne correspond au nom. 
 
 - Tester avec Postman
