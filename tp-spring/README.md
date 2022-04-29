@@ -74,7 +74,7 @@ Pas besoin de compte ni de licence.
 L'exemple du cours se trouve dans : `rest/springboot2`<br/>
 Le projet à utiliser pour le TP se trouve dans : `tp-spring`
 
-- Avec IntelliJ, pour charger le projet du TP : `open` -> aller chercher le fichier `pom.xml` du projet -> *Open as project* -> *Trust Project*.
+- Avec IntelliJ, pour charger le projet du TP : `open` → aller chercher le fichier `pom.xml` du projet → *Open as project* → *Trust Project*.
 
 
 # Exercice 1
