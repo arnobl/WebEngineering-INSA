@@ -194,7 +194,7 @@ Ainsi, lors de l'ajout d'un nouvel attribut, le test ne passera plus et il faudr
     "title": "title2",
     "privateDescription": "foo",
     "publicDescription": "bar,
-    "categories": ["ENTERTAINEMENT"]
+    "categories": ["ENTERTAINMENT"]
 }
 	"""))
 ```
