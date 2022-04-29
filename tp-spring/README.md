@@ -108,7 +108,7 @@ Cf. le cours vers la page 56 pour un exemple.
 
 ## Q1.4
 
-- Créer une route REST `todo` (`GET`) qui retourna au format JSON une nouvelle instance (que l'on ne stockera pas) de la classe `Todo` (donner les valeurs que vous voulez). Pour info, créer une liste (non mutable) avec juste un élément : `List.of(obj)`.
+- Créer une route REST `todo` (`GET`) qui retourna au format JSON une nouvelle instance (que l'on ne stockera pas) de la classe `Todo` (donner les valeurs que vous voulez).
 - Tester dans le navigateur
 - Tester en ligne de commande avec curl
 - Tester avec Postman (créer un nouvel onglet)
@@ -116,7 +116,7 @@ Cf. le cours vers la page 56 pour un exemple.
 ## Q1.5
 
 - Créer une route REST `todo` (`POST`) qui recevra un objet `Todo` (en JSON, `consumes`) avec les données que vous voulez. Le type de retour de la route sera `void`.
-- La route affichera pour l'instant juste cet objet
+- La route affichera pour l'instant juste cet objet (`System.out.println(...)`).
 - Tester avec Curl (exemple vers page 51) et Postman (dans *body*, choisir *raw* au format *JSON* et écrire le JSON).
 
 
