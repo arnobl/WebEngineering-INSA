@@ -122,7 +122,8 @@ Cf. le cours vers la page 56 pour un exemple.
 
 ## Q1.6
 
-- Ajouter un attribut `users` dans la classe de la ressource REST `TodoV1` dont le type sera une liste de `User`.
+- Ajouter un attribut `users` dans la classe de la ressource REST `TodoV1` dont le type sera une liste de `User`. 
+- Cet attribut sera instancié dans le contructeur (à créer) du contrôleur.
 
 - Ajouter une route `POST user` pour créer un nouvel utilisateur en utilisant son nom uniquement. Nous considérons le nom d'un utilisateur comme clé unique : le `POST` doit vérifier qu'aucun utilisateur existant porte déjà ce nom. Ce nouvel utilisateur sera ajouter à la liste `users`.
 
