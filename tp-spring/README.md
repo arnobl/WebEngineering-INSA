@@ -14,7 +14,7 @@ N'hésitez pas à nous demander des explications sur des concepts Java/POO que v
 
 - Marshaller et démarshaller des données de manière adéquate (DTO) 
 
-- Tester une API REST de manières manuelle et automatique (JUnit, Postman, curl)
+- Tester une API REST de manière manuelle et automatique (JUnit, Postman, curl)
 
 - Mettre en place une authentification
 
@@ -43,10 +43,10 @@ classDiagram
     class Category {
         <<enumeration>>
 
-        HIGH_PRIORTY
-        LOW_PRIORTY
+        HIGH_PRIORITY
+        LOW_PRIORITY
         WORK
-        ENTERTAINEMENT
+        ENTERTAINMENT
     }
     User "1 user" *-- "* lists" TodoList
     Todo "* todos" --* "1 list" TodoList
