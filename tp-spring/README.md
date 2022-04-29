@@ -89,26 +89,26 @@ Le projet à utiliser pour le TP se trouve dans : `tp-spring`
 @Setter
 @ToString
 ```
-Cf le cours vers la page 56 pour un exemple.
+Cf. le cours vers la page 56 pour un exemple.
 
 - À votre avis, comment fonctionne *lombok* d'après nos discussions en cours ?
 
 
 ## Q1.2
 
-- Dans le package `web.controller` créer un contrôleur `TodoV1` REST avec l'URI `'api/insa/v1/todo'` (cf le cours).
-- Y ajouter une route REST `GET` avec l'URI `'hello'` (cf cours). Cette méthode devra juste retourne une chaîne de caractères `'hello'` (attention au paramètre `produces` pour qu'il soit `MediaType.TEXT_PLAIN_VALUE`).
+- Dans le package `web.controller` créer un contrôleur `TodoV1` REST avec l'URI `'api/insa/v1/todo'` (Cf. le cours).
+- Y ajouter une route REST `GET` avec l'URI `'hello'` (Cf. cours). Cette méthode devra juste retourne une chaîne de caractères `'hello'` (attention au paramètre `produces` pour qu'il soit `MediaType.TEXT_PLAIN_VALUE`).
 
 ## Q1.3
 
 - Lancer le programme et entrer la bonne URL dans un navigateur pour tester la route `hello`.
-- Ouvrir la panneau de développement du navigateur pour observer le traffic réseau.
+- Ouvrir le panneau de développement du navigateur pour observer le traffic réseau.
 - Tester en ligne de commande avec curl
 - Tester avec Postman
 
 ## Q1.4
 
-- Créer une route REST `todo` (`GET`) qui retourna au format JSON une nouvelle instance (que l'on ne stockera pas) de la classe `Todo` (donner les valeurs que vous voulez). Pour info, créer une liste (non-mutable) avec juste un élément : `List.of(obj)`.
+- Créer une route REST `todo` (`GET`) qui retourna au format JSON une nouvelle instance (que l'on ne stockera pas) de la classe `Todo` (donner les valeurs que vous voulez). Pour info, créer une liste (non mutable) avec juste un élément : `List.of(obj)`.
 - Tester dans le navigateur
 - Tester en ligne de commande avec curl
 - Tester avec Postman (créer un nouvel onglet)
@@ -131,8 +131,8 @@ Cf le cours vers la page 56 pour un exemple.
 
 ## Q1.7
 
-- Ajouter une route `PATCH user/{name}` qui modifiera un utilisateur. Pour cela l'URI de la route va avoir un paramètre pour identifier l'utilisateur à modifier : c'est le `{name}` (cf vers page 45 du cours). La requête doit également embarquée dans son body un `user` au format JSON (cf vers le slide 42).<br/>
-Le patch permet de modifier les attributs d'un objet. Mais la classe `User` contient un attribut primitif (`name`) et une liste de `TodoList`. Est-ce que cela vous semble un bonne pratique de modifier au travers du patch les objets `TodoList` et leurs `Todo`, ou vaut-il mieux se limiter au attributs primitifs ?
+- Ajouter une route `PATCH user/{name}` qui modifiera un utilisateur. Pour cela l'URI de la route va avoir un paramètre pour identifier l'utilisateur à modifier : c'est le `{name}` (Cf. vers page 45 du cours). La requête doit également embarquée dans son body un `user` au format JSON (Cf. vers le slide 42).<br/>
+Le patch permet de modifier les attributs d'un objet. Mais la classe `User` contient un attribut primitif (`name`) et une liste de `TodoList`. Est-ce que cela vous semble une bonne pratique de modifier au travers du patch les objets `TodoList` et leurs `Todo`, ou vaut-il mieux se limiter aux attributs primitifs ?
 
 
 - Tester avec Postman
@@ -174,7 +174,7 @@ Cela vous demandera de coder : une méthode `findTodoList(String todolistName)` 
 
 ### Q2.2
 
-- Écrire un test JUnit qui testera la route `GET todo` (les données et le code HTTP retournés). Pour cela créer une classe de test `TestTodoV1` dans `src/test/java/web/controller`. Cf le cours pour comment tester avec Spring (vers la page 67). Il n'y a pour l'instant pas de service à pré-cabler (`@Autowired`), juste le classique `MockMvc`. Raccourci clavier pour importer une méthode statique (telle que `get()`) : curseur positionné sur la méthode -> `alt+entrée` -> *import static method* -> trouver la bonne méthode. Pour le `get` de Spring, le package à importer est :<br/>
+- Écrire un test JUnit qui testera la route `GET todo` (les données et le code HTTP retournés). Pour cela créer une classe de test `TestTodoV1` dans `src/test/java/web/controller`. Cf. le cours pour comment tester avec Spring (vers la page 67). Il n'y a pour l'instant pas de service à pré-cabler (`@Autowired`), juste le classique `MockMvc`. Raccourci clavier pour importer une méthode statique (telle que `get()`) : curseur positionné sur la méthode → `alt+entrée` → *import static method* → trouver la bonne méthode. Pour le `get` de Spring, le package à importer est :<br/>
  `import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;`
 
 - Penser à bien tester la structure JSON retournée en utilisant le code donné dans le cours.
@@ -212,12 +212,12 @@ Cette *v1* souffre d'un défaut majeur : toutes les données sont contenues dans
 
 ### Q3.1
 
-- Pourquoi contenir les données dans les contrôleurs REST est une très mauvaises pratiques ?
+- Pourquoi contenir les données dans les contrôleurs REST est une très mauvaise pratique ?
 
 
 ### Q3.2
 
-- Créer un nouveau contrôleur REST Spring `TodoV2` avec l'URI `'api/insa/v2/todo'` (cf le cours). Y copier-coller le contenu de `TodoV1`.
+- Créer un nouveau contrôleur REST Spring `TodoV2` avec l'URI `'api/insa/v2/todo'` (Cf. le cours). Y copier-coller le contenu de `TodoV1`.
 
 ### Q3.3
 
@@ -231,7 +231,7 @@ Cette *v1* souffre d'un défaut majeur : toutes les données sont contenues dans
 
 ### Q3.4
 
-En fait, c'est également un très mauvaise pratique d'instancier un service directement dans un contrôleur. Un service est un objet créé et géré par le serveur (l'application Spring) et fourni aux différents contrôleurs qui le demande. C'est le principe de l'injection de dépendances que nous verrons en 4INFO. Le but est de pourvoir partager un même service au travers de différents contrôleurs.
+En fait, c'est également une très mauvaise pratique d'instancier un service directement dans un contrôleur. Un service est un objet créé et géré par le serveur (l'application Spring) et fourni aux différents contrôleurs qui le demandent. C'est le principe de l'injection de dépendances que nous verrons en 4INFO. Le but est de pouvoir partager un même service au travers de différents contrôleurs.
 
 - Faire comme dans le slide 67 : le service est un paramètre du constructeur du contrôleur et non instancié dans celui-ci.
 
@@ -246,6 +246,6 @@ En fait, c'est également un très mauvaise pratique d'instancier un service dir
 private TodoService todoService;
 ```
 
-- Compléter vos test existants pour utiliser ce service afin de vérifier que les requêtes REST ont bien un effet sur les données
+- Compléter vos tests existants pour utiliser ce service afin de vérifier que les requêtes REST ont bien un effet sur les données
 
 
