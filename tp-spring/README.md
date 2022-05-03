@@ -133,7 +133,7 @@ Cet attribut sera instancié dans le contructeur (à créer) du contrôleur.
 
 ## Q1.7
 
-- Ajouter une route `PATCH user/{name}` qui modifiera un utilisateur. Pour cela l'URI de la route va avoir un paramètre pour identifier l'utilisateur à modifier : c'est le `{name}` (Cf. vers page 45 du cours). La requête doit également embarquée dans son body un `user` au format JSON (Cf. vers le slide 42).<br/>
+- Ajouter une route `PATCH user/{name}` qui modifiera un utilisateur. Pour cela l'URI de la route va avoir un paramètre pour identifier l'utilisateur à modifier : c'est le `{name}` (Cf. vers page 45 du cours). La requête doit également embarquer dans son body un `user` au format JSON (Cf. vers le slide 42).<br/>
 Le patch permet de modifier les attributs d'un objet. Mais la classe `User` contient un attribut primitif (`name`) et une liste de `TodoList`. Est-ce que cela vous semble une bonne pratique de modifier au travers du patch les objets `TodoList` et leurs `Todo`, ou vaut-il mieux se limiter aux attributs primitifs ?
 
 
