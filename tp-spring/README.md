@@ -200,7 +200,7 @@ Ainsi, lors de l'ajout d'un nouvel attribut, le test ne passera plus et il faudr
 {
     "title": "title2",
     "privateDescription": "foo",
-    "publicDescription": "bar,
+    "publicDescription": "bar",
     "categories": ["ENTERTAINMENT"]
 }
 	"""))
