@@ -140,14 +140,14 @@ Le patch permet de modifier les attributs d'un objet. Mais la classe `User` cont
 - Tester avec Postman
 
 
-### Q1.8
+## Q1.8
 
 - Ajouter une route `DELETE user/{name}` qui supprimera l'utilisateur visé. Si celui-ci n'existe pas, ne rien faire.
 
 - Tester avec Postman
 
 
-### Q1.9
+## Q1.9
 
 - Ajouter une requête `POST todolist/{userName}`. Cette requête doit avoir un paramètre `userName` correspondant au nom de l'utilisateur à qui il faut ajouter la todo list (embarquée dans le body de la requête).<br/>
 Cela vous demandera de coder une méthode `findUser(String userName)` dans le contrôleur pour chercher un utilisateur dans la liste `users` en fonction d'un nom. Cette méthode retournera `null` si aucun utilisateur ne correspond au nom. 
@@ -155,7 +155,7 @@ Cela vous demandera de coder une méthode `findUser(String userName)` dans le co
 - Tester avec Postman
 
 
-### Q1.10
+## Q1.10
 
 
 - Modifier la requête `POST todo` pour que son URI soit désormais `todo/{userName}/{todolistName}`.
@@ -172,14 +172,14 @@ une méthode `findTodo(String userName, String todolistName, String todoName)` d
 # Exercice 2
 
 
-### Q2.1
+## Q2.1
 
 - Créer une classe de tests `TestTodoList` (dans `src/test/java/web/model`) pour y tester la méthode `findTodo`.
 
 - Créer une classe de tests `TestUser` (dans `src/test/java/web/model`) pour y tester la méthode `findTodoList`.
 
 
-### Q2.2
+## Q2.2
 
 - Écrire un test JUnit qui testera la route `GET todo` (les données et le code HTTP retournés). Pour cela créer une classe de test `TestTodoV1` dans `src/test/java/web/controller`. Cf. le cours pour comment tester avec Spring (vers la page 67). Il n'y a pour l'instant pas de service à pré-câbler (`@Autowired`), juste le classique `MockMvc`. Raccourci clavier pour importer une méthode statique (telle que `get()`) : curseur positionné sur la méthode → `alt+entrée` → *import static method* → trouver la bonne méthode. Pour le `get` de Spring, le package à importer est :<br/>
  `import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;`
@@ -192,7 +192,7 @@ Ainsi, lors de l'ajout d'un nouvel attribut, le test ne passera plus et il faudr
 
 
 
-### Q2.3
+## Q2.3
 
 - Tester (JUnit) que l'ajout (`POST todo`) ne crash pas : que le code de retour est bien `OK` (exemple vers page 73). Noter qu'en Java 17 vous pouvez écrire un *text block* :
 ```java
@@ -217,16 +217,16 @@ Vous avez réalisé une version *v1* de l'API REST (avec peu de tests unitaires,
 
 Cette *v1* souffre d'un défaut majeur : toutes les données sont contenues dans les contrôleurs REST de Spring (les attributs de la classe `TodoV1`). Le but de cet exercice est de réaliser une *v2* qui résoudra ce problème.
 
-### Q3.1
+## Q3.1
 
 - Pourquoi contenir les données dans les contrôleurs REST est une très mauvaise pratique ?
 
 
-### Q3.2
+## Q3.2
 
 - Créer un nouveau contrôleur REST Spring `TodoV2` avec l'URI `'api/insa/v2/todo'` (Cf. le cours). Y copier-coller le contenu de `TodoV1`.
 
-### Q3.3
+## Q3.3
 
 - Créer un service `TodoService` (cf. à partir de la page 64 dans le cours). 
 
@@ -236,7 +236,7 @@ Cette *v1* souffre d'un défaut majeur : toutes les données sont contenues dans
 - `TodoV2` devra avoir un attribut du type de ce service et qui sera instancier, pour l'instant, dans le constructeur du contrôleur. Les routes devront alors passer par ce service pour accéder aux données et aux méthodes `findUser` et `findTodo`.
 
 
-### Q3.4
+## Q3.4
 
 En fait, c'est également une très mauvaise pratique d'instancier un service directement dans un contrôleur. Un service est un objet créé et géré par le serveur (l'application Spring) et fourni aux différents contrôleurs qui le demandent. C'est le principe de l'injection de dépendances que nous verrons en 4INFO. Le but est de pouvoir partager un même service au travers de différents contrôleurs.
 
@@ -245,7 +245,7 @@ En fait, c'est également une très mauvaise pratique d'instancier un service di
 - Pour rappel, qui instancie les contrôleurs et les services, etc. ?
 
 
-### Q3.5
+## Q3.5
 
 - Créer une classe de tests `TestTodoV2` et y copier-coller le contenu de `TestTodoV1`. Modifier ensuite la classe de tests pour y ajouter un attribut :
 ```java
@@ -254,5 +254,80 @@ private TodoService todoService;
 ```
 
 - Compléter vos tests existants pour utiliser ce service afin de vérifier que les requêtes REST ont bien un effet sur les données
+
+
+## Q3.6
+
+- À ce niveau vous devriez avoir des opérations CRUD pour `User`, `TodoList` et `Todo`.
+Si ça n'est pas le cas, compléter votre API REST.
+Votre suite de tests doit tester votre API REST avec au moins un test par route REST.
+
+
+
+# Exercice 4
+
+Vive le marshalling et l'héritage.
+Dans cet exercice, vous allez comprendre comment marshaller des types abstraits, ce qui ne se fait pas naturellement avec Spring (et autres).
+Le but est de mieux comprendre le marshalling en Java et la magie qui opère grâce à Spring.
+
+
+# Q4.1
+
+- Ajouter une classe `SpecificTodo` qui hérite de la classe `Todo`.
+Cette nouvelle classe a un attribut `String mySpecificAttr`.
+
+# 4.2
+
+- tester votre route REST `POST todo` en envoyant une instance de `SpecificTodo`.
+Que ce passe côté serveur ? Quelle est le type de l'objet marshallé par la route ?
+
+
+# 4.3
+
+- Ajouter les annotations nécessaires sur `Todo` pour que le marshalling fonctionne correctement avec l'héritage (cf. le cours)
+
+- Tester avec Postman
+
+- Écrire un test unitaire qui poste un `SpecificTodo`.
+
+
+
+# Exercice 5
+
+Vous avez réalisé une version *v2* de l'API REST.
+En fait cette *v2* n'est pas très réaliste : elle permet d'appliquer des opérations CRUD sur le modèle.
+Dans la vraie vie, une API REST doit plus être orientée métier que CRUD : 
+imaginons que nous fabriquions une véritable application pour Todo,
+quelles seraient les différentes routes REST idéales pour afficher, rechercher, éditer, etc. les todos d'un utilisateur (question rhétorique, cf 5.1) ?
+La conception d'une API REST doit plutôt se faire en pensant à l'usage :
+comment faciliter la fabrication d'un front-end en fournissant une API REST dédiée
+
+
+# 5.1
+
+- Proposer une API REST, orientée métier, composée de six routes REST pour afficher (2 routes), rechercher (2 routes), éditer (2 routes)
+les todos d'un utilisateur.
+
+
+# 5.2
+
+- Proposer les structures de données idéales pour ces six requêtes.
+Le but est de réduire au minimum les données envoyées ou reçues par les routes.
+Par exemple, un utilisateur peut vouloir la liste de ses todolist, auquel cas la requête REST correspondante 
+a juste besoin de retourner la liste des noms (et non les objets todolist dans leur intégralité).
+Ces structures de données seront nos DTO.
+
+
+
+# 5.3
+
+- Créer des classes (ou des `record` Java) pour chacune des structures de données idéales
+
+# 5.4
+
+- Coder un nouveau contrôleur REST qui implémente votre nouvelle API REST en utilisant ces DTO.
+
+- Tester avec Postman (avec Junit si vous êtes en avance).
+
 
 
