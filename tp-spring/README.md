@@ -158,8 +158,13 @@ Cela vous demandera de coder une méthode `findUser(String userName)` dans le co
 ### Q1.10
 
 
-- Modifier la requête `POST todo` pour que son URI soit désormais `todo/{userName}/{todolistName}`. En effet, l'ajout d'un todo requière le nom de la todo list ainsi que le nom de l'utilisateur. Modifier le code de cette requête pour qu'elle ajoute le todo envoyé dans la todo list de destination (ne rien faire si pas possible).<br/>
-Cela vous demandera de coder : une méthode `findTodoList(String todolistName)` dans la classe `User` ; une méthode `findTodo(String todoTitle)` dans la classe `TodoList` ; une méthode `findTodo(String userName, String todolistName)` dans le contrôleur.
+- Modifier la requête `POST todo` pour que son URI soit désormais `todo/{userName}/{todolistName}`.
+En effet, l'ajout d'un todo requière le nom de la todo list ainsi que le nom de l'utilisateur.
+Modifier le code de cette requête pour qu'elle ajoute le todo envoyé dans la todo list de destination (ne rien faire si pas possible).<br/>
+Cela vous demandera de coder :
+une méthode `findTodoList(String todolistName)` dans la classe `User`, pour toruver la todo list visée ; 
+une méthode `findTodo(String todoTitle)` dans la classe `TodoList`, pour trouver le todo visé dans la todo list ; 
+une méthode `findTodo(String userName, String todolistName, String todoName)` dans le contrôleur, pour trouver le todo visé.
 
 
 - Tester avec Postman
