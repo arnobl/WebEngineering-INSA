@@ -298,7 +298,8 @@ Vous avez réalisé une version *v2* de l'API REST.
 En fait cette *v2* n'est pas très réaliste : elle permet d'appliquer des opérations CRUD sur le modèle.
 Dans la vraie vie, une API REST doit plus être orientée métier que CRUD : 
 imaginons que nous fabriquions une véritable application pour Todo,
-quelles seraient les différentes routes REST idéales pour afficher, rechercher, éditer, etc. les todos d'un utilisateur (question rhétorique, cf 5.1) ?
+Cette application aurait des fonctionnalités, telles qu'afficher le nom des todo lists, recherche des todos.
+Quelles seraient les différentes routes REST idéales pour ces usages (question rhétorique, cf 5.1) ?
 La conception d'une API REST doit plutôt se faire en pensant à l'usage :
 comment faciliter la fabrication d'un front-end en fournissant une API REST dédiée
 
