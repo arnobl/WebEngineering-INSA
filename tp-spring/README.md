@@ -65,6 +65,8 @@ Par simplification du problème, nous considérerons le nom d'un utilisateur com
 
 - Vérifier que Maven est installé (Maven 3) : `mvn -v`
 
+- Installer NodeJS et npm: `sudo apt install npm`
+
 - Télécharger Postman: https://www.postman.com/downloads/<br/>
 Pas besoin de compte ni de licence.
 
@@ -350,15 +352,24 @@ Pour cela il vous faudra lancer l'application (votre serveur Spring) que votre s
 
 - Créer un fichier `.js`
 - Y ajouter `console.log('foo');`
-- Lancer un ligne de commande `node ./votreScript.js` (`NodeJS` est un interpreteur JavaScript)
+- Lancer une ligne de commande `node ./votreScript.js` (`NodeJS` est un interpreteur JavaScript)
 
 
 ## 6.2
 
 - Comprendre https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest
+- Si `XMLHttpRequest` s'utilise de base dans un navigateur, il vous faudra installer une bibliothèque avec *npm* :
+Dans le dossier contenant votre script, installer le paquet `npm install xmlhttprequest --save`<br/>
+`npm` est le *Node Package Manager*, un outil de Node pour installer des bibliothèques.
 
 ## 6.3
 
-- Interroger votre back-end en utilisant `XMLHttpRequest` dans votre script JS
+- Dans le script, créer un object `XMLHttpRequest`:
+```js
+XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+```
+
+- Interroger votre back-end en utilisant cet objet `XMLHttpRequest`.
+
 
 
