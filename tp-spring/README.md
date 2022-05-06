@@ -181,7 +181,11 @@ une méthode `findTodo(String userName, String todolistName, String todoName)` d
 
 ## Q2.2
 
-- Écrire un test JUnit qui testera la route `GET todo` (les données et le code HTTP retournés). Pour cela créer une classe de test `TestTodoV1` dans `src/test/java/web/controller`. Cf. le cours pour comment tester avec Spring (vers la page 67). Il n'y a pour l'instant pas de service à pré-câbler (`@Autowired`), juste le classique `MockMvc`. Raccourci clavier pour importer une méthode statique (telle que `get()`) : curseur positionné sur la méthode → `alt+entrée` → *import static method* → trouver la bonne méthode. Pour le `get` de Spring, le package à importer est :<br/>
+- Écrire un test JUnit qui testera la route `GET todo` (les données et le code HTTP retournés).
+Pour cela créer une classe de test `TestTodoV1` dans `src/test/java/web/controller`.
+Cf. le cours pour comment tester avec Spring (vers la page 67).
+Pour l'instant, ne pas pré-câbler (annotation `@Autowired`) de service `TodoService`, mais ne pas oublier de mettre cette annotation sur l'attribut `MockMvc`.
+Raccourci clavier pour importer une méthode statique (telle que `get()`) : curseur positionné sur la méthode → `alt+entrée` → *import static method* → trouver la bonne méthode. Pour le `get` de Spring, le package à importer est :<br/>
  `import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;`
 
 - Penser à bien tester la structure JSON retournée en utilisant le code donné dans le cours.
