@@ -310,13 +310,13 @@ comment faciliter la fabrication d'un front-end en fournissant une API REST déd
 
 ## 5.1
 
-- Proposer une API REST, orientée métier, composée de six routes REST pour afficher (2 routes), rechercher (2 routes), éditer (2 routes)
+- Proposer une API REST, orientée métier, composée de six routes REST pour afficher (2 routes), rechercher (1 route), éditer (2 routes)
 les todos d'un utilisateur.
 
 
 ## 5.2
 
-- Proposer les structures de données idéales pour ces six requêtes.
+- Proposer les structures de données idéales pour ces cinq requêtes.
 Le but est de réduire au minimum les données envoyées ou reçues par les routes.
 Par exemple, un utilisateur peut vouloir la liste de ses todolist, auquel cas la requête REST correspondante 
 a juste besoin de retourner la liste des noms (et non les objets todolist dans leur intégralité).
@@ -336,23 +336,23 @@ Ces structures de données seront nos DTO.
 
 
 
-## Exercice 6
+# Exercice 6
 
 Le but de cet exercice est d'utiliser votre API REST au travers d'un script JavaScript.
 Pour cela il vous faudra lancer l'application (votre serveur Spring) que votre script JS interrogera.
 
-# 6.1
+## 6.1
 
 - Créer un fichier `.js`
 - Y ajouter `console.log('foo');`
 - Lancer un ligne de commande `node ./votreScript.js` (`NodeJS` est un interpreteur JavaScript)
 
 
-# 6.2
+## 6.2
 
 - Comprendre https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest
 
-# 6.3
+## 6.3
 
 - Interroger votre back-end en utilisant `XMLHttpRequest` dans votre script JS
 
