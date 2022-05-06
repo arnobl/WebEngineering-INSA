@@ -364,9 +364,9 @@ Dans le dossier contenant votre script, installer le paquet `npm install xmlhttp
 
 ## 6.3
 
-- Dans le script, créer un object `XMLHttpRequest`:
+- Dans le script, créer au début un objet `XMLHttpRequest`:
 ```js
-XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
+const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 ```
 
 - Interroger votre back-end en utilisant cet objet `XMLHttpRequest`.
