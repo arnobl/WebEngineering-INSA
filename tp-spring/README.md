@@ -326,7 +326,9 @@ Ces structures de données seront nos DTO.
 
 ## 5.3
 
-- Créer des classes (ou des `record` Java) pour chacune des structures de données idéales
+- Créer des classes (ou des `record` Java) pour chacune des structures de données idéales.
+https://openjdk.java.net/jeps/395
+ 
 
 ## 5.4
 
