@@ -8,13 +8,10 @@ import javax.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -23,13 +20,6 @@ import org.springframework.web.server.ResponseStatusException;
 @AllArgsConstructor
 public class PrivateUserController {
 	private final UserService userService;
-
-	@RequestMapping(value = "/csrf-token", method = RequestMethod.GET)
-	public @ResponseBody
-	String getCsrfToken(final HttpServletRequest request) {
-		final CsrfToken token = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
-		return token.getToken();
-	}
 
 	@GetMapping()
 	public String hello(final Principal user) {
