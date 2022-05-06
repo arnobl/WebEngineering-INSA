@@ -372,4 +372,62 @@ const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 - Interroger votre back-end en utilisant cet objet `XMLHttpRequest`.
 
 
+# Exercice 7
 
+Cet exercice vise à mettre en place un système d'authentification des utilisateurs :
+un utilisateur ne peut modifier que ses todos.<br/>
+Cet exercice va empêcher les contrôleurs précédents de fonctionner.
+
+
+## 7.1 
+
+- Créer deux contrôleurs Spring: `PublicUserControler` et `PrivateUserControler`.
+Leur URI doit respectivement contenir `/api/public/` et `/api/private/`.
+
+- Dans la classe `SecurityConfig`, commenter `.antMatchers("/api/**").permitAll()` et ajouter `.antMatchers("/api/public/**").permitAll()`
+
+
+- Re-exécuter certaines des requêtes REST précédentes. Que se-passe-t-il ?
+
+
+## 7.2
+
+- Dans la classe `SecurityConfig` ajouter :
+```java
+	@Bean
+	public PasswordEncoder encoder() {
+		return new BCryptPasswordEncoder();
+	}
+	
+	@Bean
+	public UserDetailsManager userDetailsManager() {
+		return new InMemoryUserDetailsManager();
+	}
+	
+    @Override
+	protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
+		auth
+			.userDetailsService(userDetailsManager()).passwordEncoder(encoder());
+	}
+```
+
+Ce code :
+choisit l'encodage des mots de passe (*BCrypt*) ;
+permettra de stocker en mémoire les utilisateurs du système ;
+configure que l'authentification utilisera bien ces deux points précédents.
+`UserDetailsManager` n'est pas redondant avec notre classe `User`.
+Elle stocke uniquement logins et mots de passe et gère les ouvertures de session.
+
+
+## 7.3
+
+- Utiliser le code fournit dans les classes `PublicUserController` et `PrivateUserController` du projet exemple (le projet montré en cours).
+
+- Tester ces nouvelles routes REST avec Postman
+
+- Une fois un utilisateur authentifié, est-ce que les anciennes requêtes REST fonctionnent à nouveau ? Pourquoi ?
+
+
+## 7.4
+
+- Lire le cours à partir du slide 75 et faire en sorte que les requêtes REST fonctionnent bien après authentification
