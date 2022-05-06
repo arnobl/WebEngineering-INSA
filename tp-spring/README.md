@@ -275,18 +275,18 @@ Dans cet exercice, vous allez comprendre comment marshaller des types abstraits,
 Le but est de mieux comprendre le marshalling en Java et la magie qui opère grâce à Spring.
 
 
-# Q4.1
+## Q4.1
 
 - Ajouter une classe `SpecificTodo` qui hérite de la classe `Todo`.
 Cette nouvelle classe a un attribut `String mySpecificAttr`.
 
-# 4.2
+## 4.2
 
 - tester votre route REST `POST todo` en envoyant une instance de `SpecificTodo`.
 Que ce passe côté serveur ? Quelle est le type de l'objet marshallé par la route ?
 
 
-# 4.3
+## 4.3
 
 - Ajouter les annotations nécessaires sur `Todo` pour que le marshalling fonctionne correctement avec l'héritage (cf. le cours)
 
@@ -296,7 +296,7 @@ Que ce passe côté serveur ? Quelle est le type de l'objet marshallé par la ro
 
 
 
-# Exercice 5
+## Exercice 5
 
 Vous avez réalisé une version *v2* de l'API REST.
 En fait cette *v2* n'est pas très réaliste : elle permet d'appliquer des opérations CRUD sur le modèle.
@@ -308,13 +308,13 @@ La conception d'une API REST doit plutôt se faire en pensant à l'usage :
 comment faciliter la fabrication d'un front-end en fournissant une API REST dédiée
 
 
-# 5.1
+## 5.1
 
 - Proposer une API REST, orientée métier, composée de six routes REST pour afficher (2 routes), rechercher (2 routes), éditer (2 routes)
 les todos d'un utilisateur.
 
 
-# 5.2
+## 5.2
 
 - Proposer les structures de données idéales pour ces six requêtes.
 Le but est de réduire au minimum les données envoyées ou reçues par les routes.
@@ -324,15 +324,36 @@ Ces structures de données seront nos DTO.
 
 
 
-# 5.3
+## 5.3
 
 - Créer des classes (ou des `record` Java) pour chacune des structures de données idéales
 
-# 5.4
+## 5.4
 
 - Coder un nouveau contrôleur REST qui implémente votre nouvelle API REST en utilisant ces DTO.
 
 - Tester avec Postman (avec Junit si vous êtes en avance).
 
+
+
+## Exercice 6
+
+Le but de cet exercice est d'utiliser votre API REST au travers d'un script JavaScript.
+Pour cela il vous faudra lancer l'application (votre serveur Spring) que votre script JS interrogera.
+
+# 6.1
+
+- Créer un fichier `.js`
+- Y ajouter `console.log('foo');`
+- Lancer un ligne de commande `node ./votreScript.js` (`NodeJS` est un interpreteur JavaScript)
+
+
+# 6.2
+
+- Comprendre https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest
+
+# 6.3
+
+- Interroger votre back-end en utilisant `XMLHttpRequest` dans votre script JS
 
 
