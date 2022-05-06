@@ -185,6 +185,8 @@ une méthode `findTodo(String userName, String todolistName, String todoName)` d
 Pour cela créer une classe de test `TestTodoV1` dans `src/test/java/web/controller`.
 Cf. le cours pour comment tester avec Spring (vers la page 67).
 Pour l'instant, ne pas pré-câbler (annotation `@Autowired`) de service `TodoService`, mais ne pas oublier de mettre cette annotation sur l'attribut `MockMvc`.
+Cette annotation demande à Spring d'injecter une valeur dans l'attribut :
+placée sur `TodoService`, cela permettra plus tard de partager le même `TodoService` entre votre contrôleur et votre classe de tests.
 Raccourci clavier pour importer une méthode statique (telle que `get()`) : curseur positionné sur la méthode → `alt+entrée` → *import static method* → trouver la bonne méthode. Pour le `get` de Spring, le package à importer est :<br/>
  `import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;`
 
