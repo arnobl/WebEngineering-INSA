@@ -31,7 +31,7 @@ public class PublicUserController {
 		try {
 			final boolean logged = userService.login(user.login(), user.pwd());
 
-			if(!logged) {
+			if(logged) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Already logged in. Log out first");
 			}
 		}catch(final ServletException ex) {
