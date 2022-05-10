@@ -381,7 +381,6 @@ Cet exercice va empêcher les contrôleurs précédents de fonctionner.
 
 ## 7.1 
 
-- Créer deux contrôleurs Spring: `PublicUserControler` et `PrivateUserControler`.
 Leur URI doit respectivement contenir `/api/public/` et `/api/private/`.
 
 - Dans la classe `SecurityConfig`, commenter `.antMatchers("/api/**").permitAll()` et ajouter `.antMatchers("/api/public/**").permitAll()`
@@ -420,6 +419,9 @@ Elle stocke uniquement logins et mots de passe et gère les ouvertures de sessio
 
 
 ## 7.3
+
+
+- Créer deux contrôleurs Spring: `PublicUserControler` et `PrivateUserControler`.
 
 - Utiliser le code fournit dans les classes `PublicUserController` et `PrivateUserController` du projet exemple (le projet montré en cours).
 
