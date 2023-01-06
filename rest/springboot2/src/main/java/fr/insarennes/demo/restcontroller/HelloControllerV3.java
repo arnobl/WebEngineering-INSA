@@ -55,7 +55,7 @@ public class HelloControllerV3 {
 
 	@PutMapping(path = "user", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<String> replaceUser(@RequestBody final User patchedUser) {
-		if(patchedUser.getId().equals(dataService.getUser().getId())) {
+		if(dataService.getUser().getName().equals(patchedUser.getName())) {
 			dataService.setUser(patchedUser);
 			return ResponseEntity.ok().build();
 		}

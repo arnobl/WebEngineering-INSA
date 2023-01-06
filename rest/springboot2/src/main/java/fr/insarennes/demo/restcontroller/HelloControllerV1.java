@@ -25,7 +25,7 @@ public class HelloControllerV1 {
 		txts = new HashSet<>();
 		txts.add("foo");
 		txts.add("bar");
-		user = new User("Foo", "here", "1", "p1");
+		user = new User("Foo", "here", "06", "p1");
 	}
 
 
@@ -46,17 +46,16 @@ public class HelloControllerV1 {
 
 	@PatchMapping(path = "user", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void patchUser(@RequestBody final User patchedUser) {
-		user.patch(patchedUser);
+		patchedUser.patch(user);
 	}
 
 	@PutMapping(path = "user", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void replaceUser(@RequestBody final User patchedUser) {
-		if(patchedUser.getId().equals(user.getId())) {
+		if(user.getName().equals(patchedUser.getName())) {
 			user = patchedUser;
 		}
-		// we cannot change the id of the user
 		else {
-			// Is that a good practice? (answer: no...)
+			// Is that a good practice to write user.toString()? (answer: no...)
 			throw new IllegalArgumentException(user.toString());
 		}
 	}

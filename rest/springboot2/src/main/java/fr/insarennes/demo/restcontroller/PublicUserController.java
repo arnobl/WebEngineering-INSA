@@ -1,5 +1,6 @@
 package fr.insarennes.demo.restcontroller;
 
+import fr.insarennes.demo.model.User;
 import fr.insarennes.demo.service.UserService;
 import javax.servlet.ServletException;
 import lombok.AllArgsConstructor;
@@ -29,9 +30,9 @@ public class PublicUserController {
 	@PostMapping(value = "login", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void login(@RequestBody final UserDTO user) {
 		try {
-			final boolean logged = userService.login(user.login(), user.pwd());
+			final boolean loginSuccess = userService.login(user.login(), user.pwd());
 
-			if(logged) {
+			if(!loginSuccess) {
 				throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Already logged in. Log out first");
 			}
 		}catch(final ServletException ex) {
@@ -42,5 +43,12 @@ public class PublicUserController {
 
 
 record UserDTO(String login, String pwd) {
-
+	public void patch(final User user) {
+		if(user.getAddress() != null) {
+			user.setName(login);
+		}
+		if(user.getName() != null) {
+			user.setPwd(pwd);
+		}
+	}
 }

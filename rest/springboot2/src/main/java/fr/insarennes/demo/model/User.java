@@ -14,12 +14,17 @@ import lombok.ToString;
 public class User {
 	private String name;
 	private String address;
-	private String id;
+	private String phone;
 	private String pwd;
 
+	// Only the controller V1 uses this method
+	// The use of DTOs makes this method obsolete (see controller V3)
 	public void patch(final User user) {
 		if(user.getAddress() != null) {
 			address = user.getAddress();
+		}
+		if(user.getPhone() != null) {
+			phone = user.getPhone();
 		}
 		if(user.getName() != null) {
 			name = user.getName();

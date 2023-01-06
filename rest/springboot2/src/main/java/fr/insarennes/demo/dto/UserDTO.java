@@ -12,13 +12,13 @@ import lombok.Setter;
 public class UserDTO {
 	private String name;
 	private String address;
-	private String id;
+	private String phone;
 
 	public UserDTO(final User user) {
 		super();
 		this.name = user.getName();
 		this.address = user.getAddress();
-		this.id = user.getId();
+		this.phone = user.getPhone();
 	}
 
 	public void patch(final User user) {
@@ -27,6 +27,9 @@ public class UserDTO {
 		}
 		if(name != null) {
 			user.setName(name);
+		}
+		if(phone != null) {
+			user.setPhone(phone);
 		}
 	}
 }
