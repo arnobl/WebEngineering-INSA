@@ -1,0 +1,365 @@
+openapi: 3.0.3
+info:
+  title: exemple du cours
+  description: Cette API REST correspond à celle du cours de Web en 3INFO.
+  version: 1.0.0
+servers:
+  - url: https://api.example.com/api/v1
+# Notre API sera divisée en trois blocs : album, player, playercard
+tags: # Some annotations used to document the route descriptions (optional)
+  - name: album
+    description: Les albums
+  - name: player
+    description: Les joueurs
+  - name: playercard
+    description: Les cartes
+
+paths:
+  /player/{playerID}:
+    get:
+      tags:
+        - player
+      summary: Returns an existing player
+      description: Returns an existing player given an ID
+      operationId: getPlayer
+      parameters:
+        - name: playerID
+          in: path
+          description: The player ID to get
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerDTO'
+        '400':
+          description: Invalid ID supplied
+
+    delete:
+      tags:
+        - player
+      summary: Deletes an existing player
+      description: Deletes an existing player given an ID
+      operationId: deletePlayer
+      parameters:
+        - name: playerID
+          in: path
+          description: The player ID to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerDTO'
+        '400':
+          description: Invalid ID supplied
+        '405':
+          description: Cannot delete the player (playercards with it exists)
+
+  /player:
+    post:
+      tags:
+        - player
+      summary: Adds a new player
+      description: Adds a new player
+      operationId: addPlayer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlayerNoIdDTO'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerDTO'
+        '405':
+          description: Invalid input
+
+    patch:
+      tags:
+        - player
+      summary: Modifies an existing player
+      description: Modifies an existing player
+      operationId: patchPlayer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlayerDTO'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerDTO'
+        '405':
+          description: Invalid input
+
+  /players/{playerName}:
+    get:
+      tags:
+        - player
+      summary: Returns a list of players
+      description: Returns the list of the players that have the given name
+      operationId: getPlayers
+      parameters:
+        - name: playerName
+          in: path
+          description: The name of the players to get
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayPlayerDTO'
+        '400':
+          description: Invalid ID supplied
+
+  /players:
+    get:
+      tags:
+        - player
+      summary: Returns all the players
+      description: Returns a list of all the players
+      operationId: getAllPlayers
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayPlayerDTO'
+
+  /playercards:
+    get:
+      tags:
+        - playercard
+      summary: Returns all the playercards
+      description: Returns a list of all the playercards
+      operationId: getAllPlayercards
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayPlayercardDTO'
+
+  /playercard/{playercardID}:
+    get:
+      tags:
+        - playercard
+      summary: Returns an existing playercard
+      description: Returns an existing playercard given an ID
+      operationId: getPlayercard
+      parameters:
+        - name: playercardID
+          in: path
+          description: The playercard ID to get
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayercardDTO'
+        '400':
+          description: Invalid ID supplied
+
+    delete:
+      tags:
+        - player card
+      summary: Deletes an existing playercard
+      description: Deletes an existing playercard given an ID
+      operationId: deletePlayercard
+      parameters:
+        - name: playercardID
+          in: path
+          description: The playercard ID to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayercardDTO'
+        '400':
+          description: Invalid ID supplied
+
+  /playercard:
+    post:
+      tags:
+        - playercard
+      summary: Adds a new playercard
+      description: Adds a new playercard
+      operationId: addPlayercard
+      requestBody:
+        content:
+          application/json:
+            schema: # Just the ID of the card
+              $ref: '#/components/schemas/IdDTO'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayercardDTO'
+        '405':
+          description: Invalid input
+
+    patch:
+      tags:
+        - playercard
+      summary: Modifies an existing playercard
+      description: Modifies an existing playercard
+      operationId: patchPlayercard
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlayercardDTO'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayercardDTO'
+        '405':
+          description: Invalid input
+
+  /playercards/{playerID}:
+    get:
+      tags:
+        - playercard
+      summary: Returns the playercards that refer to a given player
+      description: Returns a list of the playercards that refer to the given player
+      operationId: getPlayercardsFromPlayer
+      parameters:
+        - name: playerID
+          in: path
+          description: The ID of the player
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayPlayercardDTO'
+        '400':
+          description: Invalid ID supplied
+
+  /albums:
+    get:
+      tags:
+        - album
+      summary: Returns all the albums
+      description: Returns a list of all the albums
+      operationId: getAllAlbums
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayAlbumDTO'
+
+
+components:
+  schemas:
+    PlayerDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+          example: Raymond
+
+    ArrayPlayerDTO:
+      type: array
+      items:
+        $ref: '#/components/schemas/PlayerDTO'
+
+    PlayerNoIdDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Raymond
+
+
+    PlayercardDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        player:
+          $ref: '#/components/schemas/PlayerDTO'
+
+    IdDTO:
+      type: integer
+
+    ArrayPlayercardDTO:
+      type: array
+      items:
+        $ref: '#/components/schemas/PlayercardDTO'
+
+    AlbumDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+          example: maListe
+        cards:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlayercardDTO'
+
+    ArrayAlbumDTO:
+      type: array
+      items:
+        $ref: '#/components/schemas/AlbumDTO'
+
