@@ -1,7 +1,7 @@
 
 # Préambule
 
-Le sujet est tout neuf et contient certainement des erreurs. N'hésitez pas à me les indiquer. Également, faites le sujet à votre vitesse : ce sujet fera l'objet de plusieurs séances de TP (voire toutes) ; les séances de TP ne sont pas associées à des séries de questions. 
+Le sujet est tout neuf et contient certainement des erreurs. N'hésitez pas à me les indiquer. Également, faites le sujet à votre vitesse : ce sujet fera l'objet de plusieurs séances de TP (voire toutes) ; les séances de TP ne sont pas associées à des séries de questions.
 
 N'hésitez pas à nous demander des explications sur des concepts Java/POO que vous ne comprenez pas.
 
@@ -12,7 +12,7 @@ N'hésitez pas à nous demander des explications sur des concepts Java/POO que v
 
 - Créer une API REST en Spring
 
-- Marshaller et démarshaller des données de manière adéquate (DTO) 
+- Marshaller et démarshaller des données de manière adéquate (DTO)
 
 - Tester une API REST de manière manuelle et automatique (JUnit, Postman, curl)
 
@@ -30,12 +30,15 @@ Le sujet des TP concerne la création d'un back-end pour réaliser des opératio
 ```mermaid
 classDiagram
     class User {
+        - id: integer
         - name: string
     }
     class TodoList {
+        - id: integer
         - name: string
     }
     class Todo {
+        - id: integer
         - title: string
         - publicDescription: string
         - privateDescription: string
@@ -50,10 +53,10 @@ classDiagram
     }
     User "1 user" *-- "* lists" TodoList
     Todo "* todos" --* "1 list" TodoList
-    Category "* categories" <-- Todo 
+    Category "* categories" <-- Todo
 ```
 
-Par simplification du problème, nous considérerons le nom d'un utilisateur comme clé unique. De même, le nom d'une todo list sera unique par utilisateur. Le titre d'un todo sera unique par todo list.
+Les attributs `id` sont les identifiants uniques des objets.
 
 
 # Prérequis logiciels
@@ -70,13 +73,13 @@ Par simplification du problème, nous considérerons le nom d'un utilisateur com
 - Télécharger Postman: https://www.postman.com/downloads/<br/>
 Pas besoin de compte ni de licence.
 
-- Avoir IntelliJ (vous pouvez utiliser VisualCode mais sans support de ma part)
+- Avoir IntelliJ ou VisualCode<br/>
 
 - Cloner our télécharger le dépôt du cours : https://github.com/arnobl/WebEngineering-INSA/<br/>
 L'exemple du cours se trouve dans : `rest/springboot2`<br/>
 Le projet à utiliser pour le TP se trouve dans : `tp-spring`
 
-- Avec IntelliJ, pour charger le projet du TP : `open` → aller chercher le fichier `pom.xml` du projet → *Open as project* → *Trust Project*.
+- Avec IntelliJ, pour charger le projet du TP : `open` → aller chercher le fichier `pom.xml` du projet → *Open as project* → *Trust Project*. Avec VSCode, faites *Ouvrir un dossier*.
 
 
 # Exercice 1
@@ -119,13 +122,13 @@ Cf. le cours vers la page 56 pour un exemple.
 
 - Créer une route REST `todo` (`POST`) qui recevra un objet `Todo` (en JSON, `consumes`) avec les données que vous voulez. Le type de retour de la route sera `void`.
 - La route affichera pour l'instant juste cet objet (`System.out.println(...)`).
-**Attention :** la sortie de `println` sera visible dans la console d'IntelliJ (et non dans Postman). 
+**Attention :** la sortie de `println` sera visible dans la console d'IntelliJ (et non dans Postman).
 - Tester avec Curl (exemple vers page 51) et Postman (dans *body*, choisir *raw* au format *JSON* et écrire le JSON).
 
 
 ## Q1.6
 
-- Ajouter un attribut `users` dans la classe de la ressource REST `TodoV1` dont le type sera une liste de `User`. 
+- Ajouter un attribut `users` dans la classe de la ressource REST `TodoV1` dont le type sera une liste de `User`.
 Cet attribut sera instancié dans le constructeur (à créer) du contrôleur.
 
 - Ajouter une route `POST user` pour créer un nouvel utilisateur en utilisant son nom uniquement. Nous considérons le nom d'un utilisateur comme clé unique : le `POST` doit vérifier qu'aucun utilisateur existant porte déjà ce nom. Ce nouvel utilisateur sera ajouter à la liste `users`.
@@ -152,7 +155,7 @@ Le patch permet de modifier les attributs d'un objet. Mais la classe `User` cont
 ## Q1.9
 
 - Ajouter une requête `POST todolist/{userName}`. Cette requête doit avoir un paramètre `userName` correspondant au nom de l'utilisateur à qui il faut ajouter la todo list (embarquée dans le body de la requête).<br/>
-Cela vous demandera de coder une méthode `findUser(String userName)` dans le contrôleur pour chercher un utilisateur dans la liste `users` en fonction d'un nom. Cette méthode retournera `null` si aucun utilisateur ne correspond au nom. 
+Cela vous demandera de coder une méthode `findUser(String userName)` dans le contrôleur pour chercher un utilisateur dans la liste `users` en fonction d'un nom. Cette méthode retournera `null` si aucun utilisateur ne correspond au nom.
 
 - Tester avec Postman
 
@@ -164,8 +167,8 @@ Cela vous demandera de coder une méthode `findUser(String userName)` dans le co
 En effet, l'ajout d'un todo requière le nom de la todo list ainsi que le nom de l'utilisateur.
 Modifier le code de cette requête pour qu'elle ajoute le todo envoyé dans la todo list de destination (ne rien faire si pas possible).<br/>
 Cela vous demandera de coder :
-une méthode `findTodoList(String todolistName)` dans la classe `User`, pour trouver la todo list visée ; 
-une méthode `findTodo(String todoTitle)` dans la classe `TodoList`, pour trouver le todo visé dans la todo list ; 
+une méthode `findTodoList(String todolistName)` dans la classe `User`, pour trouver la todo list visée ;
+une méthode `findTodo(String todoTitle)` dans la classe `TodoList`, pour trouver le todo visé dans la todo list ;
 une méthode `findTodo(String userName, String todolistName, String todoName)` dans le contrôleur, pour trouver le todo visé.
 
 
@@ -237,10 +240,10 @@ Cette *v1* souffre d'un défaut majeur : toutes les données sont contenues dans
 
 ## Q3.3
 
-- Créer un service `TodoService` (cf. à partir de la page 64 dans le cours). 
+- Créer un service `TodoService` (cf. à partir de la page 64 dans le cours).
 
 
-- Y mettre les données (la liste de `user`) utilisées par `TodoV2` **ainsi que les méthodes `findUser` et `findTodo`**. 
+- Y mettre les données (la liste de `user`) utilisées par `TodoV2` **ainsi que les méthodes `findUser` et `findTodo`**.
 
 - `TodoV2` devra avoir un attribut du type de ce service et qui sera instancier, pour l'instant, dans le constructeur du contrôleur. Les routes devront alors passer par ce service pour accéder aux données et aux méthodes `findUser` et `findTodo`.
 
@@ -305,7 +308,7 @@ Que ce passe côté serveur ? Quelle est le type de l'objet marshallé par la ro
 
 Vous avez réalisé une version *v2* de l'API REST.
 En fait cette *v2* n'est pas très réaliste : elle permet d'appliquer des opérations CRUD sur le modèle.
-Dans la vraie vie, une API REST doit plus être orientée métier que CRUD : 
+Dans la vraie vie, une API REST doit plus être orientée métier que CRUD :
 imaginons que nous fabriquions une véritable application pour Todo,
 Cette application aurait des fonctionnalités, telles qu'afficher le nom des todo lists, recherche des todos.
 Quelles seraient les différentes routes REST idéales pour ces usages (question rhétorique, cf 5.1) ?
@@ -323,7 +326,7 @@ les todos d'un utilisateur.
 
 - Proposer les structures de données idéales pour ces cinq requêtes.
 Le but est de réduire au minimum les données envoyées ou reçues par les routes.
-Par exemple, un utilisateur peut vouloir la liste de ses todolist, auquel cas la requête REST correspondante 
+Par exemple, un utilisateur peut vouloir la liste de ses todolist, auquel cas la requête REST correspondante
 a juste besoin de retourner la liste des noms (et non les objets todolist dans leur intégralité).
 Ces structures de données seront nos DTO.
 
@@ -333,7 +336,7 @@ Ces structures de données seront nos DTO.
 
 - Créer des classes (ou des `record` Java) pour chacune des structures de données idéales.
 https://openjdk.java.net/jeps/395
- 
+
 
 ## 5.4
 
@@ -379,7 +382,7 @@ un utilisateur ne peut modifier que ses todos.<br/>
 Cet exercice va empêcher les contrôleurs précédents de fonctionner.
 
 
-## 7.1 
+## 7.1
 
 
 - Dans la classe `SecurityConfig`, commenter `.antMatchers("/api/**").permitAll()` et ajouter `.antMatchers("/api/public/**").permitAll()`
@@ -396,12 +399,12 @@ Cet exercice va empêcher les contrôleurs précédents de fonctionner.
 	public PasswordEncoder encoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	@Bean
 	public UserDetailsManager userDetailsManager() {
 		return new InMemoryUserDetailsManager();
 	}
-	
+
     @Override
 	protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
 		auth
