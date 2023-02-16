@@ -68,10 +68,16 @@ Les attributs `id` sont les identifiants uniques des objets.
 
 - Vérifier que Maven est installé (Maven 3) : `mvn -v`
 
-- Installer NodeJS et npm: `sudo apt install npm`
+- Avoir Swagger editor en local : https://github.com/swagger-api/swagger-editor<br/>
+Le plus simple est d'installer docker et de lancer les commandes suivantes (mettre un `sudo` devant chaque commande si demandé) :
+```
+docker pull swaggerapi/swagger-editor
+docker run -d -p 1024:8080 swaggerapi/swagger-editor
+```
+et dans votre navigateur aller sur la page `http://localhost:1024/`
+Si vous n'y arrivez pas vous pouvez utiliser le Swagger Editor en ligne (https://editor.swagger.io) mais vous ne pourrez alors pas executer vos commandes REST (il faudra alors télécharger et utiliser Postman ce qui complique le TP).<br/>
+À tout moment vous pouvez retrouver votre instance docker Swagger avec `docker ps`. La première colonne affichée vous indique l'ID de l'instance. Vous pouvez la stopper ou la redémarrer avec `docker start <id>` et `docker stop <id>`
 
-- Télécharger Postman: https://www.postman.com/downloads/<br/>
-Pas besoin de compte ni de licence.
 
 - Avoir IntelliJ ou VisualCode<br/>
 
@@ -79,7 +85,8 @@ Pas besoin de compte ni de licence.
 L'exemple du cours se trouve dans : `rest/springboot2`<br/>
 Le projet à utiliser pour le TP se trouve dans : `tp-spring`
 
-- Avec IntelliJ, pour charger le projet du TP : `open` → aller chercher le fichier `pom.xml` du projet → *Open as project* → *Trust Project*. Avec VSCode, faites *Ouvrir un dossier*.
+- Avec IntelliJ, pour charger le projet du TP : `open` → aller chercher le fichier `pom.xml` du projet → *Open as project* → *Trust Project*. <br/>
+Avec VSCode, faites *Ouvrir un dossier*.
 
 
 # Exercice 1
@@ -87,36 +94,53 @@ Le projet à utiliser pour le TP se trouve dans : `tp-spring`
 
 ## Q1.1
 
-- Créer les classes du diagramme de classes ci-dessus dans le package `web.model`.
-- Ajouter des getters/setters, `toString` en utilisant les annotations *lombok* sur les classes
-```java
-@Getter
-@Setter
-@ToString
+Lancer le back-end en allant dans `Application.java` et en lançant le `main`.
+
+- Sur `http://localhost:1024`, supprimer le contenu afficher et ajouter simplement :
+```yaml
+openapi: 3.0.3
+info:
+  title: TP Web INSA Rennes
+  description: |-
+    Intro au dev d'un back-end REST en Java avec Spring et OpenAPI
+  version: 1.0.0
+servers:
+  - url: localhost:8080/api/v1
+
+tags: # Some annotations used to document the route descriptions (optional)
+  - name: todo
+    description: Les todos
+paths:
+    /hello:
+        get:
+            tags:
+                - todo
+
 ```
-Cf. le cours vers la page 56 pour un exemple.
 
-- À votre avis, comment fonctionne *lombok* d'après nos discussions en cours ?
+- Exécutez cette commande REST avec `Try it out` -> `Execute`.
 
+- Cette route est déjà codée dans le contrôleur REST `TodoV1` (package `web.controller`). Regardez cette classe.
 
 ## Q1.2
 
-- Dans le package `web.controller` créer un contrôleur `TodoV1` REST avec l'URI `'api/insa/v1/todo'` (Cf. le cours).
-- Y ajouter une route REST `GET` avec l'URI `'hello'` (Cf. cours). Cette méthode devra juste retourne une chaîne de caractères `'hello'` (attention au paramètre `produces` pour qu'il soit `MediaType.TEXT_PLAIN_VALUE`).
+- Dans votre navigateur entrez l'URL `http://localhost:8080/api/v1/insa/todo/hello`<br/>
+Pourquoi la barre d'adresse de votre navigateur sait-elle gérer une requête REST GET? Est-elle aussi capable de gérer un POST ?
+
+
+- Affichez la console de développement de votre navigateur. Allez dans l'onglet réseau et rafraîchissez la page. Vous devriez pouvoir observer la requête et ses détails.
+
 
 ## Q1.3
 
-- Lancer le programme et entrer la bonne URL dans un navigateur pour tester la route `hello`.
-- Ouvrir le panneau de développement du navigateur pour observer le traffic réseau.
-- Tester en ligne de commande avec curl
-- Tester avec Postman
+- Dans votre Swagger Editor, ajouter dans le contrôleur `todo` (tag `todo`) une route REST `todo` (`GET`) qui retourna au format JSON une instance de la classe `Todo`. Tester que la commande ne fonctionne pas.
 
 ## Q1.4
 
-- Créer une route REST `todo` (`GET`) qui retourna au format JSON une nouvelle instance (que l'on ne stockera pas) de la classe `Todo` (donner les valeurs que vous voulez).
+- Codez cette requête dans votre contrôleur REST (il faudra redémarrer le back-end). L'instance retournée sera un simple `new SpecificTodo()`.
+- Tester à nouveau dans Swagger Editor
 - Tester dans le navigateur
-- Tester en ligne de commande avec curl
-- Tester avec Postman (créer un nouvel onglet)
+
 
 ## Q1.5
 
