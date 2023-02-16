@@ -87,7 +87,7 @@ Le projet à utiliser pour le TP se trouve dans : `tp-spring`
 
 ## Q1.1
 
-- Créer les classes du diagramme de classes ci-dessus dans le package (à créer) `web.model`.
+- Créer les classes du diagramme de classes ci-dessus dans le package `web.model`.
 - Ajouter des getters/setters, `toString` en utilisant les annotations *lombok* sur les classes
 ```java
 @Getter
