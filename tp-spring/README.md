@@ -1,7 +1,7 @@
 
 # Préambule
 
-Le sujet est tout neuf et contient certainement des erreurs. N'hésitez pas à me les indiquer. Également, faites le sujet à votre vitesse : ce sujet fera l'objet de plusieurs séances de TP (voire toutes) ; les séances de TP ne sont pas associées à des séries de questions.
+Le sujet est tout neuf et contient certainement des erreurs. N'hésitez pas à me les indiquer. **Vous devez terminer le TP précédent avant chaque nouvelle séance**.
 
 N'hésitez pas à nous demander des explications sur des concepts Java/POO que vous ne comprenez pas.
 
@@ -76,7 +76,7 @@ docker run -d -p 1024:8080 swaggerapi/swagger-editor
 ```
 et dans votre navigateur aller sur la page `http://localhost:1024/`
 Si vous n'y arrivez pas vous pouvez utiliser le Swagger Editor en ligne (https://editor.swagger.io) mais vous ne pourrez alors pas executer vos commandes REST (il faudra alors télécharger et utiliser Postman ce qui complique le TP).<br/>
-À tout moment vous pouvez retrouver votre instance docker Swagger avec `docker ps`. La première colonne affichée vous indique l'ID de l'instance. Vous pouvez la stopper ou la redémarrer avec `docker start <id>` et `docker stop <id>`
+À tout moment vous pouvez retrouver votre instance docker Swagger avec `docker ps -a`. La première colonne affichée vous indique l'ID de l'instance. Vous pouvez la stopper ou la redémarrer (à chaque début de TP) avec `docker start <id>` et `docker stop <id>`
 
 
 - Avoir IntelliJ ou VisualCode<br/>
@@ -89,7 +89,7 @@ Le projet à utiliser pour le TP se trouve dans : `tp-spring`
 Avec VSCode, faites *Ouvrir un dossier*.
 
 
-# Exercice 1
+# TP 1
 
 
 ## Q1.1
@@ -133,22 +133,50 @@ Pourquoi la barre d'adresse de votre navigateur sait-elle gérer une requête RE
 
 ## Q1.3
 
-- Dans votre Swagger Editor, ajouter dans le contrôleur `todo` (tag `todo`) une route REST `todo` (`GET`) qui retourna au format JSON une instance de la classe `Todo`. Tester que la commande ne fonctionne pas.
+- Dans votre Swagger Editor, ajouter dans le contrôleur `todo` (tag `todo`) une route REST `todo` (`GET`) qui retourna au format JSON une instance de la classe `Todo`. Inspirez vous de l'exemple OpenAPI du cours : https://github.com/arnobl/WebEngineering-INSA/blob/master/rest/openapi.yaml
+Notamment, vous aurez besoin de définir et d'utiliser le schéma de l'objet retourné (le `Todo`). En grand prince je vous le donne pour cette fois :
+```yaml
+components:
+  schemas:
+    Todo:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        title:
+          type: string
+        description:
+          type: string
+        categories:
+          type: array
+          items:
+            type: string
+```
+Tester que la commande ne fonctionne pas.
 
 ## Q1.4
 
-- Codez cette requête dans votre contrôleur REST (il faudra redémarrer le back-end). L'instance retournée sera un simple `new SpecificTodo()`.
-- Tester à nouveau dans Swagger Editor
+- Codez cette requête dans votre contrôleur REST (il faudra redémarrer le back-end). L'instance retournée sera `new Todo(1, "A title", "private desc", "public desc", List.of(Category.ENTERTAINMENT, Category.WORK))`
+- Tester à nouveau dans Swagger Editor. Vous pouvez voir que le format du JSON reçu ne correspond pas à celui attendu (celui défini dans Swagger Editor). Nous verrons cela plus tard avec les DTO.
 - Tester dans le navigateur
 
 
 ## Q1.5
 
-- Créer une route REST `todo` (`POST`) qui recevra un objet `Todo` (en JSON, `consumes`) avec les données que vous voulez. Le type de retour de la route sera `void`.
+- Créer une route REST `POST` `todo` (dans Swagger Editor puis dans votre projet Spring) qui recevra un objet `Todo` (en JSON, `consumes`) avec les données que vous voulez. Le type de retour de la route sera `void` (code 200).
 - La route affichera pour l'instant juste cet objet (`System.out.println(...)`).
-**Attention :** la sortie de `println` sera visible dans la console d'IntelliJ (et non dans Postman).
-- Tester avec Curl (exemple vers page 51) et Postman (dans *body*, choisir *raw* au format *JSON* et écrire le JSON).
+**Attention :** la sortie de `println` sera visible dans la console d'IntelliJ (et non dans votre navigateur).
+- Tester avec Swagger Editor
 
+
+## Terminer le TP pour la séance d'après
+
+**Et sauvegarder votre openAPI de Swagger Editor !**
+
+
+# TP 2
 
 ## Q1.6
 
