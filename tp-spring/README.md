@@ -105,7 +105,7 @@ info:
     Intro au dev d'un back-end REST en Java avec Spring et OpenAPI
   version: 1.0.0
 servers:
-  - url: localhost:8080/api/v1
+  - url: http://localhost:8080/api/v1
 
 tags: # Some annotations used to document the route descriptions (optional)
   - name: todo
@@ -115,7 +115,9 @@ paths:
         get:
             tags:
                 - todo
-
+            responses:
+              '200':
+                description: c'est bon
 ```
 
 - Exécutez cette commande REST avec `Try it out` -> `Execute`.
@@ -124,14 +126,14 @@ paths:
 
 ## Q1.2
 
-- Dans votre navigateur entrez l'URL `http://localhost:8080/api/v1/insa/todo/hello`<br/>
+- Dans votre navigateur entrez l'URL `http://localhost:8080/api/v1/todo/hello`<br/>
 Pourquoi la barre d'adresse de votre navigateur sait-elle gérer une requête REST GET? Est-elle aussi capable de gérer un POST ?
 
 
 - Affichez la console de développement de votre navigateur. Allez dans l'onglet réseau et rafraîchissez la page. Vous devriez pouvoir observer la requête et ses détails.
 
 
-## Q1.3
+## Q1.3 Get OpenAPI
 
 - Dans votre Swagger Editor, ajouter dans le contrôleur `todo` (tag `todo`) une route REST `todo` (`GET`) qui retourna au format JSON une instance de la classe `Todo`. Inspirez vous de l'exemple OpenAPI du cours : https://github.com/arnobl/WebEngineering-INSA/blob/master/rest/openapi.yaml
 Notamment, vous aurez besoin de définir et d'utiliser le schéma de l'objet retourné (le `Todo`). En grand prince je vous le donne pour cette fois :
@@ -156,14 +158,14 @@ components:
 ```
 Tester que la commande ne fonctionne pas.
 
-## Q1.4
+## Q1.4 Get Spring
 
 - Codez cette requête dans votre contrôleur REST (il faudra redémarrer le back-end). L'instance retournée sera `new Todo(1, "A title", "private desc", "public desc", List.of(Category.ENTERTAINMENT, Category.WORK))`
 - Tester à nouveau dans Swagger Editor. Vous pouvez voir que le format du JSON reçu ne correspond pas à celui attendu (celui défini dans Swagger Editor). Nous verrons cela plus tard avec les DTO.
 - Tester dans le navigateur
 
 
-## Q1.5
+## Q1.5 Post v1
 
 - Créer une route REST `POST` `todo` (dans Swagger Editor puis dans votre projet Spring) qui recevra un objet `Todo` (en JSON, `consumes`) avec les données que vous voulez. Le type de retour de la route sera `void` (code 200).
 - La route affichera pour l'instant juste cet objet (`System.out.println(...)`).
@@ -178,14 +180,58 @@ Tester que la commande ne fonctionne pas.
 
 # TP 2
 
-## Q1.6
+## Q2.1 Post v2
 
-- Ajouter un attribut `users` dans la classe de la ressource REST `TodoV1` dont le type sera une liste de `User`.
-Cet attribut sera instancié dans le constructeur (à créer) du contrôleur.
+Dans les questions précédentes, nous ne sauvegardions pas les todos crée par la commande `post`, et ne gérions pas l'identifiant unique.
 
-- Ajouter une route `POST user` pour créer un nouvel utilisateur en utilisant son nom uniquement. Nous considérons le nom d'un utilisateur comme clé unique : le `POST` doit vérifier qu'aucun utilisateur existant porte déjà ce nom. Ce nouvel utilisateur sera ajouter à la liste `users`.
+- Dans la contrôleur REST, ajoutez un attribut `cpt` (type `integer`) qui sera incrémenté à chaque nouveau todo et donné alors comme identifiant au nouveaux todos. Modifiez la route `POST` en conséquence. Cette pratique n'est pas propre du tout. Nous verrons plus tard comment faire cela de manière correct.
 
-- Tester avec Postman
+- Étant donné que les objets todo à stocker ont une clé unique et que nous voudrions certainement chercher en fonction de cet id, quel serait la structure de donnée adequate à utiliser ici ? Toujours dans le contrôleur, ajoutez un attribut `todos` dont le type sera la structure identifiée.
+La route `POST` ajoutera le todo crée dans cette structure et retourna le todo crée. Modifier le Swagger Editor en conséquence. Modifiez le `println` pour qu'il affiche la liste.
+
+
+Donc, dans cette structure tous les todos doivent avoir un id différent.
+
+## Q2.2 Delete
+
+- Ajouter (dans Swagger Editor et votre code Spring) une route `DELETE` `todo/{id}` qui supprimera le todo dont l'id est celui donné en paramètre de l'URI. Cette route devra alors chercher dans la structure le todo dont l'id est égal à celui du todo passé en paramètre. Si la recherche échoue, alors retourner un code `400` (cf l'exemple *openapi.yaml*). Si elle réussie, vous supprimerez l'objet de la liste du contrôleur.
+
+- Testez avec Swagger Editor.
+
+
+## Q2.3 Patch pas terrible
+
+- Ajouter une route `PATCH` `bof/todo` (bof, car cette version n'est pas terrible) qui modifiera un todo. Pour cela copier-coller-modifier la route `POST` `todo` car cette première version du patch est assez similaire. Cette route devra alors chercher dans la liste le todo dont l'id est égal à celui du todo passé en paramètre. Si la recherche échoue, alors retourner un code `400` (cf l'exemple *openapi.yaml*). Si elle réussie, alors vous utiliserez les setters de `Todo`, par exemple :
+```java
+  if(todo.getPublicDescription() != null) {
+    todoFound.setPublicDescription(todo.getPublicDescription());
+  }
+  //etc.
+```
+
+Cette manière de faire le patch souffre de plusieurs défauts importants. Lesquels selon vous ?
+
+
+## Q2.4 Patch un peu mieux
+
+
+## Bilan TP2
+
+Nous avons vu les bases pour coder des routes REST réalisant des opérations CRUD sur un type d'objets (le `Todo`).
+
+Pour l'instant le code de notre back-end a plusieurs défauts majeurs :
+- Stockage des objets dans le contrôleur. Ca n'est pas une bonne pratique car comment partager les données entre plusieurs contrôleurs ? Et est-ce le rôle d'un contrôleur de stocker ? Nous utiliserons plus tard un *service*.
+- Gestion à la main de l'unicité des objets et stockage peu efficaces des données. Nous utiliserons une base de données et son lien avec le back-end (JPA) plus tard.
+- Nous (de-)marshallons directement les objets `Todo` alors que nous voulons que quelques attributs dans certains cas. Nous utiliserons des DTO plus tard.
+- Pas de test unitaire (TU) écrit pour l'instant.
+- Pas de sécurité : tout le monde pour faire du CRUD sur les objets todo.
+
+<!-- - Ajouter un attribut `users` dans la classe de la ressource REST `TodoV1` dont le type sera une liste de `User`. -->
+<!-- Cet attribut sera instancié dans le constructeur (à créer) du contrôleur. -->
+
+<!-- - Ajouter une route `POST user` pour créer un nouvel utilisateur en utilisant son nom uniquement. Nous considérons le nom d'un utilisateur comme clé unique : le `POST` doit vérifier qu'aucun utilisateur existant porte déjà ce nom. Ce nouvel utilisateur sera ajouter à la liste `users`. -->
+
+<!-- - Tester avec Postman -->
 
 
 ## Q1.7
