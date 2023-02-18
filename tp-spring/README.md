@@ -111,7 +111,7 @@ tags: # Some annotations used to document the route descriptions (optional)
   - name: todo
     description: Les todos
 paths:
-    /hello:
+    /todo/hello:
         get:
             tags:
                 - todo
@@ -224,6 +224,8 @@ Lecture intéressante : https://stackoverflow.com/a/19111046/9649530
 
 ## Q2.4 Patch un peu mieux
 
+TODO
+
 
 ## Bilan TP2
 
@@ -289,13 +291,47 @@ Nous creuserons en 4INFO ce concept d'injection de dépendances (le `@autowired`
 Coder un service comme nous l'avons fait dans la question précédente est un peu laborieux (gestion à la main du `cpt`, structure de stockage) : les opérations CRUD sur un objet, c'est du grand classique et Spring fournit un mécanisme pour simplifier cela : les `repository`.
 Les `repository` sont injectables tout comme les services. La différence est que ces premiers ont pour but de stocker des données et faciliter leur accès. Les services offrent des méthodes pour réaliser des opérations, des calculs.
 
+- Dans le package `web.service` créez un repository CRUD pour les todo :
 
-## Q3.4 Retour des méthodes des contrôleurs
+```java
+@Repository
+public interface TodoRepository extends CrudRepository<Todo, Long> {
+}
+```
+Pour rappel, le générique `Long` correspond au type de la clé primaire de `Todo` (l'attribut `id`).
 
--
+- Dans `TodoService`, mettez en commentaire les attributs `cpt` et `todos` et ajoutez à la place votre nouveau repository :
+```java
+@Autowired
+private TodoRepository repository;
+```
+
+- Modifiez le code du service pour qu'il utilise désormais le repository pour stocker les objets `todo`. Vous noterez que la méthode `save` du repository ne demande pas l'id unique de l'objet. Pourquoi ? (il manque quelque chose dans la classe `Todo` que nous allons ajouter).
+
+
+- Ajoutez les annotations nécessaires dans la classe `Todo` pour pallier le problème précédent.
+
+
+- Testez votre nouveau contrôleur avec Swagger Editor.
+
+
+## Bilan TP3
+
+Nous avons vu comment mieux gérer les données manipulées dans un back-end à l'aide des services et des repositories.
+
+
+Cependant, le notre back-end a encore des défauts :
+- Nous utilisons un repository CRUD et non une véritable base de données.
+- Nous (de-)marshallons directement les objets `Todo` alors que nous voulons que quelques attributs dans certains cas. Nous utiliserons des DTO plus tard.
+- Pas de test unitaire (TU) écrit pour l'instant.
+- Pas de sécurité : tout le monde pour faire du CRUD sur les objets todo.
 
 
 
+# TP4
+
+
+------------------------------
 
 ## Q1.9
 
