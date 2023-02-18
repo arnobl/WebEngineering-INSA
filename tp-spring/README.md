@@ -295,7 +295,7 @@ Les `repository` sont injectables tout comme les services. La différence est qu
 
 ```java
 @Repository
-public interface TodoRepository extends CrudRepository<Todo, Long> {
+public interface TodoCrudRepository extends CrudRepository<Todo, Long> {
 }
 ```
 Pour rappel, le générique `Long` correspond au type de la clé primaire de `Todo` (l'attribut `id`).
@@ -303,7 +303,7 @@ Pour rappel, le générique `Long` correspond au type de la clé primaire de `To
 - Dans `TodoService`, mettez en commentaire les attributs `cpt` et `todos` et ajoutez à la place votre nouveau repository :
 ```java
 @Autowired
-private TodoRepository repository;
+private TodoCrudRepository repository;
 ```
 
 - Modifiez le code du service pour qu'il utilise désormais le repository pour stocker les objets `todo`. Vous noterez que la méthode `save` du repository ne demande pas l'id unique de l'objet. Pourquoi ? (il manque quelque chose dans la classe `Todo` que nous allons ajouter).
@@ -321,7 +321,7 @@ Nous avons vu comment mieux gérer les données manipulées dans un back-end à 
 
 
 Cependant, le notre back-end a encore des défauts :
-- Nous utilisons un repository CRUD et non une véritable base de données.
+- Nous utilisons un repository CRUD et non une véritable base de données, ce qui nous empêche d'écrire des requêtes SQL.
 - Nous (de-)marshallons directement les objets `Todo` alors que nous voulons que quelques attributs dans certains cas. Nous utiliserons des DTO plus tard.
 - Pas de test unitaire (TU) écrit pour l'instant.
 - Pas de sécurité : tout le monde pour faire du CRUD sur les objets todo.
@@ -329,6 +329,90 @@ Cependant, le notre back-end a encore des défauts :
 
 
 # TP4
+
+## Q4.1 Retour des routes REST
+
+Étant donné le code ci-dessous, qu'est-ce qui est retourné au client qui a envoyé la requête REST ? Un objet Todo ?
+
+```java
+	@GetMapping(path = "todo", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Todo todo() {
+		return new Todo(1, "A title", "private desc", "public desc", List.of(Category.ENTERTAINMENT, Category.WORK));
+	}
+```
+
+Et maintenant avec cette méthode qui retourne void ?
+
+```java
+	@DeleteMapping(path = "todo/{id}")
+	public void deleteTodo(@PathVariable("id") final int id) {
+		if(!todoListService.removeTodo(id)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not possible");
+		}
+	}
+```
+
+## Q4.2
+
+Du coup, quelle différence avec le code suivant ? Que permet le code suivant ?
+
+
+```java
+@PutMapping(path = "user", consumes = MediaType.APPLICATION_JSON_VALUE)
+public ResponseEntity<String> replaceUser(@RequestBody final User patchedUser) {
+  if(patchedUser.getId().equals(dataService.getUser().getId())) {
+    dataService.setUser(patchedUser);
+    return ResponseEntity.ok().build();
+  }
+  throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The ID is not the same");
+}
+```
+
+
+## Q4.3 Les exceptions
+
+Toujours avec le code suivant, qu'est-ce qui est retourné au client lorsqu'une exception est levée ?
+
+```java
+	@DeleteMapping(path = "todo/{id}")
+	public void deleteTodo(@PathVariable("id") final int id) {
+		if(!todoListService.removeTodo(id)) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not possible");
+		}
+	}
+```
+
+## Q4.4 Marshalling avec héritage
+
+La classe `SpecificTodo` est une sous-classe de `Todo`.
+Modifiez la route `GET` `todo/todo` pour quelle retourne un objet `SpecificTodo`. Relancez le serveur et testez cette route. Utilisez le résultat retourné pour l'envoyer via la route `POST`. Pourquoi cette dernière ne crée finalement pas un `SpecificTodo` mais un `Todo` ?
+
+Ajoutez les annotations nécessaires pour que cela fonctionne. Cf slide TODO. Il vous faudra aussi ajouter l'annotation `@Entity`.
+
+
+## Q4.5
+
+Créez un nouveau contrôleur (URI `api/v2/todolist`), un nouveau service et un nouveau repository pour les `TodoList`.
+
+
+## 4.6
+
+Ajoutez dans Swagger Editor et dans votre code une route
+
+
+# TP5
+
+
+# TP6 Test
+
+Le sujet de ce TP est simple.
+Développer une suite de tests qui teste la dernière version de votre contrôleur, votre service, et repository avec une couverture de branche de 100%.
+
+
+# TP7 Test
+
+
+# TP8 Sécurité
 
 
 ------------------------------
