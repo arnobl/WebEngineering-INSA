@@ -30,15 +30,15 @@ Le sujet des TP concerne la création d'un back-end pour réaliser des opératio
 ```mermaid
 classDiagram
     class User {
-        - id: integer
+        - id: long
         - name: string
     }
     class TodoList {
-        - id: integer
+        - id: long
         - name: string
     }
     class Todo {
-        - id: integer
+        - id: long
         - title: string
         - publicDescription: string
         - privateDescription: string
@@ -199,9 +199,18 @@ Donc, dans cette structure tous les todos doivent avoir un id différent.
 - Testez avec Swagger Editor.
 
 
+## Q2.3 Put
+
+- Le `Put` remplace un objet par un autre. C'est une manière de modifier complètement un objet.
+Ajoutez une route (dans Swagger Editor et votre code Spring) `PUT` `todo` qui fera cette opération sur un todo. Pour cela vous pouvez copier-coller-adapter la route `POST` car assez proche.
+
+- Testez avec Swagger Editor.
+
+
+
 ## Q2.3 Patch pas terrible
 
-- Ajouter une route `PATCH` `bof/todo` (bof, car cette version n'est pas terrible) qui modifiera un todo. Pour cela copier-coller-modifier la route `POST` `todo` car cette première version du patch est assez similaire. Cette route devra alors chercher dans la liste le todo dont l'id est égal à celui du todo passé en paramètre. Si la recherche échoue, alors retourner un code `400` (cf l'exemple *openapi.yaml*). Si elle réussie, alors vous utiliserez les setters de `Todo`, par exemple :
+- Ajoutez une route `PATCH` `bof/todo` (bof, car cette version n'est pas terrible) qui modifiera un todo. Pour cela copier-coller-modifier la route `POST` `todo` car cette première version du patch est assez similaire. Cette route devra alors chercher dans la liste le todo dont l'id est égal à celui du todo passé en paramètre. Si la recherche échoue, alors retourner un code `400` (cf l'exemple *openapi.yaml*). Si elle réussie, alors vous utiliserez les setters de `Todo`, par exemple :
 ```java
   if(todo.getPublicDescription() != null) {
     todoFound.setPublicDescription(todo.getPublicDescription());
@@ -210,6 +219,7 @@ Donc, dans cette structure tous les todos doivent avoir un id différent.
 ```
 
 Cette manière de faire le patch souffre de plusieurs défauts importants. Lesquels selon vous ?
+Lecture intéressante : https://stackoverflow.com/a/19111046/9649530
 
 
 ## Q2.4 Patch un peu mieux
@@ -226,28 +236,65 @@ Pour l'instant le code de notre back-end a plusieurs défauts majeurs :
 - Pas de test unitaire (TU) écrit pour l'instant.
 - Pas de sécurité : tout le monde pour faire du CRUD sur les objets todo.
 
-<!-- - Ajouter un attribut `users` dans la classe de la ressource REST `TodoV1` dont le type sera une liste de `User`. -->
-<!-- Cet attribut sera instancié dans le constructeur (à créer) du contrôleur. -->
 
-<!-- - Ajouter une route `POST user` pour créer un nouvel utilisateur en utilisant son nom uniquement. Nous considérons le nom d'un utilisateur comme clé unique : le `POST` doit vérifier qu'aucun utilisateur existant porte déjà ce nom. Ce nouvel utilisateur sera ajouter à la liste `users`. -->
+## Terminer le TP pour la séance d'après
 
-<!-- - Tester avec Postman -->
+**Et sauvegarder votre openAPI de Swagger Editor !**
 
 
-## Q1.7
 
-- Ajouter une route `PATCH user/{name}` qui modifiera un utilisateur. Pour cela l'URI de la route va avoir un paramètre pour identifier l'utilisateur à modifier : c'est le `{name}` (Cf. vers page 45 du cours). La requête doit également embarquer dans son body un `user` au format JSON (Cf. vers le slide 42).<br/>
-Le patch permet de modifier les attributs d'un objet. Mais la classe `User` contient un attribut primitif (`name`) et une liste de `TodoList`. Est-ce que cela vous semble une bonne pratique de modifier au travers du patch les objets `TodoList` et leurs `Todo`, ou vaut-il mieux se limiter aux attributs primitifs ?
+# TP3
+
+## Q3.1 contrôleur V2
+
+- Copiez-collez le contrôleur `TodoV1.java` pour avoir un `TodoV2.java` dont le `RequestMapping` indique `api/v2/todo`.
+Changez également l'adresse du serveur dans Swagger Editor en conséquence.
+Nous travaillerons sur ce nouveau contrôleur avec cette nouvelle URI.
 
 
-- Tester avec Postman
+## Q3.2 Service
+
+- Créez un service `TodoListService` et ajoutez un attribut de ce type dans votre nouveau contrôleur avec `@autowired`. Que fait cette annotation ?
+
+- Déplacez les attributs `cpt` et `todos` dans ce service. Cela va vous demandez de modifiez la plupart des routes de votre contrôleur délègue au service tout la logique CRUD des opérations.
+Votre service devrait donc avoir les méthodes suivantes :
+```java
+	public Todo addTodo(final Todo todo) {
+	}
+  // true if newTodo corresponds to an existing todo
+	public boolean replaceTodo(final Todo newTodo) {
+	}
+// true if id corresponds to an existing todo
+	public boolean removeTodo(final int id) {
+	}
 
 
-## Q1.8
+	public Todo modifyTodo(final Todo partialTodo) {
+	}
 
-- Ajouter une route `DELETE user/{name}` qui supprimera l'utilisateur visé. Si celui-ci n'existe pas, ne rien faire.
 
-- Tester avec Postman
+	private Todo findTodo(final int id) {
+  }
+```
+
+- Que se passe-t-il si je mets un attribut `@autowired TodoListService...` dans un autre contrôleur ?
+
+
+Quel sont les avantages d'un service par rapport à nos 2 TP précédents ?
+Nous creuserons en 4INFO ce concept d'injection de dépendances (le `@autowired`).
+
+
+## Q3.3 Repository
+
+Coder un service comme nous l'avons fait dans la question précédente est un peu laborieux (gestion à la main du `cpt`, structure de stockage) : les opérations CRUD sur un objet, c'est du grand classique et Spring fournit un mécanisme pour simplifier cela : les `repository`.
+Les `repository` sont injectables tout comme les services. La différence est que ces premiers ont pour but de stocker des données et faciliter leur accès. Les services offrent des méthodes pour réaliser des opérations, des calculs.
+
+
+## Q3.4 Retour des méthodes des contrôleurs
+
+-
+
+
 
 
 ## Q1.9

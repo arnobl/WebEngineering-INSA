@@ -10,7 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class TodoList {
-	private int id;
+	private long id;
 	private String name;
 	private final List<Todo> todos;
 
