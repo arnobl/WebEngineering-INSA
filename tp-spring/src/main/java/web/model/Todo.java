@@ -1,22 +1,23 @@
 package web.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 
-import java.util.List;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 public class Todo {
 	protected long id;
@@ -24,4 +25,7 @@ public class Todo {
 	protected String privateDescription;
 	protected String publicDescription;
 	protected List<Category> categories;
+
+	@JsonIgnore
+	protected TodoList list;
 }
