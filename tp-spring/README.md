@@ -122,7 +122,7 @@ paths:
 
 - Exécutez cette commande REST avec `Try it out` -> `Execute`.
 
-- Cette route est déjà codée dans le contrôleur REST `TodoV1` (package `web.controller`). Regardez cette classe.
+- Cette route est déjà codée dans le contrôleur REST `TodoControllerV1` (package `web.controller`). Regardez cette classe.
 
 ## Q1.2
 
@@ -249,7 +249,7 @@ Pour l'instant le code de notre back-end a plusieurs défauts majeurs :
 
 ## Q3.1 contrôleur V2
 
-- Copiez-collez le contrôleur `TodoV1.java` pour avoir un `TodoV2.java` dont le `RequestMapping` indique `api/v2/todo`.
+- Copiez-collez le contrôleur `TodoControllerV1.java` pour avoir un `TodoControllerV2.java` dont le `RequestMapping` indique `api/v2/todo`.
 Changez également l'adresse du serveur dans Swagger Editor en conséquence.
 Nous travaillerons sur ce nouveau contrôleur avec cette nouvelle URI.
 
@@ -390,17 +390,52 @@ Modifiez la route `GET` `todo/todo` pour quelle retourne un objet `SpecificTodo`
 Ajoutez les annotations nécessaires pour que cela fonctionne. Cf slide TODO. Il vous faudra aussi ajouter l'annotation `@Entity`.
 
 
+
+
 ## Q4.5
 
 Créez un nouveau contrôleur (URI `api/v2/todolist`), un nouveau service et un nouveau repository pour les `TodoList`.
 
+## Q4.6
 
-## 4.6
+Ajoutez dans Swagger Editor et dans votre nouveau contrôleur les routes REST suivantes :
+- une route pour ajouter une todolist vide. Vous devrez ajouter des annotations à `TodoList` à l'instar de `Todo`. Vous devrez également ajouter des annotations JPA pour identifier les clés étrangères de TodoList et Todo : puisque que TodoList à une liste de Todo, dans la base de données il faut expliciter comment cette référence Java va se transformer en schéma relationnel. Regardez les annotations `@OneToMany` et `@ManyToOne` slides TODO. Sans ces annotations, le back-end crashera et vous expliquant qu'il ne sait pas gérer dans la base de données la relation entre ces deux classes.
 
-Ajoutez dans Swagger Editor et dans votre code une route
+
+## Terminer le TP pour la séance d'après
+
+**Et sauvegarder votre openAPI de Swagger Editor !**
 
 
 # TP5
+
+
+## 5.1 DTO
+
+La route pour ajouter une todolist vide n'est pas optimale : pourquoi envoyer un objet todolist alors que nous n'avons besoin que de son nom ?
+Plusieurs solutions : mettre le nom dans l'URI de la requête ou embarquer un DTO contenant que le nom dans le body de la requête. Nous allons utiliser cette dernière solution.
+
+- Créez un DTO `namedDTO` contenant juste un attribut correspond à un nom. Pensez à l'annotation `@Data` de *lombok* pour générer les getters et setters.
+
+- Ajoutez ce DTO dans la définition de votre Swagger Editor et modifiez la route concernée.
+
+
+## 5.2
+
+- Ajoutez une route pour ajouter un todo à une todo list (un todo pour être dans plusieurs list pour l'instant). Attention, vous aurez donc besoin de l'id du todo à ajouter, et l'id de la todo list concernée. Donc votre `TodoListService` aura les deux repositories.
+
+
+## 5.3 Patch Todo
+
+Nous allons modifier la requête patch todo pour la rendre de meilleure qualité.
+- Inspirez vous du slide TODO pour modifier la requête et le service pour patch correctement le todo.
+- Modifiez le Swagger Editor et testez
+
+
+## JPARepository
+
+
+
 
 
 # TP6 Test

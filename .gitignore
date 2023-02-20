@@ -8,4 +8,3 @@ target/
 hs_err_pid*
 *.ddl
 node_modules/
-.mvn
