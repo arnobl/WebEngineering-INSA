@@ -28,4 +28,10 @@ public class Todo {
 
 	@JsonIgnore
 	protected TodoList list;
+
+    @Override
+    public String toString() {
+        return "Todo [id=" + id + ", title=" + title + ", privateDescription=" + privateDescription
+                + ", publicDescription=" + publicDescription + ", categories=" + categories + "]";
+    }
 }
