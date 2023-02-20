@@ -446,9 +446,18 @@ Nous allons modifier la requête patch todo pour la rendre de meilleure qualité
 
 Le sujet de ce TP est simple.
 Développer une suite de tests qui teste la dernière version de votre contrôleur, votre service, et repository avec une couverture de branche de 100%.
+En test unitaire (TU) nous testons chaque classe séparement, donc le service puis le contrôleur (le repository n'a pas de code étant géré par Spring).
+
+- Complétez la classe de tests `TestTodoService`
+
+- Complétez la classe de tests `TestTodoControllerV2`
+
 
 
 # TP7 Test
+
+À l'instar du TP6, faites de même pour `TodoList`. Il vous faudra créer les classes de tests.
+
 
 
 # TP8 Sécurité
