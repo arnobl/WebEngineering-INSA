@@ -432,7 +432,11 @@ Nous allons modifier la requête patch todo pour la rendre de meilleure qualité
 - Modifiez le Swagger Editor et testez
 
 
-## JPARepository
+## 5.4 Query
+
+- Ajoutez une query dans le repository des Todo pour retourner la liste des Todo dont le titre contient le texte donné en paramètre (cf la partie Query dans le cours).
+
+- Ajoutez la requête REST associée dans le contrôleur Todo v2 et testez avec Swagger Editor
 
 
 
