@@ -19,38 +19,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class TestTodoV1 {
+public class TestTodoControllerV2 {
 	@Autowired
 	private MockMvc mvc;
 
-
 	@Test
-	void getTodo() throws Exception {
-		mvc.perform(get("/api/v1/insa/todo/todo"))
+	void testHello() throws Exception {
+		mvc.perform(get("/api/v2/todo/hello"))
 			.andExpect(status().isOk())
-			.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-			.andExpect(jsonPath("$.title", equalTo("t1")))
-			.andExpect(jsonPath("$.privateDescription", equalTo("foo")))
-			.andExpect(jsonPath("$.publicDescription", equalTo("bar")))
-			.andExpect(jsonPath("$.categories", hasSize(1)))
-			.andExpect(jsonPath("$.categories[0]", equalTo("ENTERTAINEMENT")))
-			.andExpect(jsonPath("$.*", hasSize(4)));
+			.andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_PLAIN))
+			.andExpect(content().string(equalTo("Hello")));
 	}
 
-	@Test
-	void postTodo() throws Exception {
-		mvc.perform(post("/api/v1/insa/todo/todo")
-				.contentType(MediaType.APPLICATION_JSON_VALUE)
-				.content("""
-{
-    "title": "title2",
-    "privateDescription": "foo",
-    "publicDescription": "bar,
-    "categories": ["ENTERTAINEMENT"]
-}
-					"""))
-			.andExpect(status().isOk())
-			.andExpect(content().string(""));
-
-	}
 }
