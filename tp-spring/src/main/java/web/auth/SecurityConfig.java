@@ -15,7 +15,8 @@ public class SecurityConfig {
 		http
 			.authorizeHttpRequests(req -> {
 				try {
-					req.requestMatchers(new AntPathRequestMatcher("/api/**")).permitAll()
+					req.requestMatchers(
+						new AntPathRequestMatcher("/api/**")).permitAll()
 						.anyRequest().authenticated()
 						.and()
 						.csrf().disable();
