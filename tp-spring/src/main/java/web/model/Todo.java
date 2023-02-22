@@ -22,16 +22,17 @@ import lombok.Setter;
 public class Todo {
 	protected long id;
 	protected String title;
-	protected String privateDescription;
-	protected String publicDescription;
+	protected String description;
 	protected List<Category> categories;
 
 	@JsonIgnore
 	protected TodoList list;
 
+	protected String owner;
+
     @Override
     public String toString() {
-        return "Todo [id=" + id + ", title=" + title + ", privateDescription=" + privateDescription
-                + ", publicDescription=" + publicDescription + ", categories=" + categories + "]";
+        return "Todo [id=" + id + ", title=" + title
+                + ", description=" + description + ", categories=" + categories + "]";
     }
 }

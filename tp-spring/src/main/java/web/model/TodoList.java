@@ -17,6 +17,7 @@ public class TodoList {
 	private long id;
 	private String name;
 	private List<Todo> todos;
+	private String owner;
 
 	public TodoList(final String name) {
 		super();
