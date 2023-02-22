@@ -12,22 +12,16 @@ import org.springframework.stereotype.Service;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class UserService {
 	private final PasswordEncoder passwordEncoder;
 
 	private final UserDetailsManager userDetailsManager;
 
 	private final HttpServletRequest request;
-
-	public UserService(final PasswordEncoder passwordEncoder, final UserDetailsManager userDetailsManager, final HttpServletRequest request) {
-		super();
-		this.passwordEncoder = passwordEncoder;
-		this.userDetailsManager = userDetailsManager;
-		this.request = request;
-	}
-
 
 	/**
 	 * @throws IllegalArgumentException If already exists
@@ -42,6 +36,7 @@ public class UserService {
 	}
 
 	public void delAccount(final String name) {
+		// warning: IRL, should remove associated data as well
 		userDetailsManager.deleteUser(name);
 	}
 
