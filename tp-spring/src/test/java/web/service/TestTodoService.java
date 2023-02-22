@@ -27,8 +27,8 @@ public class TestTodoService {
 
     @Test()
     public void saveCalledWhenAddingATodo() {
-        Todo todo = new Todo(1L, "title 1", "bar", "foo", List.of(Category.LOW_PRIORITY), null);
-        Todo todo2 = new Todo(2L, "title 1", "bar", "foo", List.of(Category.LOW_PRIORITY), null);
+        Todo todo = new Todo(1L, "title 1", "bar", List.of(Category.LOW_PRIORITY), null, "foo");
+        Todo todo2 = new Todo(2L, "title 1", "bar", List.of(Category.LOW_PRIORITY), null, "foo");
 
         // Configuring the mock so that a call to 'save' with 'todo' will return the same todo
         Mockito.when(repository.save(todo)).thenReturn(todo2);
