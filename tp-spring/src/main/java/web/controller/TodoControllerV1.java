@@ -1,5 +1,7 @@
 package web.controller;
 
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,7 +19,7 @@ import web.model.Category;
 import web.model.Todo;
 
 @RestController
-@RequestMapping("api/v1/todo")
+@RequestMapping("api/v1/public/todo")
 public class TodoControllerV1 {
 	public TodoControllerV1() {
 	}
