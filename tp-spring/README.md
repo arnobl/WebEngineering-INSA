@@ -218,10 +218,6 @@ Cette manière de faire le patch souffre de plusieurs défauts importants. Lesqu
 Lecture intéressante : https://stackoverflow.com/a/19111046/9649530
 
 
-## Q2.4 Patch un peu mieux
-
-TODO
-
 
 ## Bilan TP2
 
@@ -383,7 +379,7 @@ Toujours avec le code suivant, qu'est-ce qui est retourné au client lorsqu'une 
 La classe `SpecificTodo` est une sous-classe de `Todo`.
 Modifiez la route `GET` `todo/todo` pour quelle retourne un objet `SpecificTodo`. Relancez le serveur et testez cette route. Utilisez le résultat retourné pour l'envoyer via la route `POST`. Pourquoi cette dernière ne crée finalement pas un `SpecificTodo` mais un `Todo` ?
 
-Ajoutez les annotations nécessaires pour que cela fonctionne. Cf slide TODO. Il vous faudra aussi ajouter l'annotation `@Entity`.
+Ajoutez les annotations nécessaires pour que cela fonctionne. Cf slide 47. Il vous faudra aussi ajouter l'annotation `@Entity`.
 
 
 
@@ -395,7 +391,7 @@ Créez un nouveau contrôleur (URI `api/v2/public/todolist`), un nouveau service
 ## Q4.6
 
 Ajoutez dans Swagger Editor et dans votre nouveau contrôleur les routes REST suivantes :
-- une route pour ajouter une todolist vide. Vous devrez ajouter des annotations à `TodoList` à l'instar de `Todo`. Vous devrez également ajouter des annotations JPA pour identifier les clés étrangères de TodoList et Todo : puisque que TodoList à une liste de Todo, dans la base de données il faut expliciter comment cette référence Java va se transformer en schéma relationnel. Regardez les annotations `@OneToMany` et `@ManyToOne` slides TODO. Sans ces annotations, le back-end crashera et vous expliquant qu'il ne sait pas gérer dans la base de données la relation entre ces deux classes.
+- une route pour ajouter une todolist vide. Vous devrez ajouter des annotations à `TodoList` à l'instar de `Todo`. Vous devrez également ajouter des annotations JPA pour identifier les clés étrangères de TodoList et Todo : puisque que TodoList à une liste de Todo, dans la base de données il faut expliciter comment cette référence Java va se transformer en schéma relationnel. Regardez les annotations `@OneToMany` et `@ManyToOne` slides 76. Sans ces annotations, le back-end crashera et vous expliquant qu'il ne sait pas gérer dans la base de données la relation entre ces deux classes.
 
 
 ## Terminer le TP pour la séance d'après
@@ -424,7 +420,7 @@ Plusieurs solutions : mettre le nom dans l'URI de la requête ou embarquer un DT
 ## 5.3 Patch Todo
 
 Nous allons modifier la requête patch todo pour la rendre de meilleure qualité.
-- Inspirez vous du slide TODO pour modifier la requête et le service pour patch correctement le todo.
+- Inspirez vous du slide 31 pour modifier la requête et le service pour patch correctement le todo.
 - Modifiez le Swagger Editor et testez
 
 
