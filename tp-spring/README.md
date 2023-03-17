@@ -65,13 +65,13 @@ Les attributs `id` sont les identifiants uniques des objets.
 - Vérifier que Maven est installé (Maven 3) : `mvn -v`
 
 - Avoir Swagger editor en local : https://github.com/swagger-api/swagger-editor<br/>
-Le plus simple est d'installer docker et de lancer les commandes suivantes (mettre un `sudo` devant chaque commande si demandé) :
+Le plus simple est d'installer docker et de lancer les commandes suivantes (mettre un `sudo` devant chaque commande au besoin) :
 ```
 docker pull swaggerapi/swagger-editor
 docker run -d -p 1024:8080 swaggerapi/swagger-editor
 ```
-et dans votre navigateur aller sur la page `http://localhost:1024/`
-Si vous n'y arrivez pas vous pouvez utiliser le Swagger Editor en ligne (https://editor.swagger.io) mais vous ne pourrez alors pas executer vos commandes REST (il faudra alors télécharger et utiliser Postman ce qui complique le TP).<br/>
+et dans votre navigateur aller sur la page http://localhost:1024.
+Si vous n'y arrivez pas vous pouvez utiliser le Swagger Editor en ligne (https://editor.swagger.io) mais vous ne pourrez alors pas exécuter vos commandes REST (il faudra alors télécharger et utiliser Postman ce qui complique le TP).<br/>
 À tout moment vous pouvez retrouver votre instance docker Swagger avec `docker ps -a`. La première colonne affichée vous indique l'ID de l'instance. Vous pouvez la stopper ou la redémarrer (à chaque début de TP) avec `docker start <id>` et `docker stop <id>`
 
 
@@ -122,8 +122,8 @@ paths:
 
 ## Q1.2
 
-- Dans votre navigateur entrez l'URL `http://localhost:8080/api/v1/public/todo/hello`<br/>
-Pourquoi la barre d'adresse de votre navigateur sait-elle gérer une requête REST GET? Est-elle aussi capable de gérer un POST ?
+- Dans votre navigateur, entrez l'URL `http://localhost:8080/api/v1/public/todo/hello`<br/>
+Pourquoi la barre d'adresse de votre navigateur sait-elle gérer une requête REST GET ? Est-elle aussi capable de gérer un POST ?
 
 
 - Affichez la console de développement de votre navigateur. Allez dans l'onglet réseau et rafraîchissez la page. Vous devriez pouvoir observer la requête et ses détails.
@@ -180,7 +180,7 @@ Tester que la commande ne fonctionne pas.
 
 Dans les questions précédentes, nous ne sauvegardions pas les todos crée par la commande `post`, et ne gérions pas l'identifiant unique.
 
-- Dans la contrôleur REST, ajoutez un attribut `cpt` (type `integer`) qui sera incrémenté à chaque nouveau todo et donné alors comme identifiant au nouveaux todos. Modifiez la route `POST` en conséquence. Cette pratique n'est pas propre du tout. Nous verrons plus tard comment faire cela de manière correct.
+- Dans le contrôleur REST, ajoutez un attribut `cpt` (type `integer`) qui sera incrémenté à chaque nouveau todo et donné alors comme identifiant aux nouveaux todos. Modifiez la route `POST` en conséquence. Cette pratique n'est pas propre du tout. Nous verrons plus tard comment faire cela de manière correcte.
 
 - Étant donné que les objets todo à stocker ont une clé unique et que nous voudrions certainement chercher en fonction de cet id, quel serait la structure de donnée adequate à utiliser ici ? Toujours dans le contrôleur, ajoutez un attribut `todos` dont le type sera la structure identifiée.
 La route `POST` ajoutera le todo crée dans cette structure et retourna le todo crée. Modifier le Swagger Editor en conséquence. Modifiez le `println` pour qu'il affiche la liste.
@@ -206,7 +206,7 @@ Ajoutez une route (dans Swagger Editor et votre code Spring) `PUT` `todo` qui fe
 
 ## Q2.3 Patch pas terrible
 
-- Ajoutez une route `PATCH` `bof/todo` (bof, car cette version n'est pas terrible) qui modifiera un todo. Pour cela copier-coller-modifier la route `POST` `todo` car cette première version du patch est assez similaire. Cette route devra alors chercher dans la liste le todo dont l'id est égal à celui du todo passé en paramètre. Si la recherche échoue, alors retourner un code `400` (cf l'exemple *openapi.yaml*). Si elle réussie, alors vous utiliserez les setters de `Todo`, par exemple :
+- Ajoutez une route `PATCH` `bof/todo` (bof, car cette version n'est pas terrible) qui modifiera un todo. Pour cela copier-coller-modifier la route `POST` `todo` car cette première version du patch est assez similaire. Cette route devra alors chercher dans la liste le todo dont l'id est égal à celui du todo passé en paramètre. Si la recherche échoue, alors retourner un code `400` (cf. l'exemple *openapi.yaml*). Si elle réussit, alors vous utiliserez les setters de `Todo`, par exemple :
 ```java
   if(todo.getPublicDescription() != null) {
     todoFound.setPublicDescription(todo.getPublicDescription());
@@ -224,7 +224,7 @@ Lecture intéressante : https://stackoverflow.com/a/19111046/9649530
 Nous avons vu les bases pour coder des routes REST réalisant des opérations CRUD sur un type d'objets (le `Todo`).
 
 Pour l'instant le code de notre back-end a plusieurs défauts majeurs :
-- Stockage des objets dans le contrôleur. Ca n'est pas une bonne pratique car comment partager les données entre plusieurs contrôleurs ? Et est-ce le rôle d'un contrôleur de stocker ? Nous utiliserons plus tard un *service*.
+- Stockage des objets dans le contrôleur. Ça n'est pas une bonne pratique car comment partager les données entre plusieurs contrôleurs ? Et est-ce le rôle d'un contrôleur de stocker ? Nous utiliserons plus tard un *service*.
 - Gestion à la main de l'unicité des objets et stockage peu efficaces des données. Nous utiliserons une base de données et son lien avec le back-end (JPA) plus tard.
 - Nous (de-)marshallons directement les objets `Todo` alors que nous voulons que quelques attributs dans certains cas. Nous utiliserons des DTO plus tard.
 - Pas de test unitaire (TU) écrit pour l'instant.
@@ -250,7 +250,7 @@ Nous travaillerons sur ce nouveau contrôleur avec cette nouvelle URI.
 
 - Créez un service `TodoListService` et ajoutez un attribut de ce type dans votre nouveau contrôleur avec `@autowired`. Que fait cette annotation ?
 
-- Déplacez les attributs `cpt` et `todos` dans ce service. Cela va vous demandez de modifiez la plupart des routes de votre contrôleur délègue au service tout la logique CRUD des opérations.
+- Déplacez les attributs `cpt` et `todos` dans ce service. Cela va vous demandez de modifiez la plupart des routes de votre contrôleur délègue au service toute la logique CRUD des opérations.
 Votre service devrait donc avoir les méthodes suivantes :
 ```java
 	public Todo addTodo(final Todo todo) {
@@ -414,13 +414,13 @@ Plusieurs solutions : mettre le nom dans l'URI de la requête ou embarquer un DT
 
 ## 5.2
 
-- Ajoutez une route pour ajouter un todo à une todo list (un todo pour être dans plusieurs list pour l'instant). Attention, vous aurez donc besoin de l'id du todo à ajouter, et l'id de la todo list concernée. Donc votre `TodoListService` aura les deux repositories.
+- Ajoutez une route pour ajouter un todo à une todo list (un todo pour être dans plusieurs list pour l'instant). Attention, vous aurez donc besoin de l'id du todo à ajouter et de l'id de la todo list concernée. Donc votre `TodoListService` aura les deux repositories.
 
 
 ## 5.3 Patch Todo
 
 Nous allons modifier la requête patch todo pour la rendre de meilleure qualité.
-- Inspirez vous du slide 31 pour modifier la requête et le service pour patch correctement le todo.
+- Inspirez-vous du slide 31 pour modifier la requête et le service pour patch correctement le todo.
 - Modifiez le Swagger Editor et testez
 
 
@@ -438,7 +438,7 @@ Nous allons modifier la requête patch todo pour la rendre de meilleure qualité
 
 Le sujet de ce TP est simple.
 Développer une suite de tests qui teste la dernière version de votre contrôleur, votre service, et repository avec une couverture de branche de 100%.
-En test unitaire (TU) nous testons chaque classe séparement, donc le service puis le contrôleur (le repository n'a pas de code étant géré par Spring).
+En test unitaire (TU) nous testons chaque classe séparément, donc le service puis le contrôleur (le repository n'a pas de code étant géré par Spring).
 
 - Complétez la classe de tests `TestTodoService`
 
@@ -510,7 +510,7 @@ Il faut maintenant refaire fonctionner les routes de `TodoControllerV2`.
 `curl -X 'GET' 'http://localhost:8080/api/v2/private/todo/hello'  --cookie 'JSESSIONID=...'`
 
 
-- Pour la route 'todo', nous voulons que le `owner` du `todo` créé soit le `login` de l'utilisateur authentifié. Pour cela, dans toutes les requêtes qui nécessiterons cette information vous devrez ajouter en paramètre de la méthode Java de la route : `Principal principal` et utilisez `principal.getName()` pour obtenir le login et l'utiliser pour le paramètre `owner` du todo. Testez avec curl :
+- Pour la route 'todo', nous voulons que le `owner` du `todo` créé soit le `login` de l'utilisateur authentifié. Pour cela, dans toutes les requêtes qui nécessiteront cette information vous devrez ajouter en paramètre de la méthode Java de la route : `Principal principal` et utilisez `principal.getName()` pour obtenir le login et l'utiliser pour le paramètre `owner` du todo. Testez avec curl :
 `curl -X 'GET' 'http://localhost:8080/api/v2/private/todo/todo'  --cookie 'JSESSIONID=...'`
 
 
