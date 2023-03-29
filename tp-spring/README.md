@@ -92,7 +92,7 @@ Avec VSCode, faites *Ouvrir un dossier*.
 
 Lancer le back-end en allant dans `Application.java` et en lançant le `main`.
 
-- Sur `http://localhost:1024`, supprimer le contenu afficher et ajouter simplement :
+- Dans Swagger Editor (`http://localhost:1024` si vous utilisez une version sur votre machine), supprimer le contenu afficher et ajouter simplement :
 ```yaml
 openapi: 3.0.3
 info:
