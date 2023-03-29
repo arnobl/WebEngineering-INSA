@@ -156,7 +156,7 @@ Tester que la commande ne fonctionne pas.
 
 ## Q1.4 Get Spring
 
-- Codez cette requête dans votre contrôleur REST (il faudra redémarrer le back-end). L'instance retournée sera `new Todo(1, "A title", "desc", List.of(Category.ENTERTAINMENT, Category.WORK), "foo")`
+- Codez cette requête dans votre contrôleur REST (il faudra redémarrer le back-end). L'instance retournée sera `new Todo(1, "A title", "desc", List.of(Category.ENTERTAINMENT, Category.WORK), null, "foo")`
 - Tester à nouveau dans Swagger Editor. Vous pouvez voir que le format du JSON reçu ne correspond pas à celui attendu (celui défini dans Swagger Editor). Nous verrons cela plus tard avec les DTO.
 - Tester dans le navigateur
 
