@@ -178,9 +178,9 @@ Tester que la commande ne fonctionne pas.
 
 ## Q2.1 Post v2
 
-Dans les questions précédentes, nous ne sauvegardions pas les todos crée par la commande `post`, et ne gérions pas l'identifiant unique.
+Dans les questions précédentes, nous ne sauvegardions pas les todos crée par la commande `POST`, et ne gérions pas l'identifiant unique.
 
-- Dans le contrôleur REST, ajoutez un attribut `cpt` (type `int`) qui sera incrémenté à chaque nouveau todo et utilisé comme identifiant des nouveaux todos. Modifiez la route `POST` en conséquence. Cette pratique n'est pas propre du tout. Nous verrons plus tard comment faire cela de manière correcte.
+- Dans le contrôleur REST, ajoutez un attribut `cpt` (type `int`) qui sera incrémenté à chaque nouveau todo et utilisé comme identifiant du nouveau todo. Modifiez la route `POST` en conséquence. Cette pratique n'est pas propre du tout. Nous verrons plus tard comment faire cela de manière correcte.
 
 - Étant donné que les objets todo à stocker ont une clé unique et que nous voudrions certainement chercher en fonction de cet id, quel serait la structure de donnée adequate à utiliser ici ? Toujours dans le contrôleur, ajoutez un attribut `todos` dont le type sera la structure identifiée.
 La route `POST` ajoutera le todo crée dans cette structure et retournera le todo crée. Modifier le Swagger Editor en conséquence. Modifiez le `println` pour qu'il affiche la liste des todos.
