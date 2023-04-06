@@ -178,19 +178,19 @@ Tester que la commande ne fonctionne pas.
 
 ## Q2.1 Post v2
 
-Dans les questions précédentes, nous ne sauvegardions pas les todos crée par la commande `post`, et ne gérions pas l'identifiant unique.
+Dans les questions précédentes, nous ne sauvegardions pas les todos crée par la commande `POST`, et ne gérions pas l'identifiant unique.
 
-- Dans le contrôleur REST, ajoutez un attribut `cpt` (type `integer`) qui sera incrémenté à chaque nouveau todo et donné alors comme identifiant aux nouveaux todos. Modifiez la route `POST` en conséquence. Cette pratique n'est pas propre du tout. Nous verrons plus tard comment faire cela de manière correcte.
+- Dans le contrôleur REST, ajoutez un attribut `cpt` (type `long`) qui sera incrémenté à chaque nouveau todo et utilisé comme identifiant du nouveau todo. Modifiez la route `POST` en conséquence. Cette pratique n'est pas propre du tout. Nous verrons plus tard comment faire cela de manière correcte.
 
 - Étant donné que les objets todo à stocker ont une clé unique et que nous voudrions certainement chercher en fonction de cet id, quel serait la structure de donnée adequate à utiliser ici ? Toujours dans le contrôleur, ajoutez un attribut `todos` dont le type sera la structure identifiée.
-La route `POST` ajoutera le todo crée dans cette structure et retourna le todo crée. Modifier le Swagger Editor en conséquence. Modifiez le `println` pour qu'il affiche la liste.
+La route `POST` ajoutera le todo crée dans cette structure et retournera le todo crée. Modifier le Swagger Editor en conséquence. Modifiez le `println` pour qu'il affiche la liste des todos.
 
 
 Donc, dans cette structure tous les todos doivent avoir un id différent.
 
 ## Q2.2 Delete
 
-- Ajouter (dans Swagger Editor et votre code Spring) une route `DELETE` `todo/{id}` qui supprimera le todo dont l'id est celui donné en paramètre de l'URI. Cette route devra alors chercher dans la structure le todo dont l'id est égal à celui du todo passé en paramètre. Si la recherche échoue, alors retourner un code `400` (cf l'exemple *openapi.yaml*). Si elle réussie, vous supprimerez l'objet de la liste du contrôleur.
+- Ajouter (dans Swagger Editor et votre code Spring) une route `DELETE` `todo/{id}` qui supprimera le todo dont l'id est celui donné en paramètre de l'URI. Cette route devra alors chercher dans la structure le todo dont l'id est égal à celui du todo passé en paramètre. Si la recherche échoue, alors retourner un code `400` (cf l'exemple *openapi.yaml*). Si elle réussit, vous supprimerez l'objet de la liste des todos.
 
 - Testez avec Swagger Editor.
 
@@ -203,8 +203,7 @@ Ajoutez une route (dans Swagger Editor et votre code Spring) `PUT` `todo` qui fe
 - Testez avec Swagger Editor.
 
 
-
-## Q2.3 Patch pas terrible
+## Q2.4 Patch pas terrible
 
 - Ajoutez une route `PATCH` `bof/todo` (bof, car cette version n'est pas terrible) qui modifiera un todo. Pour cela copier-coller-modifier la route `POST` `todo` car cette première version du patch est assez similaire. Cette route devra alors chercher dans la liste le todo dont l'id est égal à celui du todo passé en paramètre. Si la recherche échoue, alors retourner un code `400` (cf. l'exemple *openapi.yaml*). Si elle réussit, alors vous utiliserez les setters de `Todo`, par exemple :
 ```java
