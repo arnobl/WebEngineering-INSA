@@ -474,7 +474,7 @@ Nous allons voir comment créer des routes REST publiques et d'autres privées :
 
 - Utilisez le code fournit dans la classe `PublicUserController` du projet exemple (le projet montré en cours) pour ajouter une route pour créer un nouvel utilisateur et un autre pour s'identifier.
 https://github.com/arnobl/WebEngineering-INSA/blob/master/rest/springboot2/src/main/java/fr/insarennes/demo/restcontroller/PublicUserController.java
-Mais n'utilisez pas la méthode `patchUser` et le DTO associé.
+Mais supprimer la méthode `patchUser` du DTO.
 
 
 - Ajoutez ces deux routes dans Swagger Editor et testez. Après avoir utiliser la route pour s'identifier, regardez la console d'IntelliJ/VSCode. Que voyez-vous de spéciale concernant l'authentification par cookie ?
@@ -485,7 +485,7 @@ Mais n'utilisez pas la méthode `patchUser` et le DTO associé.
 - Créez un contrôleur Spring: `PrivateUserController` (URI : `api/v2/private/user`).
 
 
-- Utilisez le code fournit dans la classe `PrivateUserController` du projet exemple pour ajouter la route :
+- Utilisez le code fournit dans la classe `PrivateUserController` du projet exemple (mais n'utiliser pas la méthode qui patch un `User` et le DTO associé) pour ajouter la route :
 ```java
 	@GetMapping()
 	public String hello(final Principal user) {
