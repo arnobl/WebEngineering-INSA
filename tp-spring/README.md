@@ -470,7 +470,7 @@ Nous allons voir comment créer des routes REST publiques et d'autres privées :
 ## 8.2
 
 
-- Créez un contrôleur Spring: `PublicUserController` (URI : `api/v2/public/user`).
+- Créez un contrôleur Spring: `PublicUserController` (URI : `api/v2/public/user`, pensez à mettre l'annotation `@CrossOrigin`).
 
 - Utilisez le code fournit dans la classe `PublicUserController` du projet exemple (le projet montré en cours) pour ajouter une route pour créer un nouvel utilisateur et un autre pour s'identifier.
 https://github.com/arnobl/WebEngineering-INSA/blob/master/rest/springboot2/src/main/java/fr/insarennes/demo/restcontroller/PublicUserController.java
@@ -482,7 +482,7 @@ Mais supprimer la méthode `patchUser` du DTO.
 ## 8.3
 
 
-- Créez un contrôleur Spring: `PrivateUserController` (URI : `api/v2/private/user`).
+- Créez un contrôleur Spring: `PrivateUserController` (URI : `api/v2/private/user`, pensez à mettre l'annotation `@CrossOrigin`).
 
 
 - Utilisez le code fournit dans la classe `PrivateUserController` du projet exemple (mais n'utiliser pas la méthode qui patch un `User` et le DTO associé) pour ajouter la route :
