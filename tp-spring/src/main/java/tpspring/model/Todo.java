@@ -1,23 +1,10 @@
-package web.model;
+package tpspring.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@AllArgsConstructor
-@Getter
-@Setter
 @NoArgsConstructor
 public class Todo {
 	protected long id;
@@ -25,10 +12,19 @@ public class Todo {
 	protected String description;
 	protected List<Category> categories;
 
-	@JsonIgnore
 	protected TodoList list;
 
 	protected String owner;
+
+	/**
+	 * Temporary constructor for TP1
+	 */
+	public Todo(long id, String title) {
+		this.id = id;
+		this.title = title;
+		description = "";
+		categories = new ArrayList<>();
+	}
 
     @Override
     public String toString() {

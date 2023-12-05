@@ -1,4 +1,4 @@
-package web.model;
+package tpspring.model;
 
 public enum Category {
 	HIGH_PRIORITY,

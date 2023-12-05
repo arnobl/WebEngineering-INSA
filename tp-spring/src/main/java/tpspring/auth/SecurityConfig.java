@@ -1,4 +1,4 @@
-package web.auth;
+package tpspring.auth;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
