@@ -1,0 +1,20 @@
+openapi: 3.1.0
+info:
+  title: TP Web INSA Rennes
+  description: |-
+    Intro au dev d'un back-end REST en Java avec Spring et OpenAPI
+  version: 2024.0.0
+servers:
+  - url: "http://localhost:8080/api"
+
+tags: # Some annotations used to document the route descriptions (optional)
+  - name: todo
+    description: Les todos
+paths:
+    /v1/public/todo/hello:
+        get:
+            tags:
+                - todo
+            responses:
+              '200':
+                description: c'est bon
