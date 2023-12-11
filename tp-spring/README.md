@@ -401,19 +401,19 @@ public void deleteTodo(@PathVariable("id") final int id) {
 La classe `SpecificTodo` est une sous-classe de `Todo`.
 Dans `TodoControllerV2`, modifiez temporairement la route `GET` `todo/todo/{id}` pour qu'elle retourne un objet `SpecificTodo` (commentez le code de cette méthode le temps de cette question). Relancez le serveur et testez cette route. Utilisez le résultat retourné pour l'envoyer via la route `POST`. Pourquoi cette dernière ne crée finalement pas un `SpecificTodo` mais un `Todo` ?
 
-Ajoutez les annotations nécessaires pour que cela fonctionne. Cf slide 47. Il vous faudra aussi ajouter l'annotation `@Entity`.
-
-
+Ajoutez les annotations nécessaires pour que cela fonctionne. Cf vers le slide 47. Il vous faudra aussi ajouter l'annotation `@Entity`.
+Testez et pensez à remettre comme avant la route `GET`.
 
 
 ## Q4.5
 
 Créez un nouveau contrôleur (URI `api/v2/public/todolist`), un nouveau service et un nouveau repository pour les `TodoList`.
 
+
 ## Q4.6
 
 Ajoutez dans Swagger Editor et dans votre nouveau contrôleur les routes REST suivantes :
-- une route pour ajouter une todolist vide. Vous devrez ajouter des annotations à `TodoList` à l'instar de `Todo`. Vous devrez également ajouter des annotations JPA pour identifier les clés étrangères de TodoList et Todo : puisque que TodoList à une liste de Todo, dans la base de données il faut expliciter comment cette référence Java va se transformer en schéma relationnel. Regardez les annotations `@OneToMany` et `@ManyToOne` slides 76. Sans ces annotations, le back-end crashera et vous expliquant qu'il ne sait pas gérer dans la base de données la relation entre ces deux classes.
+- une route pour ajouter une todolist vide. Vous devrez ajouter des annotations à `TodoList` à l'instar de `Todo`. Vous devrez également ajouter des annotations JPA pour identifier les clés étrangères de `TodoList` et `Todo` : puisque que `TodoList` a une liste de `Todo`, dans la base de données il faut expliciter comment cette référence Java va se transformer en schéma relationnel. Regardez les annotations `@OneToMany` et `@ManyToOne` vers le slide 76. Sans ces annotations, le back-end crashera et vous expliquant qu'il ne sait pas gérer dans la base de données la relation entre ces deux classes.
 
 
 ## Terminer le TP pour la séance d'après
@@ -421,34 +421,34 @@ Ajoutez dans Swagger Editor et dans votre nouveau contrôleur les routes REST su
 **Et sauvegarder votre openAPI de Swagger Editor !**
 
 
-# TP5
 
+# TP5
 
 ## 5.1 DTO
 
-La route pour ajouter une todolist vide n'est pas optimale : pourquoi envoyer un objet todolist alors que nous n'avons besoin que de son nom ?
+La route pour ajouter une todolist vide n'est pas optimale : pourquoi envoyer un objet `TodoList` alors que nous n'avons besoin que de son nom ?
 Plusieurs solutions : mettre le nom dans l'URI de la requête ou embarquer un DTO contenant que le nom dans le body de la requête. Nous allons utiliser cette dernière solution.
 
-- Créez un DTO `namedDTO` contenant juste un attribut correspond à un nom. Pensez à l'annotation `@Data` de *lombok* pour générer les getters et setters.
+- Créez un DTO `NamedDTO` contenant juste un attribut correspondant à un nom. Pensez à l'annotation `@Data` de *lombok* pour générer les getters et setters.
 
 - Ajoutez ce DTO dans la définition de votre Swagger Editor et modifiez la route concernée.
 
 
 ## 5.2
 
-- Ajoutez une route pour ajouter un todo à une todo list (un todo pour être dans plusieurs list pour l'instant). Attention, vous aurez donc besoin de l'id du todo à ajouter et de l'id de la todo list concernée. Donc votre `TodoListService` aura les deux repositories.
+- Ajoutez une route pour ajouter un todo à une todo list (un todo pour être dans plusieurs lists pour l'instant). Attention, vous aurez donc besoin de l'id du todo à ajouter et de l'id de la todo list concernée. Donc votre `TodoListService` aura les deux repositories.
 
 
 ## 5.3 Patch Todo
 
-Nous allons modifier la requête patch todo pour la rendre de meilleure qualité.
-- Inspirez-vous du slide 31 pour modifier la requête et le service pour patch correctement le todo.
+Nous allons modifier la requête `patch` `todo/todo` pour la rendre de meilleure qualité.
+- Inspirez-vous du slide 31 (ou slides autour) pour modifier la requête et le service pour patch correctement le todo.
 - Modifiez le Swagger Editor et testez
 
 
 ## 5.4 Query
 
-- Ajoutez une query dans le repository des Todo pour retourner la liste des Todo dont le titre contient le texte donné en paramètre (cf la partie Query dans le cours).
+- Ajoutez une query dans le repository des `Todo` pour retourner la liste des `Todo` dont le titre contient le texte donné en paramètre (cf la partie `Query` dans le cours).
 
 - Ajoutez la requête REST associée dans le contrôleur Todo v2 et testez avec Swagger Editor
 
@@ -459,26 +459,24 @@ Nous allons modifier la requête patch todo pour la rendre de meilleure qualité
 # TP6 Test
 
 Le sujet de ce TP est simple.
-Développer une suite de tests qui teste la dernière version de votre contrôleur, votre service, et repository avec une couverture de branche de 100%.
+Développez une suite de tests qui teste la dernière version de votre contrôleur, votre service, et repository avec une couverture de branche de 100%.
 En test unitaire (TU) nous testons chaque classe séparément, donc le service puis le contrôleur (le repository n'a pas de code étant géré par Spring).
 
-- Complétez la classe de tests `TestTodoService`
+- Complétez la classe de tests `TestTodoServiceV2`. Nous fournissons un premier test pour vous aidez. Cette suite de tests requière l'utilisation de *mocks* (cf. CPOO1).
 
-- Complétez la classe de tests `TestTodoControllerV2`
+- Complétez la classe de tests `TestTodoControllerV2`. Nous fournissons également des tests pour vous aidez. L'utilisation de mocks est également nécessaire pour gérer des objets dans le service.
 
 
 
 # TP7 Test
 
-À l'instar du TP6, faites de même pour `TodoList`. Il vous faudra créer les classes de tests.
-Au bout d'une heure de TP, commencez le TP8.
+Continuer le sujet du TP6 pendant 1 heure et passez ensuite au sujet du TP8.
+
 
 
 # TP8 Sécurité
 
-
-Nous allons voir comment créer des routes REST publiques et d'autres privées : pour des questions de sécurités des données il est obligatoire ede réfléchir à ce que peuvent faire les utilisateurs. Nous n’utiliserons pas les todo et todo list au début de ce TP, juste des utilisateurs.
-
+Nous allons voir comment créer des routes REST publiques et d'autres privées : pour des questions de sécurités des données il est obligatoire de réfléchir à ce que peuvent faire les utilisateurs. Nous n’utiliserons pas les `Todo` et `TodoList` au début de ce TP, juste des utilisateurs.
 
 
 ## 8.1
@@ -497,10 +495,10 @@ Nous allons voir comment créer des routes REST publiques et d'autres privées :
 
 - Utilisez le code fournit dans la classe `PublicUserController` du projet exemple (le projet montré en cours) pour ajouter une route pour créer un nouvel utilisateur et un autre pour s'identifier.
 https://github.com/arnobl/WebEngineering-INSA/blob/master/rest/springboot2/src/main/java/fr/insarennes/demo/restcontroller/PublicUserController.java
-Mais supprimer la méthode `patchUser` du DTO.
+Mais supprimez la méthode `patchUser` du DTO.
 
 
-- Ajoutez ces deux routes dans Swagger Editor et testez. Après avoir utiliser la route pour s'identifier, regardez la console d'IntelliJ/VSCode. Que voyez-vous de spéciale concernant l'authentification par cookie ?
+- Ajoutez ces deux routes dans Swagger Editor et testez. Après avoir utiliser la route pour s'identifier, regardez la console d'IntelliJ/VSCode. Que voyez-vous de spécial concernant l'authentification par cookie ?
 
 ## 8.3
 
@@ -508,7 +506,7 @@ Mais supprimer la méthode `patchUser` du DTO.
 - Créez un contrôleur Spring: `PrivateUserController` (URI : `api/v2/private/user`, pensez à mettre l'annotation `@CrossOrigin`).
 
 
-- Utilisez le code fournit dans la classe `PrivateUserController` du projet exemple (mais n'utiliser pas la méthode qui patch un `User` et le DTO associé) pour ajouter la route :
+- Utilisez le code fournit dans la classe `PrivateUserController` du projet exemple (mais n'utilisez pas la méthode qui patch un `User` et le DTO associé) pour ajouter la route :
 ```java
 	@GetMapping()
 	public String hello(final Principal user) {
@@ -551,9 +549,3 @@ Il faut maintenant refaire fonctionner les routes de `TodoControllerV2`.
 Faites de même pour toutes les autres routes REST du contrôleur `TodoControllerV2`.
 Attention : pour les routes *put*, *delete* et *patch* il faut vérifier que le login de l'utilisateur soit bien le `owner` des todos concernés.
 Cela vous demandera de modifier votre service `TodoService` pour ajouter à différentes méthodes le login en paramètre.
-
-
-## 8.6
-
-Faites de même pour le contrôleur `TodoListController`.
-
