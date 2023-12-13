@@ -429,9 +429,12 @@ Ajoutez dans Swagger Editor et dans votre nouveau contrôleur les routes REST su
 La route pour ajouter une todolist vide n'est pas optimale : pourquoi envoyer un objet `TodoList` alors que nous n'avons besoin que de son nom ?
 Plusieurs solutions : mettre le nom dans l'URI de la requête ou embarquer un DTO contenant que le nom dans le body de la requête. Nous allons utiliser cette dernière solution.
 
-- Créez un DTO `NamedDTO` contenant juste un attribut correspondant à un nom. Pensez à l'annotation `@Data` de *lombok* pour générer les getters et setters.
+- À la place d'un objet `TodoList`, utilisez le record `NamedDTO` (package `tpspring/controller/dto`) contenant juste un attribut correspondant à un nom. Un record est une classe Java dans laquelle sont déclarées les attributs et sont automatiquement générés un constructeur et les getters/setters.
 
-- Ajoutez ce DTO dans la définition de votre Swagger Editor et modifiez la route concernée.
+
+- Ajoutez ce DTO dans la définition de votre Swagger Editor (c'est une structure avec un attribut) et modifiez la route concernée. Testez.
+
+- Les DTO ne devraient pas être utilisés en dehors des contrôleurs REST car il s'agit d'objets de transfert de données. À l'avenir assurez-vous de ne pas utilisez les DTO dans les services par exemple.
 
 
 ## 5.2
