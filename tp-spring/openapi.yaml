@@ -8,20 +8,22 @@ servers:
   - url: "http://localhost:8080/api"
 
 tags: # Some annotations used to document the route descriptions (optional)
+  - name: hello
+    description: Démo
   - name: todo
     description: Les todos
 paths:
     /v1/public/hello/helloworld:
         get:
             tags:
-                - todo
+                - hello
             responses:
               '200':
                 description: c'est bon
     /v1/public/hello/helloworld2:
         get:
             tags:
-                - todo
+                - hello
             responses:
               '200':
                 description: c'est bon
@@ -29,7 +31,30 @@ paths:
                   application/json:
                     schema:
                       $ref: '#/components/schemas/Message'
-
+    /v1/public/hello/txt:
+        post:
+          tags:
+              - hello
+          requestBody:
+            required: true
+            content:
+              text/plain:
+                schema:
+                  type: string
+                  examples: ["txt example"]
+          responses:
+            '200':
+              description: Successful operation
+        get:
+            tags:
+                - hello
+            responses:
+              '200':
+                description: c'est bon
+                content:
+                  application/json:
+                    schema:
+                      type: array
 components:
   schemas:
     Message:
