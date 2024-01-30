@@ -18,3 +18,23 @@ paths:
             responses:
               '200':
                 description: c'est bon
+    /v1/public/hello/helloworld2:
+        get:
+            tags:
+                - todo
+            responses:
+              '200':
+                description: c'est bon
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/Message'
+
+components:
+  schemas:
+    Message:
+      type: object
+      properties:
+        txt:
+          type: string
+          examples: ["voici un exemple"]
