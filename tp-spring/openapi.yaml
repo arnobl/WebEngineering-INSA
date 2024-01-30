@@ -11,7 +11,7 @@ tags: # Some annotations used to document the route descriptions (optional)
   - name: todo
     description: Les todos
 paths:
-    /v1/public/todo/hello:
+    /v1/public/hello/helloworld:
         get:
             tags:
                 - todo
