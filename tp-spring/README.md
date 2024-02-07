@@ -91,7 +91,7 @@ Avec VSCode, faites *Ouvrir un dossier*.
 
 ## Q1.1
 
-Lancer le back-end en allant dans `Application.java` et en lançant le `main`.
+Lancer le back-end en allant dans `TpSpringApplication.java` et en lançant le `main`.
 
 - Dans Swagger Editor (https://editor-next.swagger.io ou `http://localhost:1024` si vous utilisez une version sur votre machine), supprimez le contenu affiché et ajoutez simplement :
 ```yaml
@@ -105,13 +105,13 @@ servers:
   - url: "http://localhost:8080/api"
 
 tags: # Some annotations used to document the route descriptions (optional)
-  - name: todo
-    description: Les todos
+  - name: hello
+    description: Démo
 paths:
-    /v1/public/todo/hello:
+    /v1/public/hello/helloworld:
         get:
             tags:
-                - todo
+                - hello
             responses:
               '200':
                 description: c'est bon
@@ -123,7 +123,7 @@ paths:
 
 ## Q1.2
 
-- Dans votre navigateur, entrez l'URL `http://localhost:8080/api/v1/public/todo/hello`<br/>
+- Dans votre navigateur, entrez l'URL `http://localhost:8080/api/v1/public/hello/helloworld`<br/>
 Pourquoi la barre d'adresse de votre navigateur sait-elle gérer une requête REST GET ? Est-elle aussi capable de gérer un POST ?
 
 
