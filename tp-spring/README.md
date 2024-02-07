@@ -68,8 +68,8 @@ Les attributs `id` sont les identifiants uniques des objets.
 Vous pouvez aussi installer Swagger Editor sur votre machine : https://github.com/swagger-api/swagger-editor<br/>
 Pour cela, le plus simple est d'installer docker et de lancer les commandes suivantes (mettre un `sudo` devant chaque commande au besoin) :
 ```
-docker pull swaggerapi/swagger-editor:next-v5
-docker run -d -p 1024:8080 swaggerapi/swagger-editor:next-v5
+docker pull swaggerapi/swagger-editor:latest
+docker run -d -p 1024:8080 swaggerapi/swagger-editor:latest
 ```
 et dans votre navigateur aller sur la page http://localhost:1024.
 À tout moment vous pouvez retrouver votre instance docker Swagger avec `docker ps -a`. La première colonne affichée vous indique l'ID de l'instance. Vous pouvez la stopper ou la redémarrer (à chaque début de TP) avec `docker start <id>` et `docker stop <id>`
