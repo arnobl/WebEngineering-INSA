@@ -155,7 +155,7 @@ components:
           type: array
           items:
             type: string
-            examples: ["cours"]
+            examples: ["WORK"]
 ```
 Avec Swagger, testez que la commande ne fonctionne pas.
 
