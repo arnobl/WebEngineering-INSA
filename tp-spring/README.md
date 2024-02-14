@@ -77,9 +77,16 @@ et dans votre navigateur aller sur la page http://localhost:1024.
 
 - Avoir IntelliJ ou VisualCode<br/>
 
-- Cloner ou télécharger le dépôt du cours : https://github.com/arnobl/WebEngineering-INSA/<br/>
+- Cloner le dépôt du cours :
+`git clone https://github.com/arnobl/WebEngineering-INSA.git`
+
+Cloner permet de mettre à jour votre version du dépôt en cas de changements de notre part :
+`git fetch`
+`git merge`
+
 L'exemple du cours se trouve dans : `rest/springboot2`<br/>
-Le projet à utiliser pour le TP se trouve dans : `tp-spring`
+
+**Le projet à utiliser pour le TP se trouve dans : `tp-spring`**
 
 - Avec IntelliJ, pour charger le projet du TP : `open` → aller chercher le fichier `pom.xml` du projet → *Open as project* → *Trust Project*. <br/>
 Avec VSCode, faites *Ouvrir un dossier*.
