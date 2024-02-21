@@ -225,6 +225,7 @@ Dans les questions précédentes, nous ne gérions pas l'identifiant unique des 
 
 - Le `Put` remplace un objet par un autre. C'est une manière de modifier complètement un objet.
 Ajoutez une route (dans Swagger Editor et votre code Spring) `PUT` `/v1/public/todo/todo` qui fera cette opération sur un todo. Pour cela vous pouvez copier-coller-adapter la route `POST` car assez proche.
+Si l'objet n'existe pas (si l'ID donnée ne correspond pas à un objet existant), alors une réponse avec un code `BAD_REQUEST` (code 400) sera retournée.
 
 - Testez avec Swagger Editor.
 
