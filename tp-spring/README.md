@@ -273,7 +273,7 @@ Dans Swagger, les routes crées aux TP précédents étaient destinées à la `v
 
 ## Q3.2 Service
 
-- Dans un package `tpspring/service`, créez un service `TodoServiceV1` et ajoutez un attribut de ce type dans votre nouveau contrôleur avec `@Autowired`. Que fait cette annotation ?
+- Dans un package `tpspring/service`, créez un service `TodoServiceV1` (cf. les slides du cours, n'oubliez pas l'annotation `@service` sur la classe d'un service) et ajoutez un attribut de ce type dans votre nouveau contrôleur avec `@Autowired`. Que fait cette annotation ?
 
 - Déplacez les attributs `cpt` et `todos` dans ce service. Cela va vous demandez de modifiez la plupart des routes de votre contrôleur délègue au service toute la logique CRUD des opérations.
 Votre service devrait donc avoir les méthodes suivantes :
