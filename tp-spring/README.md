@@ -286,13 +286,13 @@ Votre service devrait donc avoir les méthodes suivantes :
 	public boolean replaceTodo(final Todo newTodo) {
 	}
 // true if id corresponds to an existing todo
-	public boolean removeTodo(final int id) {
+	public boolean removeTodo(final long id) {
 	}
 
 	public Todo modifyTodo(final Todo partialTodo) {
 	}
 
-	public Todo findTodo(final int id) {
+	public Todo findTodo(final long id) {
   }
 ```
 
@@ -372,7 +372,7 @@ Et maintenant avec cette méthode qui retourne `void` ?
 
 ```java
 @DeleteMapping(path = "todo/{id}")
-public void deleteTodo(@PathVariable("id") final int id) {
+public void deleteTodo(@PathVariable("id") final long id) {
   if(!todoListService.removeTodo(id)) {
     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not possible");
   }
@@ -402,7 +402,7 @@ Toujours avec le code suivant, qu'est-ce qui est retourné au client lorsqu'une 
 
 ```java
 @DeleteMapping(path = "todo/{id}")
-public void deleteTodo(@PathVariable("id") final int id) {
+public void deleteTodo(@PathVariable("id") final long id) {
   if(!todoListService.removeTodo(id)) {
     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Not possible");
   }
