@@ -79,6 +79,8 @@ et dans votre navigateur aller sur la page http://localhost:1024.
 
 - Si vous utilisez IntelliJ, installez le plugin Lombok<br/>
 
+- Utilisez un vrai navigateur Web (Firefox, Chrome, Chromium), et pas Brave, Safari, Edge
+
 - Cloner le dépôt du cours :
 `git clone https://github.com/arnobl/WebEngineering-INSA.git`
 
