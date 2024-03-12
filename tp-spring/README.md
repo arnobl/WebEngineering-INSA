@@ -267,7 +267,7 @@ Pour l'instant le code de notre back-end a plusieurs défauts majeurs :
 
 
 
-# TP3
+# TP 3
 
 ## Q3.1 contrôleur V2
 
@@ -357,7 +357,7 @@ Cependant, le notre back-end a encore des défauts :
 **Et sauvegarder votre openAPI de Swagger Editor !**
 
 
-# TP4
+# TP 4
 
 ## Q4.1 Retour des routes REST
 
@@ -437,11 +437,11 @@ Ajoutez dans Swagger Editor et dans votre nouveau contrôleur les routes REST su
 
 
 
-# TP5
+# TP 5
 
 ## 5.1 DTO
 
-La route pour ajouter une todolist vide n'est pas optimale : pourquoi envoyer un objet `TodoList` alors que nous n'avons besoin que de son nom ?
+La route pour ajouter un objet `Todolist` vide n'est pas optimale : pourquoi envoyer un objet `TodoList` alors que nous n'avons besoin que de son nom ?
 Plusieurs solutions : mettre le nom dans l'URI de la requête ou embarquer un DTO contenant que le nom dans le body de la requête. Nous allons utiliser cette dernière solution.
 
 - À la place d'un objet `TodoList`, utilisez le record `NamedDTO` (package `tpspring/controller/dto`) contenant juste un attribut correspondant à un nom. Un record est une classe Java dans laquelle sont déclarées les attributs et sont automatiquement générés un constructeur et les getters/setters.
@@ -462,6 +462,8 @@ Plusieurs solutions : mettre le nom dans l'URI de la requête ou embarquer un DT
 Nous allons modifier la requête `patch` `todo/todo` pour la rendre de meilleure qualité.
 - Inspirez-vous du slide 31 (ou slides autour) pour modifier la requête et le service pour patch correctement le todo.
 - Modifiez le Swagger Editor et testez
+Attention, une boucle infinie va survenir : un `Todo` à un attribut `TodoList`, et un `TodoList` contient des objets `Todo`.
+Il faut donc casser cette boucle. Pour cela, dans `Todo`, annoter l'attribut `list` avec `@JsonIgnore`.
 
 
 ## 5.4 Query
@@ -474,7 +476,7 @@ Nous allons modifier la requête `patch` `todo/todo` pour la rendre de meilleure
 
 
 
-# TP6 Test
+# TP 6 -- Test
 
 Le sujet de ce TP est simple.
 Développez une suite de tests qui teste la dernière version de votre contrôleur, votre service, et repository avec une couverture de branche de 100%.
@@ -486,13 +488,13 @@ En test unitaire (TU) nous testons chaque classe séparément, donc le service p
 
 
 
-# TP7 Test
+# TP 7 -- Test
 
 Continuer le sujet du TP6 pendant 1 heure et passez ensuite au sujet du TP8.
 
 
 
-# TP8 Sécurité
+# TP 8 -- Sécurité
 
 Nous allons voir comment créer des routes REST publiques et d'autres privées : pour des questions de sécurités des données il est obligatoire de réfléchir à ce que peuvent faire les utilisateurs. Nous n’utiliserons pas les `Todo` et `TodoList` au début de ce TP, juste des utilisateurs.
 
