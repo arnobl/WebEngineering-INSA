@@ -414,7 +414,7 @@ public void deleteTodo(@PathVariable("id") final long id) {
 ## Q4.4 Marshalling avec héritage
 
 La classe `SpecificTodo` est une sous-classe de `Todo`.
-Dans `TodoControllerV2`, modifiez temporairement la route `GET` `todo/todo/{id}` pour qu'elle retourne un objet `SpecificTodo` (commentez le code de cette méthode le temps de cette question). Relancez le serveur et testez cette route. Utilisez le résultat retourné pour l'envoyer via la route `POST`. Pourquoi cette dernière ne crée finalement pas un `SpecificTodo` mais un `Todo` ?
+Dans `TodoControllerV2`, modifiez temporairement la route `GET` `todo/todo/{id}` pour qu'elle retourne un objet `SpecificTodo`: commentez temporairement le contenu de cette méthode pour qu'elle retourne un `SpecificTodo` (`return new SpecificTodo(...);`). Relancez le serveur et testez cette route. Utilisez le résultat retourné pour l'envoyer via la route `POST`. Pourquoi cette dernière ne crée finalement pas un `SpecificTodo` mais un `Todo` ?
 
 Ajoutez les annotations nécessaires pour que cela fonctionne. Cf vers le slide 47. Il vous faudra aussi ajouter l'annotation `@Entity`.
 Testez et pensez à remettre comme avant la route `GET`.
