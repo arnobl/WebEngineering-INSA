@@ -428,7 +428,7 @@ Créez un nouveau contrôleur (URI `api/v2/public/todolist`), un nouveau service
 ## Q4.6
 
 Ajoutez dans Swagger Editor et dans votre nouveau contrôleur les routes REST suivantes :
-- une route pour ajouter une todolist vide. Vous devrez ajouter des annotations à `TodoList` à l'instar de `Todo`. Vous devrez également ajouter des annotations JPA pour identifier les clés étrangères de `TodoList` et `Todo` : puisque que `TodoList` a une liste de `Todo`, dans la base de données il faut expliciter comment cette référence Java va se transformer en schéma relationnel. Regardez les annotations `@OneToMany` et `@ManyToOne` vers le slide 76. Sans ces annotations, le back-end crashera et vous expliquant qu'il ne sait pas gérer dans la base de données la relation entre ces deux classes.
+- une route pour ajouter une `TodoList` vide. Une `TodoList` vide ne contient pas de `Todo` **mais possède un nom et une description**. Vous devrez ajouter des annotations à `TodoList` à l'instar de `Todo`. Vous devrez également ajouter des annotations JPA pour identifier les clés étrangères de `TodoList` et `Todo` : puisque que `TodoList` a une liste de `Todo`, dans la base de données il faut expliciter comment cette référence Java va se transformer en schéma relationnel. Regardez les annotations `@OneToMany` et `@ManyToOne` vers le slide 76. Sans ces annotations, le back-end crashera et vous expliquant qu'il ne sait pas gérer dans la base de données la relation entre ces deux classes.
 
 
 ## Terminer le TP pour la séance d'après
@@ -441,10 +441,10 @@ Ajoutez dans Swagger Editor et dans votre nouveau contrôleur les routes REST su
 
 ## 5.1 DTO
 
-La route pour ajouter un objet `Todolist` vide n'est pas optimale : pourquoi envoyer un objet `TodoList` alors que nous n'avons besoin que de son nom ?
+La route pour ajouter un objet `Todolist` vide n'est pas optimale : pourquoi envoyer un objet `TodoList` alors que nous n'avons besoin que de son nom et de sa description ?
 Plusieurs solutions : mettre le nom dans l'URI de la requête ou embarquer un DTO contenant que le nom dans le body de la requête. Nous allons utiliser cette dernière solution.
 
-- À la place d'un objet `TodoList`, utilisez le record `NamedDTO` (package `tpspring/controller/dto`) contenant juste un attribut correspondant à un nom. Un record est une classe Java dans laquelle sont déclarées les attributs et sont automatiquement générés un constructeur et les getters/setters.
+- À la place d'un objet `TodoList`, utilisez le record `NamedDTO` (package `tpspring/controller/dto`) contenant : un attribut correspondant à un nom ; un attribut pour la description. Un record est une classe Java dans laquelle sont déclarées les attributs et sont automatiquement générés un constructeur et les getters/setters.
 
 
 - Ajoutez ce DTO dans la définition de votre Swagger Editor (c'est une structure avec un attribut) et modifiez la route concernée. Testez.
