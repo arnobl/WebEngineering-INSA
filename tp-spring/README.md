@@ -455,6 +455,8 @@ Plusieurs solutions : mettre le nom dans l'URI de la requête ou embarquer un DT
 ## 5.2
 
 - Ajoutez une route pour ajouter un todo à une todo list (un todo pour être dans plusieurs lists pour l'instant). Attention, vous aurez donc besoin de l'id du todo à ajouter et de l'id de la todo list concernée. Donc votre `TodoListService` aura les deux repositories.
+Attention, une boucle infinie va survenir : un `Todo` à un attribut `TodoList`, et un `TodoList` contient des objets `Todo`.
+Il faut donc casser cette boucle. Pour cela, dans `Todo`, annoter l'attribut `list` avec `@JsonIgnore`.
 
 
 ## 5.3 Patch Todo
@@ -462,8 +464,7 @@ Plusieurs solutions : mettre le nom dans l'URI de la requête ou embarquer un DT
 Nous allons modifier la requête `patch` `todo/todo` pour la rendre de meilleure qualité.
 - Inspirez-vous du slide 31 (ou slides autour) pour modifier la requête et le service pour patch correctement le todo.
 - Modifiez le Swagger Editor et testez
-Attention, une boucle infinie va survenir : un `Todo` à un attribut `TodoList`, et un `TodoList` contient des objets `Todo`.
-Il faut donc casser cette boucle. Pour cela, dans `Todo`, annoter l'attribut `list` avec `@JsonIgnore`.
+
 
 
 ## 5.4 Query
