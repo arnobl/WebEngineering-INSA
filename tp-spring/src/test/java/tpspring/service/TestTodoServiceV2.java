@@ -44,9 +44,8 @@ public class TestTodoServiceV2 {
 
     //     Todo res = todoService.addTodo(todo);
 
-    //     // Checking that the save method has been called one time with 'todo'
-    //     Mockito.verify(repository, Mockito.times(1)).save(todo);
         // Checking that the method returns the result of 'save'.
+        // To adapt since not same:
         // assertSame(todo2, res);
     // }
 }
