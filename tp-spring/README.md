@@ -64,15 +64,15 @@ Les attributs `id` sont les identifiants uniques des objets.
 
 - Vérifier que Maven est installé (Maven 3) : `mvn -v`
 
-- Vous devriez pouvoir utiliser l'instance de Swagger Editor en ligne : https://editor-next.swagger.io/<br/>
-Vous pouvez aussi installer Swagger Editor sur votre machine : https://github.com/swagger-api/swagger-editor<br/>
-Pour cela, le plus simple est d'installer docker et de lancer les commandes suivantes (mettre un `sudo` devant chaque commande au besoin) :
+- Vous devriez pouvoir utiliser l'instance de *Swagger Editor* en ligne : https://editor-next.swagger.io/<br/>
+Vous pouvez aussi installer *Swagger Editor* sur votre machine : https://github.com/swagger-api/swagger-editor<br/>
+Pour cela, le plus simple est d'installer *Docker* et de lancer les commandes suivantes (mettre un `sudo` devant chaque commande au besoin) :
 ```
 docker pull swaggerapi/swagger-editor:latest
 docker run -d -p 1024:8080 swaggerapi/swagger-editor:latest
 ```
-et dans votre navigateur aller sur la page http://localhost:1024.
-À tout moment vous pouvez retrouver votre instance docker Swagger avec `docker ps -a`. La première colonne affichée vous indique l'ID de l'instance. Vous pouvez la stopper ou la redémarrer (à chaque début de TP) avec `docker start <id>` et `docker stop <id>`
+ensuite, dans votre navigateur, allez sur la page `http://localhost:1024`.
+À tout moment, vous pouvez retrouver votre instance docker Swagger avec `docker ps -a`. La première colonne affichée vous indique l'ID de l'instance. Vous pouvez la stopper ou la redémarrer (à chaque début de TP) avec `docker start <id>` et `docker stop <id>`
 
 
 - Avoir IntelliJ ou VisualCode<br/>
@@ -98,7 +98,7 @@ Avec VSCode, faites *Ouvrir un dossier*.
 
 # TP 1
 
-**Pensez à la fin du TP à sauvegarder votre openAPI de Swagger Editor !**
+**Pensez à la fin du TP à sauvegarder votre modèle OpenAPI de Swagger Editor !**
 
 ## Q1.1
 
@@ -180,7 +180,7 @@ Avec Swagger, testez que la commande ne fonctionne pas.
 ```java
 private final Map<Long, Todo> todos;
 ```
-- Codez cette requête dans ce contrôleur (il faudra redémarrer le back-end, et n'oubliez pas `@PathVariable`). L'instance retournée sera celle ayant l'ID correspondant au paramètre `id`. Si l'id fourni ne correspond à aucun TODO retournez pour l'instant null.
+- Codez cette requête dans ce contrôleur (il faudra redémarrer le back-end, et n'oubliez pas `@PathVariable`). L'instance retournée sera celle ayant l'ID correspondant au paramètre `id`. Si l'id fourni ne correspond à aucun TODO retournez pour l'instant `null`.
 - Tester à nouveau dans Swagger Editor. Vous pouvez voir que le format du JSON reçu ne correspond pas à celui attendu (celui défini dans Swagger Editor). Nous verrons cela plus tard avec les DTO.
 - Tester dans le navigateur avec 1, 2 et 3 comme ID.
 - Pourquoi une `Map` plutôt qu'une `List` ? Pourquoi un `Long` plutôt qu'un `Integer` ?
@@ -188,19 +188,19 @@ private final Map<Long, Todo> todos;
 ## Q1.5 Post v1
 
 - Créez une route REST `POST` `/v1/public/todo/todo` (**NE METTEZ JAMAIS DE / À LA FIN DE URI DANS SWAGGER**) (dans Swagger Editor puis dans votre projet Spring) qui recevra un objet `Todo` (en JSON, `consumes`) avec les données que vous voulez (ignorez l'unicité des ID pour l'instant). Le type de retour de la route sera `void` (code 200 donc).
-- La route affichera pour l'instant juste cet objet (`System.out.println(...)`) et l'ajoutera à la table de hashage (pas grave si la clé existe déjà).
+- La route affichera pour l'instant juste cet objet (`System.out.println(...)`) et l'ajoutera à la table de hachage (pas grave si la clé existe déjà).
 **Attention :** la sortie de `println` sera visible dans la console d'IntelliJ (et non dans votre navigateur).
 - Tester avec Swagger Editor
 
 
 ## Terminez le TP pour la séance d'après
 
-**Et sauvegarder votre openAPI de Swagger Editor !**
+**Et sauvegarder votre modèle OpenAPI de Swagger Editor !**
 
 
 # TP 2
 
-**Pensez à la fin du TP à sauvegarder votre openAPI de Swagger Editor !**
+**Pensez à la fin du TP à sauvegarder votre votre modèle OpenAPI de Swagger Editor !**
 
 ## Q2.1 Post v2
 
@@ -208,7 +208,7 @@ Dans les questions précédentes, nous ne gérions pas l'identifiant unique des 
 
 - Dans le contrôleur REST, ajoutez un attribut `cpt` (type `long`) qui sera incrémenté à chaque nouveau todo et utilisé comme identifiant du nouveau todo. Modifiez la route `POST` en conséquence et commentez les deux ajouts de `Todo` dans le constructeur. Cette pratique n'est pas propre du tout. Nous verrons plus tard comment faire cela de manière correcte.
 
-- Cette route retournera maintenant le todo crée. Modifiez le Swagger Editor en conséquence. Modifiez le `println` pour qu'il affiche la liste des todos.
+- Cette route retournera maintenant l'objet `Todo` créé. Modifiez le Swagger Editor en conséquence. Modifiez le `println` pour qu'il affiche la liste des todos.
 
 
 ## Q2.2 Delete
@@ -220,7 +220,7 @@ Dans les questions précédentes, nous ne gérions pas l'identifiant unique des 
 
 ## Q2.3 Get v2
 
-- À l'instar du delete de la question précédente, améliorez le get crée lors du TP 1 (meilleure gestion d'un mauvais id fourni).
+- À l'instar du `delete` de la question précédente, améliorez le `get` développé lors du TP 1 (meilleure gestion d'un mauvais id fourni).
 
 - Testez avec Swagger Editor.
 
@@ -229,7 +229,7 @@ Dans les questions précédentes, nous ne gérions pas l'identifiant unique des 
 
 - Le `Put` remplace un objet par un autre. C'est une manière de modifier complètement un objet.
 Ajoutez une route (dans Swagger Editor et votre code Spring) `PUT` `/v1/public/todo/todo` qui fera cette opération sur un todo. Pour cela vous pouvez copier-coller-adapter la route `POST` car assez proche.
-Si l'objet n'existe pas (si l'ID donnée ne correspond pas à un objet existant), alors une réponse avec un code `BAD_REQUEST` (code 400) sera retournée.
+Si l'objet n'existe pas (si l'ID donné ne correspond pas à un objet existant), alors une réponse avec un code `BAD_REQUEST` (code 400) sera retournée.
 
 - Testez avec Swagger Editor.
 
@@ -255,7 +255,7 @@ Nous avons vu les bases pour coder des routes REST réalisant des opérations CR
 
 Pour l'instant le code de notre back-end a plusieurs défauts majeurs :
 - Stockage des objets dans le contrôleur. Ça n'est pas une bonne pratique car comment partager les données entre plusieurs contrôleurs ? Et est-ce le rôle d'un contrôleur de stocker ? Nous utiliserons plus tard un *service*.
-- Gestion à la main de l'unicité des objets et stockage peu efficaces des données. Nous utiliserons une base de données et son lien avec le back-end (JPA) plus tard.
+- Gestion à la main de l'unicité des objets ainsi qu'un stockage peu efficaces des données. Nous utiliserons une base de données et son lien avec le back-end (JPA) plus tard.
 - Nous (de-)marshallons directement les objets `Todo` alors que nous voulons que quelques attributs dans certains cas. Nous utiliserons des DTO plus tard.
 - Pas de tests unitaires (TU) écrits pour l'instant.
 - Pas de sécurité : tout le monde pour faire du CRUD sur les objets todo.
@@ -272,14 +272,14 @@ Pour l'instant le code de notre back-end a plusieurs défauts majeurs :
 ## Q3.1 contrôleur V2
 
 - Copiez-collez le contrôleur `TodoControllerV1.java` pour avoir un `TodoControllerV2.java` dont le `RequestMapping` indique `api/v2/public/todo`.
-Dans Swagger, les routes crées aux TP précédents étaient destinées à la `v1`. Pour interagir avec la `v2` vous devrez copier-coller-adapter les routes de `v1` en fonction des besoins du contrôleur `v2`. Mettez en commentaire toutes les routes de ce nouveau contrôleur.
+Dans Swagger, les routes créées aux TP précédents étaient destinées à la `v1`. Pour interagir avec la `v2` vous devrez copier-coller-adapter les routes de `v1` en fonction des besoins du contrôleur `v2`. Mettez en commentaire toutes les routes de ce nouveau contrôleur.
 
 
 ## Q3.2 Service
 
 - Dans un package `tpspring/service`, créez un service `TodoServiceV1` (cf. les slides du cours, n'oubliez pas l'annotation `@service` sur la classe d'un service) et ajoutez un attribut de ce type dans votre nouveau contrôleur avec `@Autowired`. Que fait cette annotation ?
 
-- Déplacez les attributs `cpt` et `todos` dans ce service. Cela va vous demandez de modifiez la plupart des routes de votre contrôleur délègue au service toute la logique CRUD des opérations.
+- Déplacez les attributs `cpt` et `todos` dans ce service. Cela va vous demander de modifier la plupart des routes de votre contrôleur pour déléguer au service toute la logique CRUD des opérations.
 Votre service devrait donc avoir les méthodes suivantes :
 ```java
 	public Todo addTodo(final Todo todo) {
@@ -324,7 +324,7 @@ public interface TodoCrudRepository extends CrudRepository<Todo, Long> {
 ```
 Pour rappel, le générique `Long` correspond au type de la clé primaire de `Todo` (l'attribut `id`).
 
-- Dupliquez le fichier `TodoServiceV1.java` et renommenez la copie en `TodoServiceV2` Dans `TodoServiceV2`, mettez en commentaire les attributs `cpt` et `todos` et ajoutez à la place votre nouveau repository :
+- Dupliquez le fichier `TodoServiceV1.java` et renommez la copie en `TodoServiceV2` Dans `TodoServiceV2`, mettez en commentaire les attributs `cpt` et `todos` et ajoutez à la place votre nouveau repository :
 ```java
 @Autowired
 private TodoCrudRepository repository;
@@ -414,7 +414,7 @@ public void deleteTodo(@PathVariable("id") final long id) {
 ## Q4.4 Marshalling avec héritage
 
 La classe `SpecificTodo` est une sous-classe de `Todo`.
-Dans `TodoControllerV2`, modifiez temporairement la route `GET` `todo/todo/{id}` pour qu'elle retourne un objet `SpecificTodo` (commentez le code de cette méthode le temps de cette question). Relancez le serveur et testez cette route. Utilisez le résultat retourné pour l'envoyer via la route `POST`. Pourquoi cette dernière ne crée finalement pas un `SpecificTodo` mais un `Todo` ?
+Dans `TodoControllerV2`, modifiez temporairement la route `GET` `todo/todo/{id}` pour qu'elle retourne un objet `SpecificTodo`: commentez temporairement le contenu de cette méthode pour qu'elle retourne un `SpecificTodo` (`return new SpecificTodo(...);`). Relancez le serveur et testez cette route. Utilisez le résultat retourné pour l'envoyer via la route `POST`. Pourquoi cette dernière ne crée-t-elle finalement pas un `SpecificTodo` mais un `Todo` ?
 
 Ajoutez les annotations nécessaires pour que cela fonctionne. Cf vers le slide 47. Il vous faudra aussi ajouter l'annotation `@Entity`.
 Testez et pensez à remettre comme avant la route `GET`.
@@ -428,7 +428,7 @@ Créez un nouveau contrôleur (URI `api/v2/public/todolist`), un nouveau service
 ## Q4.6
 
 Ajoutez dans Swagger Editor et dans votre nouveau contrôleur les routes REST suivantes :
-- une route pour ajouter une todolist vide. Vous devrez ajouter des annotations à `TodoList` à l'instar de `Todo`. Vous devrez également ajouter des annotations JPA pour identifier les clés étrangères de `TodoList` et `Todo` : puisque que `TodoList` a une liste de `Todo`, dans la base de données il faut expliciter comment cette référence Java va se transformer en schéma relationnel. Regardez les annotations `@OneToMany` et `@ManyToOne` vers le slide 76. Sans ces annotations, le back-end crashera et vous expliquant qu'il ne sait pas gérer dans la base de données la relation entre ces deux classes.
+- une route pour ajouter une `TodoList` vide. Une `TodoList` vide ne contient pas de `Todo` **mais possède un nom et une description**. Vous devrez ajouter des annotations à `TodoList` à l'instar de `Todo`. Vous devrez également ajouter des annotations JPA pour identifier les clés étrangères de `TodoList` et `Todo` : puisque `TodoList` a une liste de `Todo`, dans la base de données il faut expliciter comment cette référence Java va se transformer en schéma relationnel. Regardez les annotations `@OneToMany` et `@ManyToOne` vers le slide 76. Sans ces annotations, le back-end crashera et vous expliquant qu'il ne sait pas gérer dans la base de données la relation entre ces deux classes.
 
 
 ## Terminer le TP pour la séance d'après
@@ -441,20 +441,22 @@ Ajoutez dans Swagger Editor et dans votre nouveau contrôleur les routes REST su
 
 ## 5.1 DTO
 
-La route pour ajouter un objet `Todolist` vide n'est pas optimale : pourquoi envoyer un objet `TodoList` alors que nous n'avons besoin que de son nom ?
-Plusieurs solutions : mettre le nom dans l'URI de la requête ou embarquer un DTO contenant que le nom dans le body de la requête. Nous allons utiliser cette dernière solution.
+La route pour ajouter un objet `Todolist` vide n'est pas optimale : pourquoi envoyer un objet `TodoList` alors que nous n'avons besoin que de son nom et de sa description ?
+Plusieurs solutions : mettre le nom dans l'URI de la requête ou embarquer un DTO contenant uniquement le nom dans le body de la requête. Nous allons utiliser cette dernière solution.
 
-- À la place d'un objet `TodoList`, utilisez le record `NamedDTO` (package `tpspring/controller/dto`) contenant juste un attribut correspondant à un nom. Un record est une classe Java dans laquelle sont déclarées les attributs et sont automatiquement générés un constructeur et les getters/setters.
+- À la place d'un objet `TodoList`, utilisez le record `NamedDTO` (package `tpspring/controller/dto`) contenant : un attribut correspondant à un nom ; un attribut pour la description. Un record est une classe Java dans laquelle sont déclarées les attributs et sont automatiquement générés un constructeur et les getters/setters.
 
 
 - Ajoutez ce DTO dans la définition de votre Swagger Editor (c'est une structure avec un attribut) et modifiez la route concernée. Testez.
 
-- Les DTO ne devraient pas être utilisés en dehors des contrôleurs REST car il s'agit d'objets de transfert de données. À l'avenir assurez-vous de ne pas utilisez les DTO dans les services par exemple.
+- Les DTO ne devraient pas être utilisés en dehors des contrôleurs REST car il s'agit d'objets de transfert de données. À l'avenir, assurez-vous de ne pas utiliser les DTO dans les services par exemple.
 
 
 ## 5.2
 
 - Ajoutez une route pour ajouter un todo à une todo list (un todo pour être dans plusieurs lists pour l'instant). Attention, vous aurez donc besoin de l'id du todo à ajouter et de l'id de la todo list concernée. Donc votre `TodoListService` aura les deux repositories.
+Attention, une boucle infinie va survenir : un `Todo` à un attribut `TodoList`, et un `TodoList` contient des objets `Todo`.
+Il faut donc casser cette boucle. Pour cela, dans `Todo`, annoter l'attribut `list` avec `@JsonIgnore`.
 
 
 ## 5.3 Patch Todo
@@ -462,8 +464,7 @@ Plusieurs solutions : mettre le nom dans l'URI de la requête ou embarquer un DT
 Nous allons modifier la requête `patch` `todo/todo` pour la rendre de meilleure qualité.
 - Inspirez-vous du slide 31 (ou slides autour) pour modifier la requête et le service pour patch correctement le todo.
 - Modifiez le Swagger Editor et testez
-Attention, une boucle infinie va survenir : un `Todo` à un attribut `TodoList`, et un `TodoList` contient des objets `Todo`.
-Il faut donc casser cette boucle. Pour cela, dans `Todo`, annoter l'attribut `list` avec `@JsonIgnore`.
+
 
 
 ## 5.4 Query
@@ -482,15 +483,15 @@ Le sujet de ce TP est simple.
 Développez une suite de tests qui teste la dernière version de votre contrôleur, votre service, et repository avec une couverture de branche de 100%.
 En test unitaire (TU) nous testons chaque classe séparément, donc le service puis le contrôleur (le repository n'a pas de code étant géré par Spring).
 
-- Complétez la classe de tests `TestTodoServiceV2`. Nous fournissons un premier test pour vous aidez. Cette suite de tests requière l'utilisation de *mocks* (cf. CPOO1).
+- Complétez la classe de tests `TestTodoServiceV2`. Nous fournissons un premier test pour vous aider. Cette suite de tests requiert l'utilisation de *mocks* (cf. CPOO1).
 
-- Complétez la classe de tests `TestTodoControllerV2`. Nous fournissons également des tests pour vous aidez. L'utilisation de mocks est également nécessaire pour gérer des objets dans le service.
+- Complétez la classe de tests `TestTodoControllerV2`. Nous fournissons également des tests pour vous aider. L'utilisation de mocks est également nécessaire pour gérer des objets dans le service.
 
 
 
 # TP 7 -- Test
 
-Continuer le sujet du TP6 pendant 1 heure et passez ensuite au sujet du TP8.
+Continuez le sujet du TP6 pendant 1 heure et passez ensuite au sujet du TP8.
 
 
 
@@ -505,7 +506,7 @@ Nous allons voir comment créer des routes REST publiques et d'autres privées :
 - Regardez le code de la classe `SecurityConfig` : que fait la ligne `new AntPathRequestMatcher("/api/v*/public/**")).permitAll()` selon vous ?
 
 
-- Dans `TodoControllerV2`, remplacez `@RequestMapping("api/v2/public/todo")` par `@RequestMapping("api/v2/private/todo")`, modifiez votre Swagger Editor. Faites de même pour `TodoListController`. Testez : que se-passe-t-il désormais ?
+- Dans `TodoControllerV2`, remplacez `@RequestMapping("api/v2/public/todo")` par `@RequestMapping("api/v2/private/todo")`, modifiez votre Swagger Editor. Faites de même pour `TodoListController`. Testez : que se passe-t-il désormais ?
 
 
 ## 8.2
@@ -518,7 +519,7 @@ https://github.com/arnobl/WebEngineering-INSA/blob/master/rest/springboot2/src/m
 Mais supprimez la méthode `patchUser` du DTO.
 
 
-- Ajoutez ces deux routes dans Swagger Editor et testez. Après avoir utiliser la route pour s'identifier, regardez la console d'IntelliJ/VSCode. Que voyez-vous de spécial concernant l'authentification par cookie ?
+- Ajoutez ces deux routes dans Swagger Editor et testez. Après avoir utilisé la route pour s'identifier, regardez la console d'IntelliJ/VSCode. Que voyez-vous de spécial concernant l'authentification par cookie ?
 
 ## 8.3
 
@@ -541,7 +542,7 @@ https://github.com/arnobl/WebEngineering-INSA/blob/master/rest/springboot2/src/m
 
 - Pour tester cette route, il faut passer dans le cookie de la requête le paramètre `JSESSIONID`. Il n'est pas possible de faire cela via Swagger Editor (https://github.com/swagger-api/swagger-editor/issues/1951#issuecomment-466399821), donc utilisez *curl* de la manière suivante :
 `curl -X 'GET' 'http://localhost:8080/api/v2/private/user' --cookie 'JSESSIONID=BA0A4E9FA9D6FF97753D8FA7361C5C'`
-Cependant Swagger Editor peut produire les commandes curl correctes (cliquer sur 'try it' pour voir la commande) à exécuter en console. Pour cela ajouter à la fin votre modèle OpenAPI :
+Cependant Swagger Editor peut produire les commandes curl correctes (cliquer sur 'try it' pour voir la commande) à exécuter en console. Pour cela, ajoutez à la fin votre modèle OpenAPI :
 ```
 securitySchemes:
   CookieAuth:
