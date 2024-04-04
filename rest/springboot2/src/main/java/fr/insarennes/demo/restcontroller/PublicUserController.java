@@ -2,7 +2,7 @@ package fr.insarennes.demo.restcontroller;
 
 import fr.insarennes.demo.model.User;
 import fr.insarennes.demo.service.UserService;
-import javax.servlet.ServletException;
+import jakarta.servlet.ServletException;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
