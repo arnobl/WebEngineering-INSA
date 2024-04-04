@@ -25,8 +25,8 @@ public class SecurityConfig {
 					req.requestMatchers(
 						// new AntPathRequestMatcher("/api/**")).permitAll()
 						new AntPathRequestMatcher("/api/v*/public/**")).permitAll()
-						.anyRequest().permitAll();
-						// .anyRequest().authenticated();
+						// .anyRequest().permitAll();
+						.anyRequest().authenticated();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
