@@ -22,11 +22,10 @@ public class SecurityConfig {
 		return http
 			.authorizeHttpRequests(req -> {
 				try {
-					req.requestMatchers(
-						// new AntPathRequestMatcher("/api/**")).permitAll()
-						new AntPathRequestMatcher("/api/v*/public/**")).permitAll()
-						// .anyRequest().permitAll();
-						.anyRequest().authenticated();
+					req.requestMatchers(new AntPathRequestMatcher("/api/v*/public/**")).permitAll()
+					.requestMatchers(new AntPathRequestMatcher("/api/v*/private/**")).authenticated()
+					.anyRequest().permitAll();
+						// .anyRequest().authenticated();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
