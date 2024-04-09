@@ -14,13 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-@RequestMapping("api/public/user")
+@RequestMapping("api/v2/public/user")
 @AllArgsConstructor
 @CrossOrigin
 public class PublicUserController {
 	private final UserService userService;
 
-	@PostMapping(value = "new", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = "new", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void newAccount(@RequestBody final UserDTO user) {
 		try {
 			userService.newAccount(user.login(), user.pwd());
@@ -29,7 +29,7 @@ public class PublicUserController {
 		}
 	}
 
-	@PostMapping(value = "login", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(path = "login", consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void login(@RequestBody final UserDTO user) {
 		try {
 			final boolean loginSuccess = userService.login(user.login(), user.pwd());
