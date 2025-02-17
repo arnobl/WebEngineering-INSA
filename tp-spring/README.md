@@ -1,7 +1,9 @@
 
 # Préambule
 
-Le sujet est récent et contient certainement des erreurs. N'hésitez pas à me les indiquer. **Vous devez terminer le TP précédent avant chaque nouvelle séance**.
+N'hésitez pas à nous indiquer les éventuelles erreurs du sujet. 
+
+**Vous devez terminer le TP précédent avant chaque nouvelle séance**.
 
 N'hésitez pas à nous demander des explications sur des concepts Java/POO que vous ne comprenez pas.
 
@@ -59,23 +61,15 @@ Les attributs `id` sont les identifiants uniques des objets.
 
 - Les vrais sont sous Linux. En ce qui concerne les autres, vous pouvez toujours vous y mettre.
 
-- Vérifier sa version de (Java 17) :
+- Vérifier sa version de (Java 21) :
 `java -version`
 
 - Vérifier que Maven est installé (Maven 3) : `mvn -v`
 
-- Vous devriez pouvoir utiliser l'instance de *Swagger Editor* en ligne : https://editor-next.swagger.io/<br/>
-Vous pouvez aussi installer *Swagger Editor* sur votre machine : https://github.com/swagger-api/swagger-editor<br/>
-Pour cela, le plus simple est d'installer *Docker* et de lancer les commandes suivantes (mettre un `sudo` devant chaque commande au besoin) :
-```
-docker pull swaggerapi/swagger-editor:latest
-docker run -d -p 1024:8080 swaggerapi/swagger-editor:latest
-```
-ensuite, dans votre navigateur, allez sur la page `http://localhost:1024`.
-À tout moment, vous pouvez retrouver votre instance docker Swagger avec `docker ps -a`. La première colonne affichée vous indique l'ID de l'instance. Vous pouvez la stopper ou la redémarrer (à chaque début de TP) avec `docker start <id>` et `docker stop <id>`
+- Utiliser l'instance de *Swagger Editor* en ligne : https://editor-next.swagger.io/<br/>
+Il faudra penser à sauvegarder le modèle OpenAPI à la fin de chaque séance.
 
-
-- Avoir IntelliJ ou VisualCode<br/>
+- Avoir IntelliJ (ou VisualCode, mais une préférence pour IntelliJ)<br/>
 
 - Si vous utilisez IntelliJ, installez le plugin Lombok<br/>
 
@@ -107,7 +101,7 @@ Vous pouvez aussi démarrer l'application en exécutant la commande suivante (da
 `mvn spring-boot: run`
 
 
-- Dans Swagger Editor (https://editor-next.swagger.io ou `http://localhost:1024` si vous utilisez une version sur votre machine), supprimez le contenu affiché et ajoutez simplement :
+- Dans Swagger Editor (https://editor-next.swagger.io), supprimez le contenu affiché et ajoutez simplement :
 ```yaml
 openapi: 3.1.0
 info:
@@ -176,7 +170,7 @@ Avec Swagger, testez que la commande ne fonctionne pas.
 ## Q1.4 Get v1
 
 - Créez un nouveau contrôleur REST `TodoControllerV1` dans le package `controller`.
-- Ajoutez un attribut dans ce contrôleur correspondant à une liste d'objets `TODO` (à initialiser dans le constructeur avec deux objets `Todo` ayant pour `id` 1 et 2 et le titre que vous voulez, attention en Java un long s'écrit `1L`):
+- Ajoutez un attribut dans ce contrôleur correspondant à une table d'objets `TODO` (à initialiser dans le constructeur avec deux objets `Todo` ayant pour `id` 1 et 2 et le titre que vous voulez, attention en Java un long s'écrit `1L`):
 ```java
 private final Map<Long, Todo> todos;
 ```
