@@ -483,10 +483,60 @@ En test unitaire (TU) nous testons chaque classe séparément, donc le service p
 
 
 
-# TP 7 -- Test
+# TP 7 -- Page Web + requêtes basiques
 
-Continuez le sujet du TP6 pendant 1 heure et passez ensuite au sujet du TP8.
+Le but de ce TP est de comprendre comment un page Web fonctionne dans un navigateur.
+Pour ce TP, lancez le back et ouvrez, dans votre navigateur et dans IntelliJ, le fichier `index.html` se trouvant dans le dossier `tp7`.
+La documentation Mozilla est indispensable pour comprendre les concepts de base.
+Par exemples (à consulter durant le TP) :
 
+https://developer.mozilla.org/fr/docs/Glossary/DOM
+https://developer.mozilla.org/fr/docs/Web/HTML/Element/body
+https://developer.mozilla.org/en-US/docs/Web/API/Document
+https://developer.mozilla.org/fr/docs/Web/API/Document/getElementById
+https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse
+https://developer.mozilla.org/fr/docs/Web/API/XMLHttpRequest
+
+## 7.1
+
+Ctrl+U (ou clic-droit dans la page, puis 'afficher sources') dans Firefox permet d'affiche le code source de la page.
+
+Qu'est-ce qu'un `body`? 
+
+Combien de `body` une page peut-elle avoir ?
+
+Qu'est-ce qu'un `div` ?
+
+À quoi sert l'attribut `id` ?
+
+Pourquoi on ne retrouve pas dans le code source du texte pourtant affiché par la page Web (le `Hello World`)?
+
+## 7.2
+
+Dans ces sources, vous pouvez voir un lien vers `style.css` et `script.js`.
+Ouvrez `style.css` : à quoi sert ce fichier ?
+
+Dans Firefox, clic-droit dans la page, puis 'Inspecter') vous permet d'inspecter la page en cours.
+Dans la partie code, cliquez sur la balise `h1`, et étudiez son css affiché à droite.
+
+À quoi sert l'attribut `class` du premier `div` ?
+
+
+## 7.3
+
+Ouvrez `script.js` : à quoi sert ce fichier ?
+
+Étudiez la fonction `getHelloWorld` pour comprendre ce qu'elle fait (cf. aussi les liens donnés plus haut pour comprendre `XMLHttpRequest`).
+
+## 7.4
+
+Ajoutez et appelez une nouvelle fonction JavaScript `function getTodo(id)` qui modifiera le DOM de la page pour affiche le TODO
+retourné par la requête REST qui demandera au back-end le TODO correspondant à l'id donné en paramètre.
+
+https://developer.mozilla.org/fr/docs/Web/API/Element/innerHTML
+
+Lisez ces explications pour comprendre pourquoi il faut utiliser innerHTML :
+https://cheatsheetseries.owasp.org/cheatsheets/DOM_based_XSS_Prevention_Cheat_Sheet.html#usually-safe-methods
 
 
 # TP 8 -- Sécurité
