@@ -3,11 +3,13 @@ package tpspring.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Todo {
 	protected long id;
 	protected String title;
@@ -28,9 +30,9 @@ public class Todo {
 		categories = new ArrayList<>();
 	}
 
-    @Override
-    public String toString() {
-        return "Todo [id=" + id + ", title=" + title
-                + ", description=" + description + ", categories=" + categories + "]";
-    }
+	@Override
+	public String toString() {
+		return "Todo [id=" + id + ", title=" + title
+				+ ", description=" + description + ", categories=" + categories + "]";
+	}
 }
