@@ -98,7 +98,7 @@ Avec VSCode, faites *Ouvrir un dossier*.
 
 Lancer le back-end en allant dans `TpSpringApplication.java` et en lançant le `main`.
 Vous pouvez aussi démarrer l'application en exécutant la commande suivante (dans le même dossier que le `pom.xml`) :
-`mvn spring-boot: run`
+`mvn spring-boot:run`
 
 
 - Dans Swagger Editor (https://editor-next.swagger.io), supprimez le contenu affiché et ajoutez simplement :
