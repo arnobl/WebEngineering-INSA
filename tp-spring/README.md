@@ -324,6 +324,15 @@ Pour rappel, le générique `Long` correspond au type de la clé primaire de `To
 private TodoCrudRepository repository;
 ```
 
+- Attention, si dans les questions suivantes vous voulez utiliser un objet injecté dans le constructeur de votre service, vous obtiendrez un `NullPointerException`, car l'injection se fait après la création.
+Dans ce cas, il vous faudra supprimer l'annotation `@Autowired`, et ajouter un paramètre au constructeur :
+```java
+public TodoService(TodoRepository repo) {
+   this.todoRepo = repo;
+   // Initialisation
+}
+```
+
 - Modifiez le code du service `TodoServiceV2` pour qu'il utilise désormais le repository pour stocker les objets `todo`. Vous noterez que la méthode `save` du repository ne demande pas l'id unique de l'objet. Pourquoi ? (il manque quelque chose dans la classe `Todo` que nous allons ajouter). Attention, pour `findTodo` vous devrez utilisez la méthode `findById` du repository qui retourne un `Optional<Todo>` et non un `Todo`. Changez le type de retour des différentes méthodes du service en conséquence. Un `Optional` est une boite pouvant contenir ou non un objet (`isPresent`, `isAbsent`, `get`).
 
 - Remplacez `TodoServiceV1` par `TodoServiceV2` dans votre `TodoControllerV2` et adaptez pour que le code compile.
