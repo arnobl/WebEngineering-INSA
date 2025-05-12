@@ -12,7 +12,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -23,19 +22,19 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import tpspring.model.Category;
 import tpspring.model.Todo;
 
-@TestConfiguration
-class TestConfig {
-    @Bean
-    public ObjectMapper om() {
-        var om = Mockito.mock(ObjectMapper.class);
-        Mockito.when(om.reader()).thenReturn(Mockito.mock(ObjectReader.class));
-        return om;
-    }
-}
+//@TestConfiguration
+//class TestConfig {
+//    @Bean
+//    public ObjectMapper om() {
+//        var om = Mockito.mock(ObjectMapper.class);
+//        Mockito.when(om.reader()).thenReturn(Mockito.mock(ObjectReader.class));
+//        return om;
+//    }
+//}
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-@Import(TestConfig.class)
+//@Import(TestConfig.class)
 public class TestTodoServiceV2 {
     // Mocking the repository
     // @MockBean
