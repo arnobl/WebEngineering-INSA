@@ -12,9 +12,9 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,8 +38,8 @@ import tpspring.model.Todo;
 //@Import(TestConfig.class)
 public class TestTodoServiceV2 {
     // Mocking the repository
-    // @MockBean
-    // private TodoCrudRepository repository;
+     @MockitoBean
+     private TodoCrudRepository repository;
 
     // @Autowired
     // private TodoServiceV2 todoService;
