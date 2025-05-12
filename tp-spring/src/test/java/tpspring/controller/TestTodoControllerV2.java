@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -34,6 +35,7 @@ public class TestTodoControllerV2 {
     // private TodoServiceV2 todoService;
 
 	@Test
+	@WithMockUser(value = "usertest")
 	void testHello() throws Exception {
 		mvc.perform(get("/api/v1/public/hello/helloworld"))
 			.andExpect(status().isOk())
@@ -42,6 +44,7 @@ public class TestTodoControllerV2 {
 	}
 
 	// @Test
+	// @WithMockUser(value = "usertest")
 	// void getTodo() throws Exception {
 	// 	Mockito.when(todoService.findTodo(1L))
 	// 		.thenReturn(Optional.of(new Todo(1L, "t1", "desc", List.of(Category.LOW_PRIORITY), null, "foo")));
