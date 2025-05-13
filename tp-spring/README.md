@@ -570,6 +570,11 @@ Nous allons voir comment créer des routes REST publiques et d'autres privées :
 - Utilisez le code fournit dans la classe `PublicUserController` du projet exemple (le projet montré en cours) pour ajouter une route pour créer un nouvel utilisateur et un autre pour s'identifier.
 https://github.com/arnobl/WebEngineering-INSA/blob/master/rest/springboot2/src/main/java/fr/insarennes/demo/restcontroller/PublicUserController.java
 Mais supprimez la méthode `patchUser` du DTO.
+Pour `UserDTO`, créez votre propre DTO de la manière suivante :
+
+```java
+record UserDTO(String pwd, String login) {}
+```
 
 
 - Ajoutez ces deux routes dans Swagger Editor et testez. Après avoir utilisé la route pour s'identifier, regardez la console d'IntelliJ/VSCode. Que voyez-vous de spécial concernant l'authentification par cookie ?
