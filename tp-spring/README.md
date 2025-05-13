@@ -573,7 +573,7 @@ Mais supprimez la méthode `patchUser` du DTO.
 Pour `UserDTO`, créez votre propre DTO de la manière suivante :
 
 ```java
-record UserDTO(String pwd, String login) {}
+public record UserDTO(String pwd, String login) {}
 ```
 
 
