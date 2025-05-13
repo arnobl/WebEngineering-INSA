@@ -544,7 +544,7 @@ retourné par la requête REST qui demandera au back-end le TODO correspondant �
 
 https://developer.mozilla.org/fr/docs/Web/API/Element/innerHTML
 
-Lisez ces explications pour comprendre pourquoi il faut utiliser innerHTML :
+Lisez ces explications pour comprendre pourquoi il faut utiliser dans ce TP `innerHTML` (et pourquoi dans la vraie vie vous éviterez car c'est une passoire au niveau de la sécurité) :
 https://cheatsheetseries.owasp.org/cheatsheets/DOM_based_XSS_Prevention_Cheat_Sheet.html#usually-safe-methods
 
 
