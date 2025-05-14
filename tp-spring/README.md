@@ -556,7 +556,7 @@ Nous allons voir comment créer des routes REST publiques et d'autres privées :
 ## 8.1
 
 
-- Regardez le code de la classe `SecurityConfig` : que fait la ligne `new AntPathRequestMatcher("/api/v*/public/**")).permitAll()` selon vous ?
+- Regardez le code de la classe `SecurityConfig` : que fait la ligne `.requestMatchers("/api/v*/public/**").permitAll()` selon vous ?
 
 
 - Dans `TodoControllerV2`, remplacez `@RequestMapping("api/v2/public/todo")` par `@RequestMapping("api/v2/private/todo")`, modifiez votre Swagger Editor. Faites de même pour `TodoListController`. Testez : que se passe-t-il désormais ?
