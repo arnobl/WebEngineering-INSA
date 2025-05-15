@@ -1,7 +1,9 @@
-package web.service;
+package fr.insarennes.demo.service;
 
-import java.util.List;
-
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,19 +11,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import lombok.AllArgsConstructor;
+import java.util.List;
 
 @Service
-@AllArgsConstructor
 public class UserService {
-	private final PasswordEncoder passwordEncoder;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
-	private final UserDetailsManager userDetailsManager;
+	@Autowired
+	private UserDetailsManager userDetailsManager;
 
-	private final HttpServletRequest request;
+	@Autowired
+	private HttpServletRequest request;
 
 	/**
 	 * @throws IllegalArgumentException If already exists
