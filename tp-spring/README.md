@@ -615,10 +615,6 @@ securitySchemes:
 
 Il faut maintenant refaire fonctionner les routes de `TodoControllerV2`.
 
-- Une fois authentifié (il faut créer un utilisateur après chaque redémarrage du back-end), vous pouvez tester avec curl la route 'hello' en utilisant le cookie de session retourné lors de l'authentification :
-`curl -X 'GET' 'http://localhost:8080/api/v2/private/todo/hello'  --cookie 'JSESSIONID=...'`
-
-
 - Pour la route 'todo', nous voulons que le `owner` du `todo` créé soit le `login` de l'utilisateur authentifié. Pour cela, dans toutes les requêtes qui nécessiteront cette information vous devrez ajouter en paramètre de la méthode Java de la route : `Principal principal` et utilisez `principal.getName()` pour obtenir le login et l'utiliser pour le paramètre `owner` du todo. Testez avec curl (prenez la requête CURL produite par Swagger et ajoutez-y le jsessionid)  :
 `curl -X 'POST' 'http://localhost:8080/api/v2/private/todo/todo'  --cookie 'JSESSIONID=...' .....`
 
