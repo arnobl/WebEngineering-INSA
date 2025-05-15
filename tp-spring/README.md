@@ -579,6 +579,11 @@ public record UserDTO(String pwd, String login) {}
 
 - Ajoutez ces deux routes dans Swagger Editor et testez. Après avoir utilisé la route pour s'identifier, regardez la console d'IntelliJ/VSCode. Que voyez-vous de spécial concernant l'authentification par cookie ?
 
+Attention, si vous obtenez un message d'erreur du type `Stirng.toLowerCase(....)`, cela signifie deux choses
+    - vous n'envoyez pas un JSON respectant le format du `UserDTO`
+    - il faut vérifier que `user.login()` n'est pas null avant de l'utiliser dans le service, car si Spring n'arrive pas à identifier un utilisateur, alors le `user.login()` sera null ce qui peut provoquer des crashs.
+
+
 ## 8.3
 
 
