@@ -1,9 +1,5 @@
 package tpspring.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
-
-import com.fasterxml.jackson.databind.JsonMappingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -14,11 +10,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectReader;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
 
 // Defines a configuration for using a fake marshaller (ObjectMapper)
 @TestConfiguration
@@ -35,14 +30,9 @@ class TestConfigWithFakeMarshaller {
 @SpringBootTest
 public class TestTodoServiceV2 {
     // Mocking the repository
-     @MockitoBean
-     private TodoCrudRepository repository;
 
     @Autowired
     ObjectMapper om;
-
-     @Autowired
-     private TodoServiceV2 todoService;
 
     // Todo todo;
     // Todo todo2;
